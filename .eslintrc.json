@@ -1,0 +1,40 @@
+{
+	"env": {
+		"browser": true,
+		"es2021": true
+	},
+	"extends": [
+		"eslint:recommended",
+		"plugin:react/recommended",
+		"react-app",
+		"react-app/jest"
+	],
+
+	"parser": "@babel/eslint-parser",
+	"parserOptions": {
+		"allowImportExportEverywhere": false,
+		"ecmaFeatures": {
+			"globalReturn": false,
+			"jsx": true
+		},
+		"babelOptions": {
+			"configFile": "./babel.config.json"
+		}
+	},
+	"plugins": ["react", "prettier"],
+	"rules": {
+		"indent": ["error", "tab", { "SwitchCase": 1 }],
+		"linebreak-style": ["error", "unix"],
+		"quotes": ["warn", "single"],
+		"semi": ["error", "never"]
+	},
+
+	"overrides": [
+		{
+			"files": ["**/*.spec.js", "**/*.spec.jsx"],
+			"env": {
+				"jest": true
+			}
+		}
+	]
+}
