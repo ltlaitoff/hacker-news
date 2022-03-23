@@ -1,0 +1,6 @@
+export { default as Newest } from './Newest'
+export { default as Past } from './Past'
+export { default as Newcomments } from './Newcomments'
+export { default as Ask } from './Ask'
+export { default as Profile } from './Profile'
+export { default as Comments } from './Comments'
