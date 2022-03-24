@@ -1,9 +1,10 @@
-import { Newest, Past, Newcomments, Ask, Profile, Comments } from 'pages'
+import React from 'react'
+import { Home, Past, Newcomments, Ask, Profile, Comments } from 'pages'
 import { ReactElement } from 'react'
 
 export interface Route {
 	id: number
-	name: string
+	routeName: string
 	path: string
 	element: ReactElement
 	inMenu?: boolean
@@ -12,14 +13,14 @@ export interface Route {
 export const routes: Route[] = [
 	{
 		id: 0,
-		name: 'new',
+		routeName: 'home',
 		path: '/',
-		element: <Newest />,
+		element: <Home />,
 		inMenu: true
 	},
 	{
 		id: 1,
-		name: 'past',
+		routeName: 'past',
 		path: '/past',
 		element: <Past />,
 
@@ -27,7 +28,7 @@ export const routes: Route[] = [
 	},
 	{
 		id: 2,
-		name: 'comments',
+		routeName: 'comments',
 		path: '/newcomments',
 		element: <Newcomments />,
 
@@ -35,7 +36,7 @@ export const routes: Route[] = [
 	},
 	{
 		id: 3,
-		name: 'ask',
+		routeName: 'ask',
 		path: '/ask',
 		element: <Ask />,
 
@@ -43,13 +44,13 @@ export const routes: Route[] = [
 	},
 	{
 		id: 4,
-		name: 'profile',
+		routeName: 'profile',
 		element: <Profile />,
 		path: '/profile'
 	},
 	{
 		id: 4,
-		name: 'Item comments',
+		routeName: 'Item comments',
 		element: <Comments />,
 		path: '/comments'
 	}

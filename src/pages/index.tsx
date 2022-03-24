@@ -1,4 +1,4 @@
-export { default as Newest } from './Newest'
+export { default as Home } from './Home'
 export { default as Past } from './Past'
 export { default as Newcomments } from './Newcomments'
 export { default as Ask } from './Ask'
