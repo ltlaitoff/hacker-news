@@ -1,6 +1,6 @@
 export { default as Home } from './Home'
 export { default as Past } from './Past'
-export { default as Newcomments } from './Newcomments'
+export { default as Jobs } from './Jobs'
 export { default as Ask } from './Ask'
 export { default as Profile } from './Profile'
 export { default as Comments } from './Comments'

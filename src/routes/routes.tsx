@@ -1,5 +1,5 @@
 import React from 'react'
-import { Home, Past, Newcomments, Ask, Profile, Comments } from 'pages'
+import { Home, Past, Jobs, Ask, Profile, Comments } from 'pages'
 import { ReactElement } from 'react'
 
 export interface Route {
@@ -28,20 +28,21 @@ export const routes: Route[] = [
 	},
 	{
 		id: 2,
-		routeName: 'comments',
-		path: '/newcomments',
-		element: <Newcomments />,
-
-		inMenu: true
-	},
-	{
-		id: 3,
 		routeName: 'ask',
 		path: '/ask',
 		element: <Ask />,
 
 		inMenu: true
 	},
+	{
+		id: 3,
+		routeName: 'jobs',
+		path: '/jobs',
+		element: <Jobs />,
+
+		inMenu: true
+	},
+
 	{
 		id: 4,
 		routeName: 'profile',
