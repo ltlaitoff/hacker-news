@@ -13,7 +13,7 @@ export interface Route {
 export const routes: Route[] = [
 	{
 		id: 0,
-		routeName: 'home',
+		routeName: 'new',
 		path: '/',
 		element: <Home />,
 		inMenu: true
