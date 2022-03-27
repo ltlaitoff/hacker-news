@@ -29,42 +29,51 @@ export interface User {
 	objectID: string
 }
 
-export interface Search {
-	hits: Array<{
-		created_at: string
-		title: string
-		url: string
-		author: string
-		points: number
-		num_comments: number
+export interface Post {
+	created_at: string
+	title: string
+	url: string
+	author: string
+	points: number
+	num_comments: number
 
-		created_at_i: number
-		relevancy_score: number
-		_tags: Array<string>
-		objectID: string
-		_highlightResult: {
-			title: {
-				value: string
-				matchLevel: string
-				fullyHighlighted: boolean
-				matchedWords: Array<string>
-			}
-			url: {
-				value: string
-				matchLevel: string
-				fullyHighlighted: boolean
-				matchedWords: Array<string>
-			}
-			author: { value: string; matchLevel: string; matchedWords: Array<string> }
+	created_at_i: number
+	relevancy_score: number
+	_tags: Array<string>
+	objectID: string
+	_highlightResult: {
+		title: {
+			value: string
+			matchLevel: string
+			fullyHighlighted: boolean
+			matchedWords: Array<string>
 		}
-	}>
-	nbHits: number
-	page: number
-	nbPages: number
-	hitsPerPage: number
-	exhaustiveNbHits: boolean
-	exhaustiveTypo: boolean
-	query: string
-	params: string
-	processingTimeMS: number
+		url: {
+			value: string
+			matchLevel: string
+			fullyHighlighted: boolean
+			matchedWords: Array<string>
+		}
+		author: {
+			value: string
+			matchLevel: string
+			matchedWords: Array<string>
+		}
+	}
+}
+export interface Search {
+	data: {
+		hits: Array<Post>
+		nbHits: number
+		page: number
+		nbPages: number
+		hitsPerPage: number
+		exhaustiveNbHits: boolean
+		exhaustiveTypo: boolean
+		query: string
+		params: string
+		processingTimeMS: number
+	}
+	status: number
+	statusText: string
 }
