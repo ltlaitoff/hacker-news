@@ -1,5 +1,14 @@
 import React from 'react'
-import { Home, Past, Jobs, Ask, Profile, Comments } from 'pages'
+import {
+	Home,
+	Stories,
+	Comments,
+	Polls,
+	Show,
+	Ask,
+	Profile,
+	PostComments
+} from 'pages'
 import { ReactElement } from 'react'
 
 export interface Route {
@@ -13,21 +22,46 @@ export interface Route {
 export const routes: Route[] = [
 	{
 		id: 0,
-		routeName: 'new',
+		routeName: 'home',
 		path: '/',
 		element: <Home />,
 		inMenu: true
 	},
 	{
 		id: 1,
-		routeName: 'past',
-		path: '/past',
-		element: <Past />,
+		routeName: 'stories',
+		path: '/stories',
+		element: <Stories />,
 
 		inMenu: true
 	},
 	{
 		id: 2,
+		routeName: 'comments',
+		path: '/comments',
+		element: <Comments />,
+
+		inMenu: true
+	},
+
+	{
+		id: 3,
+		routeName: 'polls',
+		path: '/polls',
+		element: <Polls />,
+
+		inMenu: true
+	},
+	{
+		id: 4,
+		routeName: 'show',
+		path: '/show',
+		element: <Show />,
+
+		inMenu: true
+	},
+	{
+		id: 5,
 		routeName: 'ask',
 		path: '/ask',
 		element: <Ask />,
@@ -35,24 +69,15 @@ export const routes: Route[] = [
 		inMenu: true
 	},
 	{
-		id: 3,
-		routeName: 'jobs',
-		path: '/jobs',
-		element: <Jobs />,
-
-		inMenu: true
-	},
-
-	{
-		id: 4,
+		id: 6,
 		routeName: 'profile',
-		element: <Profile />,
-		path: '/profile'
+		path: '/profile',
+		element: <Profile />
 	},
 	{
-		id: 4,
-		routeName: 'Item comments',
-		element: <Comments />,
-		path: '/comments'
+		id: 7,
+		routeName: 'postcomments',
+		path: '/postcomments',
+		element: <PostComments />
 	}
 ]
