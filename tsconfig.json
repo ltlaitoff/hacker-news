@@ -24,7 +24,8 @@
 			"store/*": ["store/*"],
 			"data/*": ["data/*"],
 			"pages/*": ["pages/*"],
-			"routes/*": ["routes/*"]
+			"routes/*": ["routes/*"],
+			"utils/*": ["utils/*"]
 		}
 	},
 	"include": ["src"]
