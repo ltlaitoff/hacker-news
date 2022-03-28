@@ -1,5 +1,6 @@
 import React, { FC, useState } from 'react'
 import { Link } from 'react-router-dom'
+import classNames from 'classnames'
 
 // @ts-ignore
 import { PostProps } from './Post.interfaces.tsx'
@@ -7,15 +8,15 @@ import PostButtons from './components/PostButtons'
 
 import { timeSince } from 'utils'
 
-const Post: FC<PostProps> = ({ data, index }: PostProps) => {
+const Post: FC<PostProps> = ({ data, className }: PostProps) => {
 	const [vote, setVote] = useState<boolean>(false)
 
 	const toogleVote = () => setVote(currentVote => !currentVote)
 
-	const points = `${data.points} point${data.points > 1 ? 's' : ''} by`
 	const commentsLink = '/comments'
+	const profileLink = '/profile'
 
-	const timeAgo = timeSince(data.created_at_i)
+	const timeAgo: string = timeSince(data?.created_at_i)
 	const TimeAgo = () => (
 		<Link className='hover:text-pink-400 hover:duration-200' to={commentsLink}>
 			{timeAgo}
@@ -24,43 +25,50 @@ const Post: FC<PostProps> = ({ data, index }: PostProps) => {
 
 	const author = data.author
 	const Author = () => (
-		<Link className='hover:text-pink-400 hover:duration-200 ' to='/profile'>
-			{` ${author} `}
+		<Link
+			className='hover:text-pink-400 hover:duration-200 text-sky-500 drop-shadow-sky-400-01 hover:drop-shadow-pink-400-02'
+			to={profileLink}
+		>
+			{author}
 		</Link>
 	)
 
 	return (
-		<div className='grid grid-cols-[30px_30px_1fr] grid-rows-2'>
-			<div className='text-stone-400 col-start-1 col-end-1 row-start-1 row-end-1'>
-				{index}.
-			</div>
-			<div className='col-start-2 col-end-2 row-start-1 row-end-1'>
-				{vote === false && (
-					<button
-						className='text-stone-400 hover:text-pink-400 hover:duration-200'
-						onClick={toogleVote}
-					>
-						▲
-					</button>
+		<div
+			className={classNames(
+				'grid grid-cols-[60px_auto] grid-rows-2',
+				className
+			)}
+		>
+			<button
+				className={classNames(
+					'row-span-full hover:text-pink-400 hover:duration-200 col-span-1 drop-shadow-md ',
+					vote
+						? 'text-pink-400 hover:drop-shadow-sky-400 hover:text-sky-400 font-medium'
+						: 'text-stone-400 hover:drop-shadow-pink-400 '
 				)}
-			</div>
-			<div className='col-start-3 col-end-3 row-start-1 row-end-1'>
-				{data.title}{' '}
+				onClick={toogleVote}
+			>
+				<div>▲</div>
+				<div>{data.points + (vote ? 1 : 0)}</div>
+			</button>
+
+			<div className='gap-x-1 flex col-span-2 row-start-1 row-end-1'>
+				<h3 className='text-slate-600 font-medium'>{data.title}</h3>
+
 				{data.url && (
 					<a
-						className='text-stone-500 hover:text-pink-400 hover:duration-200'
+						className='text-stone-500 hover:text-pink-400 hover:duration-200 hover:drop-shadow-pink-400-02 font-light'
 						href={data.url}
+						target='_blank'
 					>{`(${data.url})`}</a>
 				)}
 			</div>
-			<div className='text-stone-400 col-start-3 col-end-3 row-start-2 row-end-2'>
-				{points}
-				<Author />
+			<div className='text-stone-400 col-span-2 row-start-2 row-end-2'>
+				by <Author />
 				<TimeAgo />
 				<PostButtons
 					className='123'
-					vote={vote}
-					onUnVoteClick={toogleVote}
 					onHideClick={() => {}}
 					commentsCount={data.num_comments}
 					commentsLink={commentsLink}

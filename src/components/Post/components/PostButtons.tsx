@@ -20,8 +20,6 @@ import classnames from 'classnames'
 */
 
 const PostButtons: FC<PostButtonsProps> = ({
-	vote,
-	onUnVoteClick,
 	onHideClick,
 	commentsCount,
 	commentsLink,
@@ -33,24 +31,6 @@ const PostButtons: FC<PostButtonsProps> = ({
 			? `${commentsCount} comment${commentsCount > 1 ? 's' : ''}`
 			: 'discuss'
 
-	const VoteButton = () => {
-		return (
-			<>
-				{vote && (
-					<>
-						{' | '}{' '}
-						<button
-							className='hover:text-pink-400 hover:duration-200'
-							onClick={onUnVoteClick}
-						>
-							unvote
-						</button>
-					</>
-				)}
-			</>
-		)
-	}
-
 	return (
 		<div className={classnames('inline ', className)} {...args}>
 			{' | '}
@@ -60,11 +40,10 @@ const PostButtons: FC<PostButtonsProps> = ({
 			>
 				hide
 			</button>
-			<VoteButton />
+
 			{' | '}
 			<Link
 				to={commentsLink}
-				onClick={onUnVoteClick}
 				className='hover:text-pink-400 hover:duration-200'
 			>
 				{commentsCountText}
