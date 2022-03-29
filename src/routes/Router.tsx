@@ -7,13 +7,15 @@ const Router: FC = ({ children }) => {
 	return (
 		<BrowserRouter>
 			{children}
-			<Routes>
-				{routes.map(route => {
-					return (
-						<Route path={route.path} element={route.element} key={route.id} />
-					)
-				})}
-			</Routes>
+			<main className='gap-y-2 flex flex-col pl-5'>
+				<Routes>
+					{routes.map(route => {
+						return (
+							<Route path={route.path} element={route.element} key={route.id} />
+						)
+					})}
+				</Routes>
+			</main>
 		</BrowserRouter>
 	)
 }
