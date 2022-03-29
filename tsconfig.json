@@ -21,6 +21,7 @@
 			"api/*": ["api/*"],
 			"assets/*": ["assets/*"],
 			"components/*": ["components/*"],
+			"containers/*": ["containers/*"],
 			"store/*": ["store/*"],
 			"data/*": ["data/*"],
 			"pages/*": ["pages/*"],
