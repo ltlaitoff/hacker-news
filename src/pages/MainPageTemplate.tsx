@@ -18,7 +18,6 @@ const MainPageTemplate: FC<MainPageTemplateProps> = ({
 
 	return (
 		<div className='gap-y-2 flex flex-col pl-5'>
-			{/* {items && JSON.stringify(items)} */}
 			{items?.data.hits.map((item, index) => {
 				return <Post data={item} key={index} />
 			})}
