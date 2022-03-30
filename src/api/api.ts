@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { Item, User, Search } from './apiTypes'
+import { Item, User, Search } from './api.interfaces'
 
 const ITEM_URL_TEMPLATE: string = 'http://hn.algolia.com/api/v1/items/'
 const USER_URL_TEMPLATE: string = 'http://hn.algolia.com/api/v1/users/'

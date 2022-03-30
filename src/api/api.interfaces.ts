@@ -32,26 +32,40 @@ export interface User {
 export interface Post {
 	created_at: string
 	title: string
-	url: string
+	url: string | null
 	author: string
 	points: number
-	num_comments: number
+	num_comments: number | null
+	comment_text: string | null
+	story_id: number | null
+	story_text: null | string
+	story_title: string | null
+	story_url: string | null
+	parent_id: number | null
 
 	created_at_i: number
-	relevancy_score: number
+	relevancy_score?: number
 	_tags: Array<string>
 	objectID: string
 	_highlightResult: {
 		title: {
 			value: string
 			matchLevel: string
-			fullyHighlighted: boolean
 			matchedWords: Array<string>
 		}
-		url: {
+		story_text?: {
 			value: string
 			matchLevel: string
-			fullyHighlighted: boolean
+			matchedWords: Array<string>
+		}
+		story_title?: {
+			value: string
+			matchLevel: string
+			matchedWords: Array<string>
+		}
+		url?: {
+			value: string
+			matchLevel: string
 			matchedWords: Array<string>
 		}
 		author: {
@@ -59,8 +73,19 @@ export interface Post {
 			matchLevel: string
 			matchedWords: Array<string>
 		}
+		comment_text?: {
+			value: string
+			matchLevel: string
+			matchedWords: Array<string>
+		}
+		story_url?: {
+			value: string
+			matchLevel: string
+			matchedWords: Array<string>
+		}
 	}
 }
+
 export interface Search {
 	data: {
 		hits: Array<Post>

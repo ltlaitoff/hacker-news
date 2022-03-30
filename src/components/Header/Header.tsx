@@ -23,12 +23,6 @@ const Header: FC = () => {
 					{routerData.routes.map((route: routerData.Route) => {
 						if (!route.inMenu) return null
 
-						console.log(
-							route.path,
-							location.pathname,
-							route.path === location.pathname
-						)
-
 						return (
 							<li className='align-center h-full' key={route.id}>
 								<Link
