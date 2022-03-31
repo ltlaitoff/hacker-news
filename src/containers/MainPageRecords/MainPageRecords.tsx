@@ -34,18 +34,11 @@ const MainPageRecords: FC<MainPageRecordsProps> = ({
 	const Item = renderTypes(renderType)
 
 	return (
-		<div>
+		<>
 			{items?.data.hits.map((item, index) => {
-				console.log(
-					'%cMyProject%cline:38%citem',
-					'color:#fff;background:#ee6f57;padding:3px;border-radius:2px',
-					'color:#fff;background:#1f3c88;padding:3px;border-radius:2px',
-					'color:#fff;background:rgb(237, 222, 139);padding:3px;border-radius:2px',
-					item
-				)
 				return <Item data={item} key={index} />
 			})}
-		</div>
+		</>
 	)
 }
 
