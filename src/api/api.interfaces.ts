@@ -102,3 +102,30 @@ export interface Search {
 	status: number
 	statusText: string
 }
+
+export interface numericFiltersElement {
+	less: number
+	lessOrEqual: number
+	equal: number
+	greated: number
+	greaterOrEqual: number
+}
+export interface numericFilters {
+	created_at_i: numericFiltersElement
+	points: numericFiltersElement
+	num_comments: numericFiltersElement
+}
+export interface getSearchUrlProps {
+	query?: string
+	tags?: Array<string>
+	searchByDate?: boolean
+	numericFilters?: numericFilters
+	page?: number
+}
+export interface getBySearchProps {
+	query?: string
+	tags?: Array<string> | string
+	searchByDate?: boolean
+	numericFilters?: numericFilters
+	page?: number
+}
