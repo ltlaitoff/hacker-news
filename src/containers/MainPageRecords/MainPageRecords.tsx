@@ -28,7 +28,18 @@ const MainPageRecords: FC<MainPageRecordsProps> = ({
 	const [items, setItems] = useState<Search | null>(null)
 
 	useEffect(() => {
-		getBySearch({ query: '', tags: type }).then(value => setItems(value))
+		let tags: string | Array<string> | undefined = type
+		let searchByDate: boolean = false
+
+		switch (type) {
+			case 'new':
+				tags = ['front_page', 'story', 'poll', 'show_hn', 'ask_hn']
+				searchByDate = true
+		}
+
+		getBySearch({ tags: tags, searchByDate: searchByDate }).then(value =>
+			setItems(value)
+		)
 	}, [])
 
 	const Item = renderTypes(renderType)

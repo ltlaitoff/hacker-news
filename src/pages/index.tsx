@@ -8,6 +8,8 @@ export const Home = () => (
 	<MainPageRecords renderType='default' type='front_page' />
 )
 
+export const New = () => <MainPageRecords renderType='default' type='new' />
+
 export const Stories = () => (
 	<MainPageRecords renderType='default' type='story' />
 )

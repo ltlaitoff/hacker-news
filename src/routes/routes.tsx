@@ -1,6 +1,7 @@
 import React from 'react'
 import {
 	Home,
+	New,
 	Stories,
 	Comments,
 	Polls,
@@ -29,6 +30,13 @@ export const routes: Route[] = [
 	},
 	{
 		id: 1,
+		routeName: 'new',
+		path: '/new',
+		element: <New />,
+		inMenu: true
+	},
+	{
+		id: 2,
 		routeName: 'stories',
 		path: '/stories',
 		element: <Stories />,
@@ -36,7 +44,7 @@ export const routes: Route[] = [
 		inMenu: true
 	},
 	{
-		id: 2,
+		id: 3,
 		routeName: 'comments',
 		path: '/comments',
 		element: <Comments />,
@@ -45,7 +53,7 @@ export const routes: Route[] = [
 	},
 
 	{
-		id: 3,
+		id: 4,
 		routeName: 'polls',
 		path: '/polls',
 		element: <Polls />,
@@ -53,7 +61,7 @@ export const routes: Route[] = [
 		inMenu: true
 	},
 	{
-		id: 4,
+		id: 5,
 		routeName: 'show',
 		path: '/show',
 		element: <Show />,
@@ -61,7 +69,7 @@ export const routes: Route[] = [
 		inMenu: true
 	},
 	{
-		id: 5,
+		id: 6,
 		routeName: 'ask',
 		path: '/ask',
 		element: <Ask />,
@@ -69,13 +77,13 @@ export const routes: Route[] = [
 		inMenu: true
 	},
 	{
-		id: 6,
+		id: 7,
 		routeName: 'profile',
 		path: '/profile',
 		element: <Profile />
 	},
 	{
-		id: 7,
+		id: 8,
 		routeName: 'postcomments',
 		path: '/postcomments',
 		element: <PostComments />

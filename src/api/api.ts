@@ -60,23 +60,21 @@ const getSearchUrl = ({
 	if (searchByDate || numericFilters) {
 		searchType = SEARCH_TYPES.byDate
 	}
-	const urlParams: Array<Array<string>> = []
+	const urlParams: Array<string> = []
 
-	if (query) urlParams.push(['query', query])
+	if (query) urlParams.push(`query=${query}`)
 
 	if (tags && tags.length > 0) {
-		urlParams.push(['tags', tags.join(',')])
+		urlParams.push(`tags=(${tags.join(',')})`)
 	}
 
 	if (numericFilters) {
-		urlParams.push(['numericFilters', getNumericFilters(numericFilters)])
+		urlParams.push(`numericFilters=${getNumericFilters(numericFilters)}`)
 	}
 
-	if (page) urlParams.push(['page', String(page)])
+	if (page) urlParams.push(`page=${String(page)}`)
 
-	const params = urlParams.map(([key, value]) => `${key}=${value}`).join(',')
-
-	return `${SEARCH_URL_TEMPLATE}${searchType}?${params}`
+	return `${SEARCH_URL_TEMPLATE}${searchType}?${urlParams.join(',')}`
 }
 
 export const getItemInfo = (id: number): Promise<Item> => {
