@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 import classNames from 'classnames'
 
 const RecordInfo: FC<RecordInfoProps> = ({
+	id,
 	type,
 	author,
 	dateTimeStamp,
@@ -24,7 +25,7 @@ const RecordInfo: FC<RecordInfoProps> = ({
 
 		if (type === 'default') {
 			const comentsCountNumber = Number(commentsCount)
-			to = '/comments'
+			to = `/postcomments/${id}`
 			text =
 				comentsCountNumber > 0
 					? `${commentsCount} comment${comentsCountNumber > 1 ? 's' : ''}`

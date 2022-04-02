@@ -1,6 +1,7 @@
 type Types = 'default' | 'comment'
 
 interface MandatoryProps {
+	id: number
 	author: string
 	dateTimeStamp: number
 	onHideClick: () => void

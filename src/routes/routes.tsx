@@ -80,7 +80,7 @@ export const routes: Route[] = [
 	{
 		id: 8,
 		routeName: 'postcomments',
-		path: '/postcomments',
+		path: '/postcomments/:id',
 		element: <PostComments />
 	}
 ]

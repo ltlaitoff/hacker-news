@@ -47,7 +47,7 @@ export interface Post {
 	relevancy_score?: number
 	_tags: Array<string>
 	objectID: string
-	_highlightResult: {
+	_highlightResult?: {
 		title: {
 			value: string
 			matchLevel: string
