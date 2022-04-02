@@ -1,6 +1,9 @@
-import { Post } from 'api/api.interfaces'
-
 export interface CommentProps {
-	data: Post
+	comment_text: string
+	points: number
+	objectID: string
+	author: string
+	created_at_i: number
+	parent_id: number
 	className?: string
 }

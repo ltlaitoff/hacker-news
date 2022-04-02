@@ -1,6 +1,10 @@
-import { Post } from 'api/api.interfaces'
-
 export interface PostProps {
-	data: Post
+	points: number
+	title: string
+	url?: string
+	objectID: string
+	author: string
+	created_at_i: number
+	num_comments: number
 	className?: string
 }
