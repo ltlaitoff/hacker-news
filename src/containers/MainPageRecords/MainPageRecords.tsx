@@ -28,7 +28,7 @@ const MainPageRecords: FC<MainPageRecordsProps> = ({
 	const [items, setItems] = useState<Search | null>(null)
 
 	useEffect(() => {
-		getBySearch('', type).then(value => setItems(value))
+		getBySearch({ query: '', tags: type }).then(value => setItems(value))
 	}, [])
 
 	const Item = renderTypes(renderType)

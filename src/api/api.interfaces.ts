@@ -104,11 +104,11 @@ export interface Search {
 }
 
 export interface numericFiltersElement {
-	less: Array<number>
-	lessOrEqual: Array<number>
-	equal: Array<number>
-	greated: Array<number>
-	greaterOrEqual: Array<number>
+	less: number
+	lessOrEqual: number
+	equal: number
+	greated: number
+	greaterOrEqual: number
 }
 export interface numericFilters {
 	created_at_i: numericFiltersElement

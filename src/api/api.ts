@@ -38,10 +38,8 @@ const getNumericFilters = (data: numericFilters) => {
 	Object.entries(data).forEach(
 		([field, value]: [string, numericFiltersElement]) => {
 			Object.entries(value).forEach(
-				([condition, conditionValues]: [string, Array<number>]) => {
-					conditionValues.forEach((conditionValue: number) => {
-						result.push(`${field}${CONDITIONS[condition]}${conditionValue}`)
-					})
+				([condition, conditionValue]: [string, Array<number>]) => {
+					result.push(`${field}${CONDITIONS[condition]}${conditionValue}`)
 				}
 			)
 		}
@@ -62,18 +60,27 @@ const getSearchUrl = ({
 	if (searchByDate || numericFilters) {
 		searchType = SEARCH_TYPES.byDate
 	}
+	const urlParams: Array<Array<string>> = []
 
-	const tagsParam = tags ? tags.join(',') : ''
-	const numericFiltersParams = numericFilters
-		? getNumericFilters(numericFilters)
-		: ''
+	if (query) urlParams.push(['query', query])
 
-	const params = `?query=${query}&tags=(${tagsParam})&numericFilters=${numericFiltersParams}&page=${page}`
+	if (tags && tags.length > 0) {
+		urlParams.push(['tags', tags.join(',')])
+	}
 
-	return SEARCH_URL_TEMPLATE + searchType + params
+	if (numericFilters) {
+		urlParams.push(['numericFilters', getNumericFilters(numericFilters)])
+	}
+
+	if (page) urlParams.push(['page', String(page)])
+
+	const params = urlParams.map(([key, value]) => `${key}=${value}`).join(',')
+
+	return `${SEARCH_URL_TEMPLATE}${searchType}?${params}`
 }
 
 export const getItemInfo = (id: number): Promise<Item> => {
+	if (id < 0) throw new Error('api error: id must be greated or equals 0')
 	return axios.get(getItemUrl(id))
 }
 
