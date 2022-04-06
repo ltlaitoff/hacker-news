@@ -1,16 +1,16 @@
 import React from 'react'
-import {
-	Home,
-	New,
-	Stories,
-	Comments,
-	Polls,
-	Show,
-	Ask,
-	Profile,
-	PostComments
-} from 'pages'
+
 import { ReactElement } from 'react'
+
+const Home = React.lazy(() => import('pages/Home.page'))
+const New = React.lazy(() => import('pages/New.page'))
+const Stories = React.lazy(() => import('pages/Stories.page'))
+const Comments = React.lazy(() => import('pages/Comments.page'))
+const Polls = React.lazy(() => import('pages/Polls.page'))
+const Show = React.lazy(() => import('pages/Show.page'))
+const Ask = React.lazy(() => import('pages/Ask.page'))
+const Profile = React.lazy(() => import('pages/Profile.page'))
+const PostComments = React.lazy(() => import('pages/PostComments.page'))
 
 export interface Route {
 	id: number
@@ -40,7 +40,6 @@ export const routes: Route[] = [
 		routeName: 'stories',
 		path: '/stories',
 		element: <Stories />,
-
 		inMenu: true
 	},
 	{
@@ -48,7 +47,6 @@ export const routes: Route[] = [
 		routeName: 'comments',
 		path: '/comments',
 		element: <Comments />,
-
 		inMenu: true
 	},
 
@@ -57,7 +55,6 @@ export const routes: Route[] = [
 		routeName: 'polls',
 		path: '/polls',
 		element: <Polls />,
-
 		inMenu: true
 	},
 	{
@@ -65,7 +62,6 @@ export const routes: Route[] = [
 		routeName: 'show',
 		path: '/show',
 		element: <Show />,
-
 		inMenu: true
 	},
 	{
@@ -73,7 +69,6 @@ export const routes: Route[] = [
 		routeName: 'ask',
 		path: '/ask',
 		element: <Ask />,
-
 		inMenu: true
 	},
 	{
