@@ -6,8 +6,8 @@ import { routes } from './routes'
 const Router: FC = ({ children }) => {
 	return (
 		<BrowserRouter>
-			{children}
 			<main className='gap-y-2 flex flex-col pl-5'>
+				{children}
 				<Routes>
 					{routes.map(route => {
 						return (

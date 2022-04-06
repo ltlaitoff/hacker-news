@@ -1,14 +1,10 @@
-import React, { FC, ReactElement, useState, useEffect } from 'react'
+import React, { FC, useState, useEffect } from 'react'
 
 import { Search } from 'api/api.interfaces'
 import { getBySearch } from 'api/api'
 import Post from 'components/Post'
 import Comment from 'components/Comment'
-
-interface MainPageRecordsProps {
-	renderType: string
-	type: string
-}
+import { MainPageTemplateProps } from './MainPageTemplate.interfaces'
 
 const renderTypes = (type: string): FC<any> => {
 	switch (type) {
@@ -21,10 +17,10 @@ const renderTypes = (type: string): FC<any> => {
 	throw new Error('renderTypesError')
 }
 
-const MainPageRecords: FC<MainPageRecordsProps> = ({
+const MainPageTemplate: FC<MainPageTemplateProps> = ({
 	renderType,
 	type
-}: MainPageRecordsProps) => {
+}: MainPageTemplateProps) => {
 	const [items, setItems] = useState<Search | null>(null)
 
 	useEffect(() => {
@@ -37,9 +33,9 @@ const MainPageRecords: FC<MainPageRecordsProps> = ({
 				searchByDate = true
 		}
 
-		getBySearch({ tags: tags, searchByDate: searchByDate }).then(value =>
+		getBySearch({ tags: tags, searchByDate: searchByDate }).then(value => {
 			setItems(value)
-		)
+		})
 	}, [])
 
 	const Item = renderTypes(renderType)
@@ -47,10 +43,10 @@ const MainPageRecords: FC<MainPageRecordsProps> = ({
 	return (
 		<>
 			{items?.data.hits.map((item, index) => {
-				return <Item data={item} key={index} />
+				return <Item {...item} key={index} />
 			})}
 		</>
 	)
 }
 
-export default MainPageRecords
+export default MainPageTemplate
