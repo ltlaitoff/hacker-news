@@ -12,14 +12,25 @@ import ReactHtmlParser, {
 	Element
 } from 'html-react-parser'
 
-const Comment: FC<CommentProps> = ({ data, className }: CommentProps) => {
+const Comment: FC<CommentProps> = ({
+	comment_text,
+	points,
+	objectID,
+	author,
+	created_at_i,
+	parent_id,
+	story_id,
+	level,
+	className,
+	...args
+}: CommentProps) => {
 	const [vote, setVote] = useState<boolean>(false)
 
 	const toogleVote = () => setVote(currentVote => !currentVote)
 
-	if (data.comment_text === null) return null
+	if (comment_text === null) return null
 
-	const commentText = data.comment_text.split('\\n').join('<br />')
+	const commentText = comment_text.split('\\n').join('<br />')
 
 	const options: HTMLReactParserOptions = {
 		replace: (domNode: DOMNode) => {
@@ -43,16 +54,21 @@ const Comment: FC<CommentProps> = ({ data, className }: CommentProps) => {
 				'grid grid-cols-[60px_auto] auto-rows-auto',
 				className
 			)}
+			id={objectID}
+			{...args}
 		>
-			<PointsButton vote={vote} points={data.points} onClick={toogleVote} />
+			<PointsButton vote={vote} points={points} onClick={toogleVote} />
 
 			<div className='gap-x-1 flex col-span-2 row-start-1 row-end-1'>
 				<RecordInfo
+					storyId={story_id}
+					commentLevel={level}
+					id={Number(objectID)}
 					type='comment'
-					author={data.author}
-					dateTimeStamp={data.created_at_i}
+					author={author}
+					dateTimeStamp={created_at_i}
 					onHideClick={() => {}}
-					parentId={data.parent_id}
+					parentId={parent_id}
 				/>
 			</div>
 			<div className='text-stone-400 col-span-2 row-start-2 row-end-2'>

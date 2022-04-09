@@ -1,16 +1,35 @@
-export interface Item {
+interface ItemMain {
 	id: number
 	created_at: string
 	created_at_i: number
-	type: 'story' | 'comment'
 	author: string
-	title: string | null
-	url: string | null
 	text: string | null
-	points: number | null
-	parent_id: number | null
-	story_id: number | null
-	children: Array<Item>
+}
+
+export interface ItemStory extends ItemMain {
+	type: 'story'
+	title: string
+	url: string
+	points: number
+	parent_id: null
+	story_id: null
+	children: Array<ItemComment>
+}
+
+export interface ItemComment extends ItemMain {
+	type: 'comment'
+	title: null
+	url: null
+	points: null
+	parent_id: number
+	story_id: number
+	children: Array<ItemComment>
+}
+
+export interface Item {
+	data: ItemStory | ItemComment
+	status: number
+	statusText: string
 }
 
 export interface User {

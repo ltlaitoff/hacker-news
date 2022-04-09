@@ -10,7 +10,7 @@ const Polls = React.lazy(() => import('pages/Polls.page'))
 const Show = React.lazy(() => import('pages/Show.page'))
 const Ask = React.lazy(() => import('pages/Ask.page'))
 const Profile = React.lazy(() => import('pages/Profile.page'))
-const PostComments = React.lazy(() => import('pages/PostComments.page'))
+const RecordComments = React.lazy(() => import('pages/RecordComments.page'))
 
 export interface Route {
 	id: number
@@ -79,8 +79,8 @@ export const routes: Route[] = [
 	},
 	{
 		id: 8,
-		routeName: 'postcomments',
-		path: '/postcomments',
-		element: <PostComments />
+		routeName: 'recordcomments',
+		path: '/recordcomments/:id',
+		element: <RecordComments />
 	}
 ]

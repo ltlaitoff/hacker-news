@@ -2,6 +2,19 @@ module.exports = {
 	content: ['./src/**/*.{js,jsx,ts,tsx}'],
 	theme: {
 		extend: {
+			spacing: {
+				0: '0rem',
+				14: '3.5rem',
+				28: '7rem',
+				42: '10.5rem',
+				56: '14rem',
+				70: '17.5rem',
+				84: '21rem',
+				98: '24.5rem',
+				112: '28rem',
+				126: '31.5rem',
+				140: '35rem'
+			},
 			dropShadow: {
 				'pink-400': [
 					'0 0 4px rgba(244, 114, 182, .3)',
