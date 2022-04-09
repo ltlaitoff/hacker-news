@@ -19,6 +19,8 @@ const Comment: FC<CommentProps> = ({
 	author,
 	created_at_i,
 	parent_id,
+	story_id,
+	level,
 	className,
 	...args
 }: CommentProps) => {
@@ -52,12 +54,15 @@ const Comment: FC<CommentProps> = ({
 				'grid grid-cols-[60px_auto] auto-rows-auto',
 				className
 			)}
+			id={objectID}
 			{...args}
 		>
 			<PointsButton vote={vote} points={points} onClick={toogleVote} />
 
 			<div className='gap-x-1 flex col-span-2 row-start-1 row-end-1'>
 				<RecordInfo
+					storyId={story_id}
+					commentLevel={level}
 					id={Number(objectID)}
 					type='comment'
 					author={author}

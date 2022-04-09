@@ -14,6 +14,7 @@ const Post: FC<PostProps> = ({
 	author,
 	created_at_i,
 	num_comments,
+	noComments,
 	className,
 	...args
 }: PostProps) => {
@@ -49,6 +50,7 @@ const Post: FC<PostProps> = ({
 					dateTimeStamp={created_at_i}
 					onHideClick={() => {}}
 					commentsCount={num_comments}
+					noComments={noComments}
 				/>
 			</div>
 		</div>

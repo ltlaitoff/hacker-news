@@ -6,5 +6,6 @@ export interface PostProps {
 	author: string
 	created_at_i: number
 	num_comments: number
+	noComments?: boolean
 	className?: string
 }

@@ -5,5 +5,7 @@ export interface CommentProps {
 	author: string
 	created_at_i: number
 	parent_id: number
+	story_id: number
+	level: number
 	className?: string
 }
