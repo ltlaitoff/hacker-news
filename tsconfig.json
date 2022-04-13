@@ -26,7 +26,8 @@
 			"data/*": ["data/*"],
 			"pages/*": ["pages/*"],
 			"routes/*": ["routes/*"],
-			"utils/*": ["utils/*"]
+			"utils/*": ["utils/*"],
+			"layouts/*": ["layouts/*"]
 		}
 	},
 	"include": ["src"]
