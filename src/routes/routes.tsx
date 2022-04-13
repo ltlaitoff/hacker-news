@@ -18,6 +18,7 @@ export interface Route {
 	path: string
 	element: ReactElement
 	inMenu?: boolean
+	index?: boolean
 }
 
 export const routes: Route[] = [
@@ -26,6 +27,7 @@ export const routes: Route[] = [
 		routeName: 'home',
 		path: '/',
 		element: <Home />,
+		index: true,
 		inMenu: true
 	},
 	{
