@@ -12,10 +12,7 @@ const RecordInfoButton: FC<RecordInfoButtonProps> = ({
 	children,
 	...args
 }) => {
-	const classes = classNames(
-		'hover:text-pink-400 hover:duration-200',
-		className
-	)
+	const classes = classNames('stone-link pink-hover', className)
 
 	const outputChildren = children ? children : text
 

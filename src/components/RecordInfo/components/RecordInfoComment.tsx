@@ -1,6 +1,5 @@
 import React, { FC, Component } from 'react'
 import RecordInfoButton from './RecordInfoButton'
-import { RecordInfoButtonProps } from './RecordInfoButton.interfaces'
 import { RecordInfoCommentProps } from './RecordInfoComment.interfaces'
 
 const RecordInfoComment: FC<RecordInfoCommentProps> = ({

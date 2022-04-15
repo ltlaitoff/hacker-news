@@ -36,7 +36,7 @@ const Post: FC<PostProps> = ({
 				<h3 className='text-slate-600 inline font-medium'>{title}</h3>{' '}
 				{url && (
 					<a
-						className='text-stone-500 hover:text-pink-400 hover:duration-200 hover:drop-shadow-pink-400-02 inline font-light'
+						className='stone-link pink-hover'
 						href={url}
 						target='_blank'
 					>{`(${url})`}</a>
