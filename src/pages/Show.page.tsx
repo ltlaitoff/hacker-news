@@ -1,1 +1,1 @@
-export { Show as default } from './PagesByMainPageTemplate'
+export { Show as default } from './pagesByTemplates/byMainPageTemplate'

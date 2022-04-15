@@ -1,1 +1,1 @@
-export { Ask as default } from './PagesByMainPageTemplate'
+export { Ask as default } from './pagesByTemplates/byMainPageTemplate'

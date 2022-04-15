@@ -1,4 +1,4 @@
-import { Data } from './PagesByMainPageTemplate.interfaces'
+import { Data } from './byMainPageTemplate.interfaces'
 
 const data: Data = {
 	home: {

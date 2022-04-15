@@ -1,1 +1,1 @@
-export { Comments as default } from './PagesByMainPageTemplate'
+export { Comments as default } from './pagesByTemplates/byMainPageTemplate'
