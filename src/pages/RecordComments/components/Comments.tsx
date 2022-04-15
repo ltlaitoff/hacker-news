@@ -53,6 +53,7 @@ const Comments: FC<CommentsProps> = ({
 					<div key={item.id}>
 						<Comment
 							comment_text={text}
+							showPoints={false}
 							points={0}
 							objectID={String(item.id)}
 							author={author}
