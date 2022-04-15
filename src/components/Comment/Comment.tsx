@@ -14,6 +14,7 @@ import ReactHtmlParser, {
 
 const Comment: FC<CommentProps> = ({
 	comment_text,
+	showPoints,
 	points,
 	objectID,
 	author,
@@ -57,7 +58,9 @@ const Comment: FC<CommentProps> = ({
 			id={objectID}
 			{...args}
 		>
-			<PointsButton vote={vote} points={points} onClick={toogleVote} />
+			{(showPoints === undefined || showPoints !== false) && (
+				<PointsButton vote={vote} points={points} onClick={toogleVote} />
+			)}
 
 			<div className='gap-x-1 flex col-span-2 row-start-1 row-end-1'>
 				<RecordInfo

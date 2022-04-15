@@ -1,5 +1,6 @@
 export interface CommentProps {
 	comment_text: string
+	showPoints?: boolean
 	points: number
 	objectID: string
 	author: string
