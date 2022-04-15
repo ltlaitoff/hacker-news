@@ -5,6 +5,7 @@ import { getBySearch } from 'api/api'
 import Post from 'components/Post'
 import Comment from 'components/Comment'
 import { MainPageTemplateProps } from './MainPageTemplate.interfaces'
+import Loader from 'components/Loader'
 
 const renderTypes = (type: string): FC<any> => {
 	switch (type) {
@@ -42,9 +43,13 @@ const MainPageTemplate: FC<MainPageTemplateProps> = ({
 
 	return (
 		<>
-			{items?.data.hits.map((item, index) => {
-				return <Item {...item} key={index} />
-			})}
+			{items ? (
+				items.data.hits.map((item, index) => {
+					return <Item {...item} key={index} />
+				})
+			) : (
+				<Loader />
+			)}
 		</>
 	)
 }
