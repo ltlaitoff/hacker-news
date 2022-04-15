@@ -1,1 +1,1 @@
-export { Polls as default } from './PagesByMainPageTemplate'
+export { Polls as default } from './pagesByTemplates/byMainPageTemplate'

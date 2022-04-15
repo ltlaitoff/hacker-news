@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react'
-import MainPageTemplate from 'containers/MainPageTemplate'
+import MainPageTemplate from 'pages/MainPageTemplate'
 
-import pagesData from './PagesByMainPageTemplate.data'
+import pagesData from './byMainPageTemplate.data'
 
 export const Home = (): ReactElement => (
 	<MainPageTemplate

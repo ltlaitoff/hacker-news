@@ -1,1 +1,1 @@
-export { Stories as default } from './PagesByMainPageTemplate'
+export { Stories as default } from './pagesByTemplates/byMainPageTemplate'
