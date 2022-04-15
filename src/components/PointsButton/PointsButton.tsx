@@ -13,10 +13,8 @@ const PointsButton: FC<PointsButtonProps> = ({
 	return (
 		<button
 			className={classNames(
-				'row-start-1 row-end-3 hover:text-pink-400 hover:duration-200 col-span-1 drop-shadow-md self-start ',
-				vote
-					? 'text-pink-400 hover:drop-shadow-sky-400 hover:text-sky-400 font-medium'
-					: 'text-stone-400 hover:drop-shadow-pink-400 ',
+				'pink-hover row-start-1 row-end-3 col-span-1 self-start ',
+				vote ? 'pink-link sky-hover font-medium' : 'text-stone-400 pink-hover ',
 				className
 			)}
 			onClick={onClick}

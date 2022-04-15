@@ -38,7 +38,7 @@ const Comment: FC<CommentProps> = ({
 			if (domNode instanceof Element && domNode.name === 'a') {
 				return (
 					<a
-						className='hover:text-pink-400 hover:duration-200 text-sky-500 drop-shadow-sky-400-01 hover:drop-shadow-pink-400-02'
+						className='pink-hover sky-link font-normal'
 						href={domNode.attribs.href}
 						rel={domNode.attribs.rel}
 					>
@@ -74,10 +74,8 @@ const Comment: FC<CommentProps> = ({
 					parentId={parent_id}
 				/>
 			</div>
-			<div className='text-stone-400 col-span-2 row-start-2 row-end-2'>
-				<h3 className='text-slate-600 font-medium'>
-					{ReactHtmlParser(commentText, options)}
-				</h3>
+			<div className='text-slate-600 col-span-2 row-start-2 row-end-2 font-medium'>
+				{ReactHtmlParser(commentText, options)}
 			</div>
 		</div>
 	)

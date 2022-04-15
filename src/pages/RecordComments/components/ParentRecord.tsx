@@ -11,10 +11,6 @@ interface ParentRecordProps {
 }
 
 const ParentRecord: FC<ParentRecordProps> = ({ data, className, ...args }) => {
-	const [vote, setVote] = useState(false)
-
-	const toogleVote = () => setVote(v => !v)
-
 	if (data.type === 'story') {
 		return (
 			<Post
@@ -27,6 +23,7 @@ const ParentRecord: FC<ParentRecordProps> = ({ data, className, ...args }) => {
 				num_comments={0}
 				noComments={true}
 				className='mb-14'
+				{...args}
 			/>
 		)
 	}
@@ -41,6 +38,7 @@ const ParentRecord: FC<ParentRecordProps> = ({ data, className, ...args }) => {
 			parent_id={data.parent_id}
 			story_id={data.story_id}
 			level={-1}
+			{...args}
 		/>
 	)
 }

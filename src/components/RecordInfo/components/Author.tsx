@@ -11,10 +11,7 @@ const Author: FC<AuthorProps> = ({
 }) => {
 	return (
 		<Link
-			className={classNames(
-				'hover:text-pink-400 hover:duration-200 text-sky-500 drop-shadow-sky-400-01 hover:drop-shadow-pink-400-02',
-				className
-			)}
+			className={classNames('pink-hover sky-link', className)}
 			to={profileLink}
 			{...args}
 		>
