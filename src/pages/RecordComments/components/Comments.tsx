@@ -37,12 +37,8 @@ const Comments: FC<CommentsProps> = ({
 				let author = item.author
 				let text = item.text
 
-				if (author === null) {
-					author = 'deleted'
-				}
-
-				if (text === null) {
-					text = 'deleted'
+				if (author === null || text === null) {
+					return null
 				}
 
 				const classNameComment = commentClassNames[currentLevel]
