@@ -4,9 +4,10 @@ import { getItemInfo } from 'api'
 import { Item } from 'api/api.interfaces'
 import ParentRecord from './components/ParentRecord'
 import Comments from './components/Comments'
+import Loader from 'components/Loader'
 
 const RecordComments: FC = () => {
-	const [recordInfo, setRecordInfo] = useState<Item>()
+	const [recordInfo, setRecordInfo] = useState<Item | null>(null)
 	let { id } = useParams()
 
 	useEffect(() => {
@@ -15,17 +16,23 @@ const RecordComments: FC = () => {
 		getItemInfo(numberId).then(value => setRecordInfo(value))
 	}, [])
 
-	if (!recordInfo) return null
+	const Main = () => {
+		if (recordInfo) {
+			const parentRecordData = recordInfo.data
+			const comments = recordInfo.data.children
 
-	const parentRecordData = recordInfo.data
-	const comments = recordInfo.data.children
+			return (
+				<>
+					<ParentRecord data={parentRecordData} />
+					<Comments comments={comments} />
+				</>
+			)
+		}
 
-	return (
-		<div>
-			<ParentRecord data={parentRecordData} />
-			<Comments comments={comments} />
-		</div>
-	)
+		return null
+	}
+
+	return <div>{recordInfo !== null ? <Main /> : <Loader />}</div>
 }
 
 export default RecordComments
