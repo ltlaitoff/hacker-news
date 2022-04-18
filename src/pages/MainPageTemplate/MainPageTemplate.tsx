@@ -1,11 +1,13 @@
-import React, { FC, useState, useEffect } from 'react'
+import React, { FC, useState, useEffect, FormEvent } from 'react'
 
-import { Search } from 'api/api.interfaces'
+import { Search as APISearch } from 'api/api.interfaces'
 import { getBySearch } from 'api/api'
 import Post from 'components/Post'
 import Comment from 'components/Comment'
 import { MainPageTemplateProps } from './MainPageTemplate.interfaces'
 import Loader from 'components/Loader'
+import Filter from 'components/Filter'
+import RecordSelection from 'components/RecordSelection'
 
 const renderTypes = (type: string): FC<any> => {
 	switch (type) {
@@ -22,7 +24,8 @@ const MainPageTemplate: FC<MainPageTemplateProps> = ({
 	renderType,
 	type
 }: MainPageTemplateProps) => {
-	const [items, setItems] = useState<Search | null>(null)
+	const [items, setItems] = useState<APISearch | null>(null)
+	const [searchValue, setSearchValue] = useState<string>('')
 
 	useEffect(() => {
 		let tags: string | Array<string> | undefined = type
@@ -41,12 +44,20 @@ const MainPageTemplate: FC<MainPageTemplateProps> = ({
 
 	const Item = renderTypes(renderType)
 
+	// const onSearchChange = (value: string) => {
+	// 	console.log(value)
+	// 	setSearchValue(value)
+	// }
+
 	return (
 		<>
 			{items ? (
-				items.data.hits.map((item, index) => {
-					return <Item {...item} key={index} />
-				})
+				<>
+					<RecordSelection />
+					{items.data.hits.map((item, index) => {
+						return <Item {...item} key={index} />
+					})}
+				</>
 			) : (
 				<Loader />
 			)}
