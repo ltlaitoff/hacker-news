@@ -9,24 +9,14 @@ import {
 	numericFiltersElement
 } from './api.interfaces'
 
+import { CONDITIONS } from 'data'
+
 const ITEM_URL_TEMPLATE: string = 'http://hn.algolia.com/api/v1/items/'
 const USER_URL_TEMPLATE: string = 'http://hn.algolia.com/api/v1/users/'
 const SEARCH_URL_TEMPLATE: string = 'http://hn.algolia.com/api/v1/'
 const SEARCH_TYPES = {
 	default: 'search',
 	byDate: 'search_by_date'
-}
-
-type conditions = {
-	[key: string]: string
-}
-
-const CONDITIONS: conditions = {
-	less: '<',
-	lessOrEqual: '<=',
-	equal: '=',
-	greated: '>',
-	greaterOrEqual: '>='
 }
 
 const getItemUrl = (id: number): string => ITEM_URL_TEMPLATE + String(id)
