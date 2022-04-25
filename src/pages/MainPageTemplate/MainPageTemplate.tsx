@@ -6,7 +6,6 @@ import Post from 'components/Post'
 import Comment from 'components/Comment'
 import { MainPageTemplateProps } from './MainPageTemplate.interfaces'
 import Loader from 'components/Loader'
-import Filter from 'components/Filter'
 import RecordSelection from 'components/RecordSelection'
 
 const renderTypes = (type: string): FC<any> => {

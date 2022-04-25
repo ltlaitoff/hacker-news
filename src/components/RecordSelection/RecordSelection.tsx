@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react'
-
+import Filter from './components/Filter'
 import Search from './components/Search'
 
 const RecordSelection: FC = () => {
@@ -8,7 +8,7 @@ const RecordSelection: FC = () => {
 	return (
 		<div>
 			<Search onSubmit={setSearchValue} />
-			SearchValue: {searchValue}
+			<Filter />
 		</div>
 	)
 }
