@@ -10,7 +10,7 @@
 		@apply focus-visible:outline focus-visible:outline-2 focus-visible:outline-pink-500 focus-visible:duration-0;
 	}
 	.logo-text {
-		@apply hover:text-pink-500 text-cyan-900 hover:duration-200 text-lg font-semibold;
+		@apply hover:text-pink-500 text-cyan-900 hover:duration-200 font-mono text-xl font-semibold tracking-tight;
 	}
 	.active-menu-link {
 		@apply hover:text-sky-400 hover:drop-shadow-sky-400-01 text-pink-400;
