@@ -16,7 +16,7 @@ const Header: FC = () => {
 				</Link>
 			</h1>
 
-			<nav className='pl-10'>
+			<nav className='pl-16'>
 				<ul className='flex items-center h-full'>
 					{routerData.routes.map((route: routerData.Route) => {
 						if (!route.inMenu) return null
