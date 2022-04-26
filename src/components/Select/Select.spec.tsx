@@ -174,8 +174,7 @@ describe('Select', () => {
 
 		const mainButton = wrapper.getByTestId('main-button')
 
-		expect(
-			mainButton.textContent?.replace('|', '') === OPTIONS[1].label
-		).toBeTruthy()
+		console.log(mainButton.textContent, OPTIONS[1].label)
+		expect(mainButton.textContent === OPTIONS[1].label + '|').toBeTruthy()
 	})
 })
