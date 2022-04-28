@@ -1,7 +1,7 @@
 import React, { FC, ChangeEvent, useState, SyntheticEvent } from 'react'
 import { SearchProps } from './Search.interfaces'
 import classNames from 'classnames'
-import { ReactComponent as SearchIcon } from 'assets/favicons/search-icon.svg'
+import { ReactComponent as SearchIcon } from 'assets/icons/search-icon.svg'
 
 const Search: FC<SearchProps> = ({ onSubmit, className, ...args }) => {
 	const [inputValue, setInputValue] = useState<string>('')
