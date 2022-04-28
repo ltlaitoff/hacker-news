@@ -5,8 +5,8 @@ export type SelectRecord = {
 
 export interface SelectProps {
 	options: SelectRecord[]
-	onClick: (id: number) => void
-	onChange: (id: number) => void
+	onClick?: (id: number) => void
+	onChange?: (id: number) => void
 	disabled?: boolean
 	defaultSelectId?: number
 	className?: string

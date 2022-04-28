@@ -39,9 +39,11 @@ const Select: FC<SelectProps> = ({
 	})
 
 	const onItemClick = (itemData: SelectRecord) => {
-		onClick(itemData.id)
+		if (onClick) onClick(itemData.id)
+
 		if (selectedItem.id !== itemData.id) {
-			onChange(itemData.id)
+			if (onChange) onChange(itemData.id)
+
 			setSelectedItem(itemData)
 		}
 
