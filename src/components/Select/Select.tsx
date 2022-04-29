@@ -3,7 +3,7 @@ import classNames from 'classnames'
 
 import { SelectProps, SelectRecord } from './Select.interfaces'
 
-import SelectList from './components/SelectList'
+import SelectList from 'components/SelectList'
 import SelectBase from './components/SelectBase'
 
 const getItemById = (items: SelectRecord[], id: number): SelectRecord[] => {

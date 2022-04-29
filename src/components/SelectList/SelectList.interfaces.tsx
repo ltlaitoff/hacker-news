@@ -1,4 +1,7 @@
-import { SelectRecord } from '../Select.interfaces'
+export type SelectRecord = {
+	id: number
+	label: string
+}
 
 export interface SelectListProps {
 	show: Boolean
