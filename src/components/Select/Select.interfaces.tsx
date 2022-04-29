@@ -9,5 +9,8 @@ export interface SelectProps {
 	onChange?: (id: number) => void
 	disabled?: boolean
 	defaultSelectId?: number
+	shadowDisabled?: boolean
+	shadowBaseDisabled?: boolean
+	shadowListDisabled?: boolean
 	className?: string
 }

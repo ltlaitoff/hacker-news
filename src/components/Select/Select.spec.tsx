@@ -115,6 +115,41 @@ describe('Select', () => {
 		})
 	})
 
+	it('On click outside component with opened list should closing the list', () => {
+		const OPTIONS = [
+			{
+				id: 0,
+				label: 'first'
+			},
+			{
+				id: 1,
+				label: 'second'
+			},
+			{
+				id: 2,
+				label: 'third'
+			}
+		]
+
+		wrapper = render(
+			<div data-testid='div'>
+				<Select options={OPTIONS} onClick={onClick} onChange={onChange} />
+			</div>
+		)
+
+		const mainButton = wrapper.getByTestId('main-button')
+		user.click(mainButton)
+
+		const list = wrapper.getByTestId('list')
+
+		expect(list).toBeInTheDocument()
+
+		const div = wrapper.getByTestId('div')
+		user.click(div)
+
+		expect(list).not.toBeInTheDocument()
+	})
+
 	it('On click main-button Select and Selec is disable should NOT open a list of items', () => {
 		const OPTIONS = [
 			{
