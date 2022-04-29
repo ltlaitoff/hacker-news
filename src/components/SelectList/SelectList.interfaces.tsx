@@ -7,7 +7,7 @@ export interface SelectListProps {
 	show: Boolean
 	options: SelectRecord[]
 	onItemClick: (item: SelectRecord) => void
-	selectedItem: SelectRecord
+	selectedItem?: SelectRecord
 	shadowDisabled?: boolean
 	className?: string
 }

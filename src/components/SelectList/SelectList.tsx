@@ -32,9 +32,9 @@ const SelectList: FC<SelectListProps> = ({
 			{options.map(item => {
 				const id = item.id
 				const listItemStyles = classNames('p-2', {
-					'text-pink-400': id === selectedItem.id,
+					'text-pink-400': id === selectedItem?.id,
 					'bg-sky-700/10': currentSelectedItem === id,
-					'text-cyan-600': currentSelectedItem === id && id !== selectedItem.id
+					'text-cyan-600': currentSelectedItem === id && id !== selectedItem?.id
 				})
 
 				return (
