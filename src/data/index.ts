@@ -1,2 +1,2 @@
 export { CONDITIONS } from './conditions'
-export { FILTERS } from './filters'
+export { filters } from './filters'

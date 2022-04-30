@@ -1,47 +1,71 @@
-import { CONDITIONS } from './conditions'
+import {
+	Filter,
+	DateStandartFiltrations,
+	DateSpecicalFiltrations
+} from './filters.interfaces'
 
-type AvailableFiltrations = [
-	'is',
-	'is before',
-	'is after',
-	'is on or before',
-	'is on or after',
-	'is within'
-]
+const getDateStandartFiltrationFunc = (type: keyof DateStandartFiltrations) => {
+	return (fieldName: string, value: string) => {
+		switch (type) {
+			case 'is':
+				return `${fieldName}=${value}`
+			case 'is before':
+				return `${fieldName}<${value}`
 
-export interface Filter {
-	id: number
-	//eslint-disable-next-line
-	name: string
-	availableFiltrations: Partial<AvailableFiltrations>
+			case 'is after':
+				return `${value}<${fieldName}`
+
+			case 'is on or before':
+				return `${fieldName}<=${value}`
+
+			case 'is on or after':
+				return `${value}<=${fieldName}`
+		}
+	}
+
+	throw new Error('getDateStandartFiltrationFunc error with type ' + type)
 }
 
-export const FILTERS: Filter[] = [
+const getDateSpecicalFiltrationFunc = (type: keyof DateSpecicalFiltrations) => {
+	switch (type) {
+		case 'is within':
+			return (fieldName: string, firstValue: string, secondValue: string) =>
+				`${fieldName}<${firstValue}&${fieldName}>${secondValue}`
+	}
+
+	throw new Error('getDateSpecicalFiltrationFunc error with type ' + type)
+}
+
+export const filters: Filter[] = [
 	{
 		id: 0,
-		name: 'Test',
-		availableFiltrations: ['is', 'is before', 'is after']
+		label: 'test',
+		type: 'date',
+		standartFiltrations: {
+			is: getDateStandartFiltrationFunc('is'),
+			'is before': getDateStandartFiltrationFunc('is before'),
+			'is after': getDateStandartFiltrationFunc('is after')
+		},
+
+		specicalFiltrations: {
+			'is within': getDateSpecicalFiltrationFunc('is within')
+		}
 	},
+
 	{
-		id: 0,
-		name: 'Data',
-		availableFiltrations: [
-			'is',
-			'is before',
-			'is after',
-			'is on or before',
-			'is on or after',
-			'is within'
-		]
+		id: 1,
+		label: 'Date',
+		type: 'date',
+		standartFiltrations: {
+			is: getDateStandartFiltrationFunc('is'),
+			'is before': getDateStandartFiltrationFunc('is before'),
+			'is after': getDateStandartFiltrationFunc('is after'),
+			'is on or before': getDateStandartFiltrationFunc('is on or before'),
+			'is on or after': getDateStandartFiltrationFunc('is on or after')
+		},
+
+		specicalFiltrations: {
+			'is within': getDateSpecicalFiltrationFunc('is within')
+		}
 	}
 ]
-
-export const filtersConditions: Record<string, string | null | Array<string>> =
-	{
-		is: CONDITIONS.equal,
-		'is before': CONDITIONS.less,
-		'is after': CONDITIONS.greated,
-		'is on or before': CONDITIONS.lessOrEqual,
-		'is on or after': CONDITIONS.greaterOrEqual,
-		'is within': [CONDITIONS.greated, CONDITIONS.less]
-	}
