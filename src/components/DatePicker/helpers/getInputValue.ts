@@ -1,3 +1,5 @@
+import { isValidDate } from './isValidDate'
+
 export const getZeroPadded = (value: number | string): string => {
 	const stringifyValue = String(value)
 
@@ -40,7 +42,7 @@ export const getInputValue = (
 	dateValue: Date,
 	format: string
 ): string | null => {
-	if (dateValue.toString() === 'Invalid Date') {
+	if (isValidDate(dateValue) === false) {
 		return null
 	}
 
