@@ -1,5 +1,5 @@
-import { isEqual, isNoStrictEqual } from './is'
-import { isNotEqual, isNotNoStrictEqual } from './isNot'
+import { isEqual, isNoStrictEqual, isTrue, isFalse } from './is'
+import { isNotEqual, isNotNoStrictEqual, isNotTrue, isNotFalse } from './isNot'
 
 describe('is helper', () => {
 	describe('equals', () => {
@@ -34,6 +34,40 @@ describe('is helper', () => {
 			({ first, second, result }) => {
 				expect(isNoStrictEqual(first, second)).toBe(result)
 				expect(isNotNoStrictEqual(first, second)).not.toBe(result)
+			}
+		)
+	})
+
+	describe('is types', () => {
+		it.each`
+			arg          | result
+			${null}      | ${false}
+			${undefined} | ${false}
+			${true}      | ${true}
+			${''}        | ${false}
+			${'test'}    | ${true}
+		`(
+			'isTrue and isNotFalse with arg = $arg should return $result',
+			({ arg, result }) => {
+				console.log(arg, arg === true, result)
+				expect(isTrue(arg)).toBe(result)
+				expect(isNotFalse(arg)).toBe(result)
+			}
+		)
+
+		it.each`
+			arg          | result
+			${null}      | ${true}
+			${undefined} | ${true}
+			${true}      | ${false}
+			${''}        | ${true}
+			${'test'}    | ${false}
+		`(
+			'isFalse and isNotTrue with arg = $arg should return $result',
+			({ arg, result }) => {
+				console.log(arg, arg === true, result)
+				expect(isFalse(arg)).toBe(result)
+				expect(isNotTrue(arg)).toBe(result)
 			}
 		)
 	})
