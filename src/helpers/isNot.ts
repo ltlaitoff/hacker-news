@@ -1,4 +1,13 @@
-import { isEqual, isNoStrictEqual, isFalse, isTrue } from './is'
+import {
+	isEqual,
+	isNoStrictEqual,
+	isFalse,
+	isTrue,
+	isNumber,
+	isValidNumber,
+	isStrictTrue,
+	isStrictFalse
+} from './is'
 
 /* equals */
 export const isNotEqual = (first: unknown, second: unknown) => {
@@ -16,4 +25,20 @@ export const isNotFalse = (element: boolean): boolean => {
 
 export const isNotTrue = (element: boolean): boolean => {
 	return !isTrue(element)
+}
+
+export const isStrictNotTrue = (element: boolean): boolean => {
+	return !isStrictTrue(element)
+}
+
+export const isStrictNotFalse = (element: boolean): boolean => {
+	return !isStrictFalse(element)
+}
+
+export const isNotNumber = (element: unknown): boolean => {
+	return !isNumber(element)
+}
+
+export const isNotValidNumber = (element: unknown): boolean => {
+	return !isValidNumber(element)
 }

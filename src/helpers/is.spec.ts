@@ -1,5 +1,24 @@
-import { isEqual, isNoStrictEqual, isTrue, isFalse } from './is'
-import { isNotEqual, isNotNoStrictEqual, isNotTrue, isNotFalse } from './isNot'
+import {
+	isEqual,
+	isNoStrictEqual,
+	isTrue,
+	isFalse,
+	isNumber,
+	isValidNumber,
+	isStrictTrue,
+	isStrictFalse
+} from './is'
+
+import {
+	isNotEqual,
+	isNotNoStrictEqual,
+	isNotTrue,
+	isNotFalse,
+	isNotNumber,
+	isNotValidNumber,
+	isStrictNotTrue,
+	isStrictNotFalse
+} from './isNot'
 
 describe('is helper', () => {
 	describe('equals', () => {
@@ -49,7 +68,6 @@ describe('is helper', () => {
 		`(
 			'isTrue and isNotFalse with arg = $arg should return $result',
 			({ arg, result }) => {
-				console.log(arg, arg === true, result)
 				expect(isTrue(arg)).toBe(result)
 				expect(isNotFalse(arg)).toBe(result)
 			}
@@ -65,9 +83,70 @@ describe('is helper', () => {
 		`(
 			'isFalse and isNotTrue with arg = $arg should return $result',
 			({ arg, result }) => {
-				console.log(arg, arg === true, result)
 				expect(isFalse(arg)).toBe(result)
 				expect(isNotTrue(arg)).toBe(result)
+			}
+		)
+
+		it.each`
+			arg          | result
+			${null}      | ${false}
+			${undefined} | ${false}
+			${true}      | ${true}
+			${''}        | ${false}
+			${'test'}    | ${false}
+		`(
+			'isStrictTrue with arg = $arg should return $result',
+			({ arg, result }) => {
+				expect(isStrictTrue(arg)).toBe(result)
+				expect(isStrictNotTrue(arg)).not.toBe(result)
+			}
+		)
+
+		it.each`
+			arg          | result
+			${null}      | ${false}
+			${undefined} | ${false}
+			${true}      | ${false}
+			${false}     | ${true}
+			${''}        | ${false}
+			${'test'}    | ${false}
+		`(
+			'isStrictFalse with arg = $arg should return $result',
+			({ arg, result }) => {
+				expect(isStrictFalse(arg)).toBe(result)
+				expect(isStrictNotFalse(arg)).not.toBe(result)
+			}
+		)
+
+		it.each`
+			arg          | result
+			${null}      | ${false}
+			${undefined} | ${false}
+			${true}      | ${false}
+			${''}        | ${false}
+			${'test'}    | ${false}
+			${123}       | ${true}
+			${NaN}       | ${true}
+		`('isNumber with arg = $arg should return $result', ({ arg, result }) => {
+			expect(isNumber(arg)).toBe(result)
+			expect(isNotNumber(arg)).not.toBe(result)
+		})
+
+		it.each`
+			arg          | result
+			${null}      | ${false}
+			${undefined} | ${false}
+			${true}      | ${false}
+			${''}        | ${false}
+			${'test'}    | ${false}
+			${123}       | ${true}
+			${NaN}       | ${false}
+		`(
+			'isValidNumber with arg = $arg should return $result',
+			({ arg, result }) => {
+				expect(isValidNumber(arg)).toBe(result)
+				expect(isNotValidNumber(arg)).not.toBe(result)
 			}
 		)
 	})
