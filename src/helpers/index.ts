@@ -1,5 +1,7 @@
 export * from './is'
+export * from './isNot'
 export * from './event'
 export * from './date'
 export * from './someElementIs'
+export * from './someElementIsNot'
 export * from './transformArrayTo'
