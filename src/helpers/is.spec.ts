@@ -6,7 +6,9 @@ import {
 	isNumber,
 	isValidNumber,
 	isStrictTrue,
-	isStrictFalse
+	isStrictFalse,
+	isNull,
+	isNoStrictNull
 } from './is'
 
 import {
@@ -17,7 +19,9 @@ import {
 	isNotNumber,
 	isNotValidNumber,
 	isStrictNotTrue,
-	isStrictNotFalse
+	isStrictNotFalse,
+	isNotNull,
+	isNotNoStrictNull
 } from './isNot'
 
 describe('is helper', () => {
@@ -147,6 +151,37 @@ describe('is helper', () => {
 			({ arg, result }) => {
 				expect(isValidNumber(arg)).toBe(result)
 				expect(isNotValidNumber(arg)).not.toBe(result)
+			}
+		)
+
+		it.each`
+			arg          | result
+			${null}      | ${true}
+			${undefined} | ${false}
+			${true}      | ${false}
+			${false}     | ${false}
+			${'test'}    | ${false}
+			${123}       | ${false}
+			${NaN}       | ${false}
+		`('isNull with arg = $arg should return $result', ({ arg, result }) => {
+			expect(isNull(arg)).toBe(result)
+			expect(isNotNull(arg)).not.toBe(result)
+		})
+
+		it.each`
+			arg          | result
+			${null}      | ${true}
+			${undefined} | ${true}
+			${true}      | ${false}
+			${false}     | ${false}
+			${'test'}    | ${false}
+			${123}       | ${false}
+			${NaN}       | ${false}
+		`(
+			'isNoStrictNull with arg = $arg should return $result',
+			({ arg, result }) => {
+				expect(isNoStrictNull(arg)).toBe(result)
+				expect(isNotNoStrictNull(arg)).not.toBe(result)
 			}
 		)
 	})

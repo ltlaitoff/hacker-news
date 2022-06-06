@@ -39,3 +39,11 @@ export const isValidNumber = (element: unknown): boolean => {
 
 	return true
 }
+
+export const isNull = (element: unknown): boolean => {
+	return isEqual(element, null)
+}
+
+export const isNoStrictNull = (element: unknown): boolean => {
+	return isNoStrictEqual(element, null)
+}

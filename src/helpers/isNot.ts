@@ -6,7 +6,9 @@ import {
 	isNumber,
 	isValidNumber,
 	isStrictTrue,
-	isStrictFalse
+	isStrictFalse,
+	isNull,
+	isNoStrictNull
 } from './is'
 
 /* equals */
@@ -41,4 +43,12 @@ export const isNotNumber = (element: unknown): boolean => {
 
 export const isNotValidNumber = (element: unknown): boolean => {
 	return !isValidNumber(element)
+}
+
+export const isNotNull = (element: unknown): boolean => {
+	return !isNull(element)
+}
+
+export const isNotNoStrictNull = (element: unknown): boolean => {
+	return !isNoStrictNull(element)
 }
