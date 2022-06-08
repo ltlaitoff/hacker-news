@@ -1,4 +1,4 @@
-import { isEnterKey, getValueFromEvent } from './event'
+import { isEnterKey, isEscapeKey, getValueFromEvent } from './event'
 import { FormEvent } from 'react'
 
 describe('event', () => {
@@ -10,6 +10,17 @@ describe('event', () => {
 		${null}    | ${false}
 	`('isEnterKey with arg = $arg should return $result', ({ arg, result }) => {
 		expect(isEnterKey(arg)).toBe(result)
+	})
+
+	it.each`
+		arg         | result
+		${'tab'}    | ${false}
+		${'Enter'}  | ${false}
+		${'Escape'} | ${true}
+		${123}      | ${false}
+		${null}     | ${false}
+	`('isEscapeKey with arg = $arg should return $result', ({ arg, result }) => {
+		expect(isEscapeKey(arg)).toBe(result)
 	})
 
 	it.each`
