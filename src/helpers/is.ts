@@ -6,6 +6,7 @@ export const isEqual = (first: unknown, second: unknown): boolean => {
 }
 
 export const isNoStrictEqual = (first: unknown, second: unknown): boolean => {
+	// eslint-disable-next-line eqeqeq
 	return first == second
 }
 

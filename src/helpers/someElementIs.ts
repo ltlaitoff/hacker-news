@@ -1,4 +1,4 @@
-import { isFalse, isStrictFalse } from './is'
+import { isFalse, isStrictFalse, isNull } from './is'
 import { isNotValidNumber } from './isNot'
 
 export const someElementIsNaN = (...numbers: number[]): boolean => {
@@ -31,4 +31,20 @@ export const someElementIsStrictFalse = (...booleans: unknown[]): boolean => {
 
 export const someArrayElementIsStrictFalse = (booleans: unknown[]): boolean => {
 	return someElementIsStrictFalse(...booleans)
+}
+
+export const someElementIsNull = (...numbers: unknown[]): boolean => {
+	return numbers.some(element => isNull(element))
+}
+
+export const someArrayElementIsNull = (numbers: unknown[]): boolean => {
+	return someElementIsNull(...numbers)
+}
+
+export const someElementIsNoStrictNull = (...numbers: unknown[]): boolean => {
+	return numbers.some(element => isNull(element))
+}
+
+export const someArrayElementIsNoStrictNull = (numbers: unknown[]): boolean => {
+	return someElementIsNoStrictNull(...numbers)
 }

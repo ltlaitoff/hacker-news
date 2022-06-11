@@ -6,7 +6,11 @@ import {
 	someElementIsFalse,
 	someArrayElementIsFalse,
 	someElementIsStrictFalse,
-	someArrayElementIsStrictFalse
+	someArrayElementIsStrictFalse,
+	someElementIsNull,
+	someArrayElementIsNull,
+	someElementIsNoStrictNull,
+	someArrayElementIsNoStrictNull
 } from './someElementIs'
 
 export const someElementIsNotNaN = (...numbers: number[]): boolean => {
@@ -43,4 +47,24 @@ export const someArrayElementIsStrictNotFalse = (
 	booleans: unknown[]
 ): boolean => {
 	return !someArrayElementIsStrictFalse(booleans)
+}
+
+export const someElementIsNotNull = (...numbers: unknown[]): boolean => {
+	return !someElementIsNull(...numbers)
+}
+
+export const someArrayElementIsNotNull = (numbers: unknown[]): boolean => {
+	return !someArrayElementIsNull(numbers)
+}
+
+export const someElementIsNotNoStrictNull = (
+	...numbers: unknown[]
+): boolean => {
+	return !someElementIsNoStrictNull(...numbers)
+}
+
+export const someArrayElementIsNotNoStrictNull = (
+	numbers: unknown[]
+): boolean => {
+	return !someArrayElementIsNoStrictNull(numbers)
 }
