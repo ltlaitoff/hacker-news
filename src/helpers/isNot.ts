@@ -4,7 +4,6 @@ import {
 	isFalse,
 	isTrue,
 	isNumber,
-	isValidNumber,
 	isStrictTrue,
 	isStrictFalse,
 	isNull,
@@ -12,43 +11,49 @@ import {
 } from './is'
 
 /* equals */
-export const isNotEqual = (first: unknown, second: unknown) => {
-	return !isEqual(first, second)
+export function isNotEqual<T>(a: unknown, b: T): a is T {
+	return !isEqual(a, b)
 }
 
-export const isNotNoStrictEqual = (first: unknown, second: unknown) => {
-	return !isNoStrictEqual(first, second)
+export function isNotNoStrictEqual<T>(a: unknown, b: T): a is T {
+	return !isNoStrictEqual(a, b)
 }
 
 /* is type */
-export const isNotFalse = (element: boolean): boolean => {
+export function isNotFalse(element: boolean): boolean {
 	return !isFalse(element)
 }
 
-export const isNotTrue = (element: boolean): boolean => {
+export function isNotTrue(element: boolean): boolean {
 	return !isTrue(element)
 }
 
-export const isStrictNotTrue = (element: boolean): boolean => {
+export function isStrictNotTrue<T extends boolean>(
+	element: T
+): element is Exclude<T, true> {
 	return !isStrictTrue(element)
 }
 
-export const isStrictNotFalse = (element: boolean): boolean => {
+export function isStrictNotFalse<T extends boolean>(
+	element: T
+): element is Exclude<T, false> {
 	return !isStrictFalse(element)
 }
 
-export const isNotNumber = (element: unknown): boolean => {
+export function isNotNumber<T extends unknown>(
+	element: T
+): element is Exclude<T, number> {
 	return !isNumber(element)
 }
 
-export const isNotValidNumber = (element: unknown): boolean => {
-	return !isValidNumber(element)
-}
-
-export const isNotNull = (element: unknown): boolean => {
+export function isNotNull<T extends unknown>(
+	element: T
+): element is Exclude<T, null> {
 	return !isNull(element)
 }
 
-export const isNotNoStrictNull = (element: unknown): boolean => {
+export function isNotNoStrictNull<T extends unknown>(
+	element: T
+): element is Exclude<Exclude<T, null>, undefined> {
 	return !isNoStrictNull(element)
 }

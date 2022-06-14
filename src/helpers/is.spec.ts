@@ -4,7 +4,6 @@ import {
 	isTrue,
 	isFalse,
 	isNumber,
-	isValidNumber,
 	isStrictTrue,
 	isStrictFalse,
 	isNull,
@@ -17,7 +16,6 @@ import {
 	isNotTrue,
 	isNotFalse,
 	isNotNumber,
-	isNotValidNumber,
 	isStrictNotTrue,
 	isStrictNotFalse,
 	isNotNull,
@@ -136,23 +134,6 @@ describe('is helper', () => {
 			expect(isNumber(arg)).toBe(result)
 			expect(isNotNumber(arg)).not.toBe(result)
 		})
-
-		it.each`
-			arg          | result
-			${null}      | ${false}
-			${undefined} | ${false}
-			${true}      | ${false}
-			${''}        | ${false}
-			${'test'}    | ${false}
-			${123}       | ${true}
-			${NaN}       | ${false}
-		`(
-			'isValidNumber with arg = $arg should return $result',
-			({ arg, result }) => {
-				expect(isValidNumber(arg)).toBe(result)
-				expect(isNotValidNumber(arg)).not.toBe(result)
-			}
-		)
 
 		it.each`
 			arg          | result

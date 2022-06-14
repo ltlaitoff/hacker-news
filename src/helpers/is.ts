@@ -1,50 +1,38 @@
-import { isNotNumber } from './isNot'
-
 /* equals */
-export const isEqual = (first: unknown, second: unknown): boolean => {
-	return first === second
+export function isEqual<T>(a: unknown, b: T): a is T {
+	return a === b
 }
 
-export const isNoStrictEqual = (first: unknown, second: unknown): boolean => {
+export function isNoStrictEqual<T>(a: unknown, b: T): a is T {
 	// eslint-disable-next-line eqeqeq
-	return first == second
+	return a == b
 }
 
 /* is type */
-export const isTrue = (element: unknown): boolean => {
+export function isTrue(element: unknown): boolean {
 	return isEqual(Boolean(element), true)
 }
 
-export const isFalse = (element: unknown): boolean => {
+export function isFalse(element: unknown): boolean {
 	return isEqual(Boolean(element), false)
 }
 
-export const isStrictTrue = (element: unknown): boolean => {
+export function isStrictTrue(element: unknown): element is true {
 	return isEqual(element, true)
 }
 
-export const isStrictFalse = (element: unknown): boolean => {
+export function isStrictFalse(element: unknown): element is false {
 	return isEqual(element, false)
 }
 
-export const isNumber = (element: unknown): boolean => {
+export function isNumber(element: unknown): element is number {
 	return isEqual(typeof element, 'number')
 }
 
-export const isValidNumber = (element: unknown): boolean => {
-	if (isNotNumber(element)) return false
-
-	// FIXME: Remove ts-expect-error
-	// @ts-expect-error: isNotNumber check on number.
-	if (isNaN(element)) return false
-
-	return true
-}
-
-export const isNull = (element: unknown): boolean => {
+export function isNull(element: unknown): element is null {
 	return isEqual(element, null)
 }
 
-export const isNoStrictNull = (element: unknown): boolean => {
+export function isNoStrictNull(element: unknown): element is null | undefined {
 	return isNoStrictEqual(element, null)
 }

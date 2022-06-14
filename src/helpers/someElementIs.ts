@@ -33,7 +33,7 @@ export const someArrayElementIsStrictFalse = (booleans: unknown[]): boolean => {
 	return someElementIsStrictFalse(...booleans)
 }
 
-export const someElementIsNull = (...numbers: unknown[]): boolean => {
+export const someElementIsNull = (numbers: unknown[]): numbers is null[] => {
 	return numbers.some(element => isNull(element))
 }
 
