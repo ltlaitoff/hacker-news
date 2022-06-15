@@ -15,6 +15,7 @@ import { checkStringDateOnErrors } from './helpers'
 const DatePickerInput: FC<DatePickerInputProps> = ({
 	date,
 	format,
+	disabled,
 	onSubmit
 }) => {
 	const [inputValue, setInputValue] = useState<string>('')
@@ -38,6 +39,8 @@ const DatePickerInput: FC<DatePickerInputProps> = ({
 	}, [date, format])
 
 	const dateSubmit = (value: string) => {
+		if (disabled) return
+
 		const date = checkStringDateOnErrors(value, format)
 
 		if (isNull(date) || isFalse(isValidDate(date))) {
@@ -49,6 +52,8 @@ const DatePickerInput: FC<DatePickerInputProps> = ({
 	}
 
 	const onChange = (e: FormEvent<HTMLInputElement>) => {
+		if (disabled) return
+
 		const value = getValueFromEvent(e)
 
 		if (error) setError(false)
@@ -57,10 +62,14 @@ const DatePickerInput: FC<DatePickerInputProps> = ({
 	}
 
 	const onBlur = (e: FormEvent<HTMLInputElement>) => {
+		if (disabled) return
+
 		dateSubmit(getValueFromEvent(e))
 	}
 
 	const onKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
+		if (disabled) return
+
 		if (isEnterKey(e.key)) {
 			dateSubmit(getValueFromEvent(e))
 		}
@@ -70,7 +79,8 @@ const DatePickerInput: FC<DatePickerInputProps> = ({
 		'relative w-48 text-gray-500 h-10 px-5 py-2 text-left border rounded flex items-center justify-between  blue-focus-visible-border tracking-widest focus:duration-0 shadow-lg focus:text-gray-700',
 		{
 			'border-2 border-red-400 focus-visible:outline-none focus-visible:border-red-800':
-				error
+				error,
+			'text-gray-400 bg-gray-100': disabled
 		}
 	)
 
@@ -82,6 +92,7 @@ const DatePickerInput: FC<DatePickerInputProps> = ({
 			onChange={onChange}
 			onBlur={onBlur}
 			onKeyPress={onKeyPress}
+			disabled={disabled}
 			data-error={error}
 			data-testid='input'
 		/>
