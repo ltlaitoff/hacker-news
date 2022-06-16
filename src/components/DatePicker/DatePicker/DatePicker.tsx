@@ -9,8 +9,16 @@ import React, {
 import classNames from 'classnames'
 import Calendar from 'react-calendar'
 
-import { isEscapeKey, isFalse, isNull, checkElementInArray } from 'helpers'
-import DatePickerInput from '../DatePickerInput'
+import {
+	isEscapeKey,
+	isFalse,
+	isNull,
+	checkElementInArray,
+	isNotEqual
+} from 'helpers'
+import DatePickerInput, {
+	DatePickerInputOnSubmitType
+} from '../DatePickerInput'
 import { DatePickerProps, DatePickerValue } from '../interfaces'
 
 const getDefaultDateValue = (value: DatePickerValue): Date => {
@@ -58,11 +66,17 @@ const DatePicker: FC<DatePickerProps> = ({
 		}
 	})
 
-	const onSubmit = (date: Date) => {
+	const onSubmit = (
+		date: Date,
+		type: DatePickerInputOnSubmitType | 'calendar'
+	) => {
 		if (disabled) return
 
 		setDate(date)
-		setCalendarShow(false)
+
+		if (isNotEqual(type, 'blur')) {
+			setCalendarShow(false)
+		}
 
 		if (value instanceof Array) {
 			onChange([date, date])
@@ -79,7 +93,7 @@ const DatePicker: FC<DatePickerProps> = ({
 		if (disabled) return
 
 		setCalendarShow(false)
-		onSubmit(date)
+		onSubmit(date, 'calendar')
 	}
 
 	const onBlockClick = (e: ReactMouseEvent<HTMLDivElement>) => {
