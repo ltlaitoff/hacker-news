@@ -9,13 +9,7 @@ import React, {
 import classNames from 'classnames'
 import Calendar from 'react-calendar'
 
-import {
-	isEscapeKey,
-	isFalse,
-	isNull,
-	checkElementInArray,
-	getFilledArray
-} from 'helpers'
+import { isEscapeKey, isFalse, isNull, checkElementInArray } from 'helpers'
 import DatePickerInput from '../DatePickerInput'
 import { DatePickerProps, DatePickerValue } from '../interfaces'
 
@@ -71,7 +65,7 @@ const DatePicker: FC<DatePickerProps> = ({
 		setCalendarShow(false)
 
 		if (value instanceof Array) {
-			onChange(getFilledArray(value.length, date))
+			onChange([date, date])
 			return
 		}
 
