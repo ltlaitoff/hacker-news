@@ -22,12 +22,12 @@ describe('DatePickerInput', () => {
 	})
 
 	describe.each`
-		date                      | format       | inputValue
-		${new Date('01-01-2022')} | ${'dd-MM-Y'} | ${'31-12-2022'}
-		${new Date('01-02-2022')} | ${'d-M-Y'}   | ${'3-2-2022'}
+		date                      | format       | inputValue      | inputValueDate
+		${new Date('01-01-2022')} | ${'dd-MM-Y'} | ${'31-12-2022'} | ${new Date('12-31-2022')}
+		${new Date('01-02-2022')} | ${'d-M-Y'}   | ${'3-2-2022'}   | ${new Date('02-03-2022')}
 	`(
 		'date = $date, format = $format, valid data = $inputValue',
-		({ date, format, inputValue }) => {
+		({ date, format, inputValue, inputValueDate }) => {
 			let onSubmit = jest.fn()
 			let input: HTMLInputElement
 
@@ -45,7 +45,7 @@ describe('DatePickerInput', () => {
 				user.clear(input)
 				user.type(input, inputValue + '{Enter}')
 
-				expect(onSubmit).toBeCalled()
+				expect(onSubmit).toBeCalledWith(inputValueDate, 'enterKey')
 				expect(input).toHaveAttribute('data-error', 'false')
 			})
 
@@ -54,7 +54,7 @@ describe('DatePickerInput', () => {
 				user.type(input, inputValue)
 				user.tab()
 
-				expect(onSubmit).toBeCalled()
+				expect(onSubmit).toBeCalledWith(inputValueDate, 'blur')
 				expect(input).toHaveAttribute('data-error', 'false')
 			})
 

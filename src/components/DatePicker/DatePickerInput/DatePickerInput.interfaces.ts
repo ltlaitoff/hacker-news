@@ -1,6 +1,7 @@
+export type DatePickerInputOnSubmitType = 'blur' | 'enterKey'
 export interface DatePickerInputProps {
 	date: Date
 	format: string
-	onSubmit: (date: Date) => void
+	onSubmit: (date: Date, type: DatePickerInputOnSubmitType) => void
 	disabled?: boolean
 }

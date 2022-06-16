@@ -9,7 +9,10 @@ import {
 } from 'helpers'
 
 import classNames from 'classnames'
-import { DatePickerInputProps } from './DatePickerInput.interfaces'
+import {
+	DatePickerInputOnSubmitType,
+	DatePickerInputProps
+} from './DatePickerInput.interfaces'
 import { checkStringDateOnErrors } from './helpers'
 
 const DatePickerInput: FC<DatePickerInputProps> = ({
@@ -38,7 +41,7 @@ const DatePickerInput: FC<DatePickerInputProps> = ({
 		}
 	}, [date, format])
 
-	const dateSubmit = (value: string) => {
+	const dateSubmit = (value: string, type: DatePickerInputOnSubmitType) => {
 		if (disabled) return
 
 		const date = checkStringDateOnErrors(value, format)
@@ -48,7 +51,7 @@ const DatePickerInput: FC<DatePickerInputProps> = ({
 			return
 		}
 
-		onSubmit(date)
+		onSubmit(date, type)
 	}
 
 	const onChange = (e: FormEvent<HTMLInputElement>) => {
@@ -64,14 +67,14 @@ const DatePickerInput: FC<DatePickerInputProps> = ({
 	const onBlur = (e: FormEvent<HTMLInputElement>) => {
 		if (disabled) return
 
-		dateSubmit(getValueFromEvent(e))
+		dateSubmit(getValueFromEvent(e), 'blur')
 	}
 
 	const onKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
 		if (disabled) return
 
 		if (isEnterKey(e.key)) {
-			dateSubmit(getValueFromEvent(e))
+			dateSubmit(getValueFromEvent(e), 'enterKey')
 		}
 	}
 
