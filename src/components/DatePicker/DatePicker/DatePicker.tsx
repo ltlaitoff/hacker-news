@@ -1,25 +1,18 @@
 import React, {
 	FC,
 	useState,
-	useRef,
-	useEffect,
 	MouseEvent as ReactMouseEvent,
 	ChangeEvent
 } from 'react'
 import classNames from 'classnames'
 import Calendar from 'react-calendar'
 
-import {
-	isEscapeKey,
-	isFalse,
-	isNull,
-	checkElementInArray,
-	isNotEqual
-} from 'helpers'
+import { isEscapeKey, isFalse, isNull, isNotEqual } from 'helpers'
 import DatePickerInput, {
 	DatePickerInputOnSubmitType
 } from '../DatePickerInput'
 import { DatePickerProps, DatePickerValue } from '../interfaces'
+import { useOutsideClick, useKeyDown } from 'hooks'
 
 const getDefaultDateValue = (value: DatePickerValue): Date => {
 	if (isNull(value)) return new Date(Date.now())
@@ -39,16 +32,11 @@ const DatePicker: FC<DatePickerProps> = ({
 	const [date, setDate] = useState<Date>(getDefaultDateValue(value))
 	const [calendarShow, setCalendarShow] = useState<boolean>(false)
 
-	const wrapper = useRef(null)
-
-	const checkClickOutside = (e: MouseEvent): void => {
-		if (
-			wrapper.current &&
-			!checkElementInArray(e.composedPath(), wrapper.current)
-		) {
-			setCalendarShow(false)
-		}
+	const onOutsideClick = () => {
+		setCalendarShow(false)
 	}
+
+	const wrapperRef = useOutsideClick(onOutsideClick)
 
 	const onEscPress = (e: KeyboardEvent) => {
 		if (isEscapeKey(e.key) && calendarShow) {
@@ -56,15 +44,7 @@ const DatePicker: FC<DatePickerProps> = ({
 		}
 	}
 
-	useEffect(() => {
-		document.addEventListener('click', checkClickOutside)
-		document.addEventListener('keydown', onEscPress)
-
-		return () => {
-			document.removeEventListener('click', checkClickOutside)
-			document.removeEventListener('keydown', onEscPress)
-		}
-	})
+	useKeyDown(onEscPress)
 
 	const onSubmit = (
 		date: Date,
@@ -108,7 +88,7 @@ const DatePicker: FC<DatePickerProps> = ({
 		<div
 			className={classNames(className)}
 			onClick={onBlockClick}
-			ref={wrapper}
+			ref={wrapperRef}
 			data-testid='picker'
 			{...args}
 		>
