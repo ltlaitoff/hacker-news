@@ -19,7 +19,8 @@ const DatePickerInput: FC<DatePickerInputProps> = ({
 	date,
 	format,
 	disabled,
-	onSubmit
+	onSubmit,
+	...args
 }) => {
 	const [inputValue, setInputValue] = useState<string>('')
 	const [error, setError] = useState<boolean>(false)
@@ -98,6 +99,7 @@ const DatePickerInput: FC<DatePickerInputProps> = ({
 			disabled={disabled}
 			data-error={error}
 			data-testid='input'
+			{...args}
 		/>
 	)
 }

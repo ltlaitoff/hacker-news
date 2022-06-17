@@ -188,4 +188,21 @@ describe('DatePickerInput', () => {
 
 		expect(input).toHaveAttribute('data-error', 'true')
 	})
+
+	it('test-attribute should be in html', () => {
+		let onSubmit = jest.fn()
+
+		render(
+			<DatePickerInput
+				date={new Date('01-01-2022')}
+				format={'dd-MM-Y'}
+				onSubmit={onSubmit}
+				test-attribute={'test'}
+			/>
+		)
+
+		const input = screen.getByTestId('input')
+
+		expect(input).toHaveAttribute('test-attribute', 'test')
+	})
 })
