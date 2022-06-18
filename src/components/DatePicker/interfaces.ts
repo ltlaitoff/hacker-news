@@ -1,3 +1,8 @@
+import {
+	DatePickerInputOnSubmitType,
+	DatePickerInputProps
+} from './DatePickerInput'
+
 export type DataPickerFormats = string
 
 interface DatePickerBase {
@@ -6,17 +11,32 @@ interface DatePickerBase {
 	className?: string
 }
 
-export type DatePickerValue = Date | [Date, Date] | null
-export type DatePickerOnChange = Exclude<DatePickerValue, null>
-
-export interface DatePickerProps extends DatePickerBase {
-	value: DatePickerValue
-	onChange: (value: DatePickerOnChange) => void
+export type DateInputProps = Omit<
+	Omit<DatePickerInputProps, 'onSubmit'>,
+	'date'
+> & {
+	date: [Date, Date]
+	onSubmit: (date: [Date, Date], type: DatePickerInputOnSubmitType) => void
 }
 
-export type DatePickerRangeValue = [Date, Date] | null
-export type DatePickerRangeOnChange = Exclude<DatePickerValue, null>
+export type DatePickerStandartValue = Date | [Date, Date]
+export type DatePickerStandartValueWithNull = Date | [Date, Date] | null
+export type DatePickerStandartOnChange = Date | [Date, Date]
+
+export type DatePickerRangeValue = [Date, Date]
+export type DatePickerRangeValueWithNull = [Date, Date] | null
+export type DatePickerRangeOnChange = [Date, Date]
+
+export interface DatePickerStandartProps extends DatePickerBase {
+	type?: 'standart'
+	value: Date | [Date, Date] | null
+	onChange: (value: Date | [Date, Date]) => void
+}
+
 export interface DatePickerRangeProps extends DatePickerBase {
-	value: DatePickerRangeValue
-	onChange: (value: DatePickerRangeOnChange) => void
+	type: 'range'
+	value: [Date, Date] | null
+	onChange: (value: [Date, Date]) => void
 }
+
+export type DatePickerProps = DatePickerStandartProps | DatePickerRangeProps
