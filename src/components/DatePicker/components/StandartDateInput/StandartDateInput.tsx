@@ -9,7 +9,8 @@ const StandartDateInput: FC<DateInputProps> = ({
 	date,
 	format,
 	onSubmit,
-	disabled
+	disabled,
+	...args
 }) => {
 	const onDateSubmit = (value: Date, type: DatePickerInputOnSubmitType) => {
 		onSubmit([value, value], type)
@@ -22,6 +23,7 @@ const StandartDateInput: FC<DateInputProps> = ({
 			onSubmit={onDateSubmit}
 			disabled={disabled}
 			data-testid='input'
+			{...args}
 		/>
 	)
 }
