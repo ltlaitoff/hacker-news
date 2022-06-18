@@ -3,14 +3,6 @@ import DatePickerInput from '../../DatePickerInput'
 import { DatePickerInputOnSubmitType } from '../../DatePickerInput/DatePickerInput.interfaces'
 import { DateInputProps } from '../../interfaces'
 
-/* 
-	[ ] DateRangePicker includes two inputs
-	[ ] On change value on first and press enter - onSubmit should be called with ...
-	[ ] On change value on second and press enter - onSubmit should be called with ...
-	[ ] 
-	[ ] 
-*/
-
 const DateRangePicker: FC<DateInputProps> = ({
 	date,
 	format,

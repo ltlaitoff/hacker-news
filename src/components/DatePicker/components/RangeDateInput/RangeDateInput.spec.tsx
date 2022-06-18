@@ -9,7 +9,8 @@ function setup({
 	date = [new Date('01-01-2022'), new Date('01-01-2022')],
 	format = 'dd-MM-Y',
 	onSubmit = jest.fn(),
-	disabled = false
+	disabled = false,
+	...args
 }: Partial<DateInputProps>) {
 	render(
 		<RangeDateInput
@@ -17,6 +18,7 @@ function setup({
 			format={format}
 			onSubmit={onSubmit}
 			disabled={disabled}
+			{...args}
 		/>
 	)
 }
@@ -62,5 +64,14 @@ describe('RangeDateInput', () => {
 			[new Date('01-01-2022'), new Date('01-02-2022')],
 			'enterKey'
 		)
+	})
+
+	it('test-arg="test" custom attribute should be in outer html', () => {
+		// @ts-expect-error
+		setup({ 'test-arg': 'test' })
+
+		const range = screen.getByTestId('range')
+
+		expect(range).toHaveAttribute('test-arg', 'test')
 	})
 })
