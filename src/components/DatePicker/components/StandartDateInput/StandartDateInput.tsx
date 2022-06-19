@@ -9,6 +9,7 @@ const StandartDateInput: FC<DateInputProps> = ({
 	date,
 	format,
 	onSubmit,
+	onError,
 	disabled,
 	...args
 }) => {
@@ -21,6 +22,7 @@ const StandartDateInput: FC<DateInputProps> = ({
 			date={date[0]}
 			format={format}
 			onSubmit={onDateSubmit}
+			onError={onError}
 			disabled={disabled}
 			data-testid='input'
 			{...args}

@@ -9,6 +9,7 @@ function setup({
 	date = [new Date('01-01-2022'), new Date('01-01-2022')],
 	format = 'dd-MM-Y',
 	onSubmit = jest.fn(),
+	onError = jest.fn(),
 	disabled = false,
 	...args
 }: Partial<DateInputProps>) {
@@ -17,6 +18,7 @@ function setup({
 			date={date}
 			format={format}
 			onSubmit={onSubmit}
+			onError={onError}
 			disabled={disabled}
 			{...args}
 		/>
@@ -43,6 +45,25 @@ describe('StandartDateInput', () => {
 			[new Date('01-02-2022'), new Date('01-02-2022')],
 			'enterKey'
 		)
+	})
+
+	it('onError should be called with date = Date("invalid")', () => {
+		const onError = jest.fn()
+		setup({ date: [new Date('invalid'), new Date('invalid')], onError })
+
+		expect(onError).toBeCalledWith(true)
+	})
+
+	it('onError should be called if change value on "02-01-2022" in input and press Enter', () => {
+		const onError = jest.fn()
+		setup({ onError })
+
+		const input = screen.getByTestId('input')
+
+		user.clear(input)
+		user.type(input, 'invalid date{Enter}')
+
+		expect(onError).toBeCalledWith(true)
 	})
 
 	it('test-arg="test" custom attribute should be in outer html', () => {
