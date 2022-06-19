@@ -112,6 +112,7 @@ const DatePicker: FC<DatePickerProps> = ({
 		if (disabled) return
 
 		setCalendarShow(false)
+		onError(false)
 
 		if (date instanceof Date) {
 			onSubmit([date, date], 'calendar')
