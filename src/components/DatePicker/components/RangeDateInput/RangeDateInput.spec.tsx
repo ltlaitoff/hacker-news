@@ -9,6 +9,7 @@ function setup({
 	date = [new Date('01-01-2022'), new Date('01-01-2022')],
 	format = 'dd-MM-Y',
 	onSubmit = jest.fn(),
+	onError = jest.fn(),
 	disabled = false,
 	...args
 }: Partial<DateInputProps>) {
@@ -17,6 +18,7 @@ function setup({
 			date={date}
 			format={format}
 			onSubmit={onSubmit}
+			onError={onError}
 			disabled={disabled}
 			{...args}
 		/>
@@ -36,6 +38,42 @@ describe('RangeDateInput', () => {
 		const inputs = screen.getAllByRole('textbox')
 
 		expect(inputs).toHaveLength(2)
+	})
+
+	it('On first input invalid date prop = [Date("invalid"), Date("invalid")] onError should be called', () => {
+		const onError = jest.fn()
+		setup({ date: [new Date('invalid'), new Date('invalid')], onError })
+
+		expect(onError).toBeCalledWith(true)
+	})
+
+	it('On second input invalid date prop = [Date("invalid"), Date("invalid")] onError should be called', () => {
+		const onError = jest.fn()
+		setup({ date: [new Date('invalid'), new Date('invalid')], onError })
+
+		expect(onError).toBeCalledWith(true)
+	})
+
+	it('On change value on "invalid" in first input and press Enter, onError should be called with true', () => {
+		const onError = jest.fn()
+		setup({ onError })
+
+		const input = screen.getByTestId('first-input')
+		user.clear(input)
+		user.type(input, 'invalid{Enter}')
+
+		expect(onError).toBeCalledWith(true)
+	})
+
+	it('On change value on "invalid" in second input and press Enter, onError should be called with true', () => {
+		const onError = jest.fn()
+		setup({ onError })
+
+		const input = screen.getByTestId('second-input')
+		user.clear(input)
+		user.type(input, 'invalid{Enter}')
+
+		expect(onError).toBeCalledWith(true)
 	})
 
 	it('On change value on "02-01-2022" in first input and press Enter, onSubmit should be called with ["02-01-2022"(as Date), "01-01-2022"(as Date)], "enterKey"', () => {

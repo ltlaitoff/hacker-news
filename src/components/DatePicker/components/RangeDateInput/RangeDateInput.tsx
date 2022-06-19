@@ -8,6 +8,7 @@ const DateRangePicker: FC<DateInputProps> = ({
 	format,
 	onSubmit,
 	disabled,
+	onError,
 	...args
 }) => {
 	const onFirstDateSubmit = (
@@ -31,6 +32,7 @@ const DateRangePicker: FC<DateInputProps> = ({
 					date={date[0]}
 					format={format}
 					onSubmit={onFirstDateSubmit}
+					onError={onError}
 					disabled={disabled}
 					data-testid='first-input'
 				/>
@@ -39,6 +41,7 @@ const DateRangePicker: FC<DateInputProps> = ({
 					date={date[1]}
 					format={format}
 					onSubmit={onSecondDateSubmit}
+					onError={onError}
 					disabled={disabled}
 					data-testid='second-input'
 				/>
