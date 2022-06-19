@@ -10,6 +10,7 @@ jest.useFakeTimers().setSystemTime(new Date('01-01-2022'))
 function setup({
 	value = new Date('01-01-2022'),
 	onChange = jest.fn(),
+	onError = jest.fn(),
 	type,
 	disabled,
 	format = 'dd-MM-Y',
@@ -21,6 +22,7 @@ function setup({
 			type={type}
 			value={value}
 			onChange={onChange}
+			onError={onError}
 			format={format}
 			disabled={disabled}
 			{...args}
@@ -144,6 +146,27 @@ describe('DatePicker', () => {
 			expect(screen.queryByTestId('calendar')).not.toBeInTheDocument()
 			expect(onChange).toBeCalledWith([newDateAsDate, newDateAsDate])
 		})
+
+		it('With value = $date, after type newDate = "invalid" in input and press enter key - onError should be called with true', () => {
+			const onError = jest.fn()
+			setup({
+				value: date,
+				onError,
+				type: 'standart'
+			})
+
+			const input = screen.getByTestId('standart-input')
+			expect(screen.queryByTestId('calendar')).not.toBeInTheDocument()
+
+			user.clear(input)
+			user.type(input, 'invalid')
+
+			expect(screen.getByTestId('calendar')).toBeInTheDocument()
+
+			user.type(input, '{Enter}')
+			expect(screen.getByTestId('calendar')).toBeInTheDocument()
+			expect(onError).toBeCalledWith(true)
+		})
 	})
 
 	describe('Range type', () => {
@@ -262,6 +285,52 @@ describe('DatePicker', () => {
 				expect(onChange).toBeCalledWith([newDateAsDate, date])
 			}
 		)
+
+		it(`With value = ${new Date(
+			'01-01-2022'
+		)}, after type newDate = "invalid" in first input and press enter key - onError should be called with true`, () => {
+			const onError = jest.fn()
+			setup({
+				value: [new Date('01-01-2022'), new Date('01-01-2022')],
+				onError,
+				type: 'range'
+			})
+
+			const input = screen.getAllByRole('textbox')[0]
+			expect(screen.queryByTestId('calendar')).not.toBeInTheDocument()
+
+			user.clear(input)
+			user.type(input, 'invalid')
+
+			expect(screen.getByTestId('calendar')).toBeInTheDocument()
+
+			user.type(input, '{Enter}')
+			expect(screen.getByTestId('calendar')).toBeInTheDocument()
+			expect(onError).toBeCalledWith(true)
+		})
+
+		it(`With value = ${new Date(
+			'01-01-2022'
+		)}, after type newDate = "invalid" in second input and press enter key - onError should be called with true`, () => {
+			const onError = jest.fn()
+			setup({
+				value: [new Date('01-01-2022'), new Date('01-01-2022')],
+				onError,
+				type: 'range'
+			})
+
+			const input = screen.getAllByRole('textbox')[1]
+			expect(screen.queryByTestId('calendar')).not.toBeInTheDocument()
+
+			user.clear(input)
+			user.type(input, 'invalid')
+
+			expect(screen.getByTestId('calendar')).toBeInTheDocument()
+
+			user.type(input, '{Enter}')
+			expect(screen.getByTestId('calendar')).toBeInTheDocument()
+			expect(onError).toBeCalledWith(true)
+		})
 	})
 
 	describe('With disabled = true', () => {

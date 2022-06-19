@@ -44,6 +44,7 @@ const DatePicker: FC<DatePickerProps> = ({
 	type,
 	disabled,
 	format = 'dd-MM-Y',
+	onError,
 	className,
 	...args
 }: DatePickerProps) => {
@@ -142,6 +143,7 @@ const DatePicker: FC<DatePickerProps> = ({
 					format={format}
 					onSubmit={onSubmit}
 					disabled={disabled}
+					onError={onError}
 					data-testid='standart-input'
 				/>
 			) : (
@@ -149,6 +151,7 @@ const DatePicker: FC<DatePickerProps> = ({
 					date={date}
 					format={format}
 					onSubmit={onSubmit}
+					onError={onError}
 					disabled={disabled}
 				/>
 			)}

@@ -9,6 +9,7 @@ interface DatePickerBase {
 	format?: string
 	disabled?: boolean
 	className?: string
+	onError: (value: boolean) => void
 }
 
 export type DateInputProps = Omit<
@@ -17,6 +18,7 @@ export type DateInputProps = Omit<
 > & {
 	date: [Date, Date]
 	onSubmit: (date: [Date, Date], type: DatePickerInputOnSubmitType) => void
+	onError?: (value: boolean) => void
 }
 
 export type DatePickerStandartValue = Date | [Date, Date]
