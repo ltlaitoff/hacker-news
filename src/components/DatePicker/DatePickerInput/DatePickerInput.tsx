@@ -20,6 +20,7 @@ const DatePickerInput: FC<DatePickerInputProps> = ({
 	format,
 	disabled,
 	onSubmit,
+	onError,
 	...args
 }) => {
 	const [inputValue, setInputValue] = useState<string>('')
@@ -30,6 +31,7 @@ const DatePickerInput: FC<DatePickerInputProps> = ({
 
 		if (isNull(inputValue)) {
 			setError(true)
+			onError(true)
 			return
 		}
 
@@ -39,8 +41,9 @@ const DatePickerInput: FC<DatePickerInputProps> = ({
 
 		if (isNull(checkErrorDate) || isFalse(isValidDate(checkErrorDate))) {
 			setError(true)
+			onError(true)
 		}
-	}, [date, format])
+	}, [date, format, onError])
 
 	const dateSubmit = (value: string, type: DatePickerInputOnSubmitType) => {
 		if (disabled) return
@@ -49,9 +52,11 @@ const DatePickerInput: FC<DatePickerInputProps> = ({
 
 		if (isNull(date) || isFalse(isValidDate(date))) {
 			setError(true)
+			onError(true)
 			return
 		}
 
+		onError(false)
 		onSubmit(date, type)
 	}
 
