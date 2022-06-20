@@ -23,7 +23,9 @@ const DatePickerInput: FC<DatePickerInputProps> = ({
 	onError,
 	...args
 }) => {
-	const [inputValue, setInputValue] = useState<string>('')
+	const [inputValue, setInputValue] = useState<string>(
+		trasformDateIntoFormat(date, format) || ''
+	)
 	const [error, setError] = useState<boolean>(false)
 
 	useEffect(() => {

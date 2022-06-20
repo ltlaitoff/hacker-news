@@ -79,30 +79,41 @@ const DatePicker: FC<DatePickerProps> = ({
 	}
 
 	const onSubmit = (
-		date: [Date, Date],
+		dateValues: [Date, Date],
 		dateType: DatePickerInputOnSubmitType | 'calendar'
 	) => {
 		if (disabled) return
 
-		date = checkDatesOrder(date)
+		const dateInput = checkDatesOrder(dateValues)
 
 		if (isNotEqual(dateType, 'blur')) {
 			setCalendarShow(false)
 		}
 
-		setDate(date)
+		if (
+			dateInput[0].valueOf() !== date[0].valueOf() ||
+			dateInput[1].valueOf() !== date[1].valueOf()
+		) {
+			setDate(dateInput)
+		}
 
 		if (type === 'standart') {
 			if (value instanceof Array) {
-				onChange(date)
+				if (
+					dateInput[0].valueOf() !== value.valueOf() ||
+					dateInput[1].valueOf() !== value.valueOf()
+				) {
+					onChange(dateInput)
+				}
+
 				return
 			}
 
-			onChange(date[0])
+			onChange(dateInput[0])
 			return
 		}
 
-		onChange(date)
+		onChange(dateInput)
 	}
 
 	const onCalendarDateChange = (
