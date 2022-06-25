@@ -1,22 +1,29 @@
 export type Key = KeyboardEvent['key']
-export type Callback = () => void
+export type Callback = (e: KeyboardEvent) => void
 
-export type Item = {
-	key: Key
+export interface Item {
 	callback: Callback
 }
 
+export interface StackItem extends Item {
+	options?: Options
+}
+export interface EveryItem extends Item {}
+
 export type Options = {
 	callEveryOnPress?: boolean
+	callStackOnce?: boolean
+	toTheStackTop?: boolean
 }
 
-export interface OnKeyPressObserver {
-	stack: Array<Item>
-	callEvery: Set<Item>
-	subscribe: (key: Key, callback: Callback, options?: Options) => boolean
-	unsubscribe: (key: Key, callback: Callback, options?: Options) => void
-	_onKeyPress: (e: KeyboardEvent) => void
+export type Store = {
+	stack: Record<Key, Array<StackItem>>
+	every: Record<Key, Set<EveryItem>>
+}
+export interface OnKeyPressObserverType {
 	mount: () => void
 	unmount: () => void
 	clear: () => void
+	subscribe: (key: Key, callback: Callback, options?: Options) => void
+	unsubscribe: (key: Key, callback: Callback, options?: Options) => void
 }

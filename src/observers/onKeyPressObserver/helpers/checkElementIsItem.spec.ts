@@ -8,18 +8,14 @@ describe('onKeyPressObserver checkElementIsItem', () => {
 	})
 
 	it.each`
-		element                            | key   | callback    | result
-		${{ key: 1, callback: callback }}  | ${1}  | ${callback} | ${true}
-		${{ key: 15, callback: callback }} | ${15} | ${callback} | ${true}
-		${{ key: 12, callback: callback }} | ${12} | ${() => {}} | ${false}
-		${{ key: 12, callback: () => {} }} | ${12} | ${callback} | ${false}
-		${{ key: 12, callback: callback }} | ${1}  | ${callback} | ${false}
-		${{ key: 1, callback: callback }}  | ${12} | ${callback} | ${false}
-		${{ key: 13, callback: () => {} }} | ${12} | ${callback} | ${false}
+		element                   | callback    | result
+		${{ callback: callback }} | ${callback} | ${true}
+		${{ callback: callback }} | ${() => {}} | ${false}
+		${{ callback: () => {} }} | ${callback} | ${false}
 	`(
-		'checkElementIsItem with element = $element, key = $key, callback = $callback should return $result',
-		({ element, key, callback, result }) => {
-			expect(checkElementIsItem(element, key, callback)).toBe(result)
+		'checkElementIsItem with element = $element, callback = $callback should return $result',
+		({ element, callback, result }) => {
+			expect(checkElementIsItem(element, callback)).toBe(result)
 		}
 	)
 })
