@@ -10,7 +10,7 @@
 		"react-app/jest"
 	],
 
-	"parser": "@babel/eslint-parser",
+	"parser": "@typescript-eslint/parser",
 	"parserOptions": {
 		"allowImportExportEverywhere": false,
 		"ecmaFeatures": {
@@ -26,7 +26,19 @@
 		"indent": ["error", "tab", { "SwitchCase": 1 }],
 		"linebreak-style": ["error", "unix"],
 		"quotes": ["warn", "single"],
-		"semi": ["error", "never"]
+		"semi": ["error", "never"],
+
+		/* react-testing-library */
+		"testing-library/no-manual-cleanup": "error",
+		"testing-library/no-wait-for-snapshot": "error",
+		"testing-library/prefer-explicit-assert": "error",
+		"testing-library/prefer-presence-queries": "error",
+		"testing-library/prefer-wait-for": "error",
+		"testing-library/render-result-naming-convention": "off",
+		"testing-library/no-container": "off",
+		"testing-library/no-node-access": "off",
+		"testing-library/await-async-query": "off",
+		"testing-library/no-render-in-setup": "off"
 	},
 
 	"overrides": [
