@@ -2,19 +2,20 @@ import React, {
 	FC,
 	useState,
 	MouseEvent as ReactMouseEvent,
-	ChangeEvent
+	ChangeEvent,
+	useCallback
 } from 'react'
 import classNames from 'classnames'
 import Calendar from 'react-calendar'
 
-import { isEscapeKey, isFalse, isNull, isNotEqual } from 'helpers'
+import { isFalse, isNull, isNotEqual } from 'helpers'
 import { DatePickerInputOnSubmitType } from './DatePickerInput'
 import {
 	DatePickerProps,
 	DatePickerRangeValueWithNull,
 	DatePickerStandartValueWithNull
 } from './interfaces'
-import { useOutsideClick, useKeyDown } from 'hooks'
+import { useOutsideClick, useEscKeyDown } from 'hooks'
 import StandartDateInput from './components/StandartDateInput'
 import RangeDateInput from './components/RangeDateInput'
 
@@ -61,13 +62,9 @@ const DatePicker: FC<DatePickerProps> = ({
 
 	const wrapperRef = useOutsideClick(onOutsideClick)
 
-	const onEscPress = (e: KeyboardEvent) => {
-		if (isEscapeKey(e.key) && calendarShow) {
-			setCalendarShow(false)
-		}
-	}
+	const onEscPress = useCallback(() => setCalendarShow(false), [])
 
-	useKeyDown(onEscPress)
+	useEscKeyDown(onEscPress, true, calendarShow)
 
 	// TODO: Why is it here
 	const checkDatesOrder = (date: [Date, Date]): [Date, Date] => {

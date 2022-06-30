@@ -4,8 +4,11 @@ import user from '@testing-library/user-event'
 import '@testing-library/jest-dom'
 import DatePicker from './DatePicker'
 import { DatePickerProps } from './interfaces'
+import { onKeyPressObserver } from 'observers'
 
 jest.useFakeTimers().setSystemTime(new Date('01-01-2022'))
+
+onKeyPressObserver.mount()
 
 function setup({
 	value = new Date('01-01-2022'),
@@ -83,7 +86,7 @@ describe('DatePicker', () => {
 		user.click(picker)
 		expect(screen.getByTestId('calendar')).toBeInTheDocument()
 
-		user.keyboard('{esc}')
+		user.keyboard('{Escape}')
 		expect(screen.queryByTestId('calendar')).not.toBeInTheDocument()
 	})
 
