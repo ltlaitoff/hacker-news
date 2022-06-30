@@ -31,3 +31,10 @@ export const getDateFullYear = (date: Date): number | null => {
 
 	return date.getFullYear()
 }
+
+export const getNowDateWithoutTime = (): Date => {
+	const date = new Date(Date.now())
+	date.setHours(0, 0, 0, 0)
+
+	return date
+}

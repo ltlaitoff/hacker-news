@@ -4,8 +4,11 @@ import {
 	getDateDay,
 	getDateMonth,
 	getDatePeopleMonth,
-	getDateFullYear
+	getDateFullYear,
+	getNowDateWithoutTime
 } from './date'
+
+jest.useFakeTimers()
 
 describe('date helpers', () => {
 	describe('is', () => {
@@ -56,6 +59,21 @@ describe('date helpers', () => {
 				expect(getDateMonth(date)).toBe(month)
 				expect(getDatePeopleMonth(date)).toBe(peopleMonth)
 				expect(getDateFullYear(date)).toBe(year)
+			}
+		)
+
+		it.each`
+			localdate
+			${new Date('01-01-2022')}
+			${new Date('01-02-2020')}
+			${new Date('05-01-2025')}
+			${new Date('01-08-1999')}
+		`(
+			'getNowDateWithoutTime function with localdate = $localdate should return localdate',
+			({ localdate }) => {
+				jest.setSystemTime(localdate)
+
+				expect(getNowDateWithoutTime()).toStrictEqual(localdate)
 			}
 		)
 	})
