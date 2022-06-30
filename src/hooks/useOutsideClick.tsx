@@ -5,6 +5,8 @@ const useOutsideClick = (callback: () => void) => {
 	const ref = useRef<HTMLDivElement>(null)
 
 	const checkClickOutside = (e: MouseEvent): void => {
+		e.preventDefault()
+
 		if (ref.current && !checkElementInArray(e.composedPath(), ref.current)) {
 			callback()
 		}
