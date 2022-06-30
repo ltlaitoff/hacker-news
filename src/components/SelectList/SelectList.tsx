@@ -1,14 +1,16 @@
 import React, { FC, useState } from 'react'
 import classNames from 'classnames'
 import { SelectListProps } from './SelectList.interfaces'
+import { useOutsideClick } from 'hooks'
 
 const SelectList: FC<SelectListProps> = ({
-	show,
 	options,
 	onItemClick,
 	selectedItem,
 	shadowDisabled,
+	onOutsideClick,
 	className,
+	style,
 	...args
 }) => {
 	const [currentSelectedItem, setCurrentSelectedItem] = useState<number>(0)
@@ -17,7 +19,7 @@ const SelectList: FC<SelectListProps> = ({
 		setCurrentSelectedItem(id)
 	}
 
-	if (!show) return null
+	const outsideRef = useOutsideClick(onOutsideClick)
 
 	return (
 		<div
@@ -26,12 +28,13 @@ const SelectList: FC<SelectListProps> = ({
 				{ 'shadow-lg': !shadowDisabled },
 				className
 			)}
+			ref={outsideRef}
 			data-testid='list'
 			{...args}
 		>
 			{options.map(item => {
 				const id = item.id
-				const listItemStyles = classNames('p-2', {
+				const listItemStyles = classNames('px-2 py-1', {
 					'text-pink-400': id === selectedItem?.id,
 					'bg-sky-700/10': currentSelectedItem === id,
 					'text-cyan-600': currentSelectedItem === id && id !== selectedItem?.id
@@ -43,6 +46,7 @@ const SelectList: FC<SelectListProps> = ({
 						key={id}
 						onClick={() => onItemClick(item)}
 						onMouseOver={() => onListItemMouseOver(id)}
+						style={style}
 						data-testid='item'
 					>
 						{item.label}
