@@ -1,10 +1,14 @@
 import {
 	Filter,
 	DateStandartFiltrations,
-	DateSpecicalFiltrations
+	DateSpecicalFiltrations,
+	DateStandartFiltrationsFunction,
+	DateSpecicalFiltrationsFunction
 } from './filters.interfaces'
 
-const getDateStandartFiltrationFunc = (type: keyof DateStandartFiltrations) => {
+const getDateStandartFiltrationFunc = (
+	type: keyof DateStandartFiltrations
+): DateStandartFiltrationsFunction => {
 	return (fieldName: string, value: string) => {
 		switch (type) {
 			case 'is':
@@ -22,18 +26,16 @@ const getDateStandartFiltrationFunc = (type: keyof DateStandartFiltrations) => {
 				return `${value}<=${fieldName}`
 		}
 	}
-
-	throw new Error('getDateStandartFiltrationFunc error with type ' + type)
 }
 
-const getDateSpecicalFiltrationFunc = (type: keyof DateSpecicalFiltrations) => {
+const getDateSpecicalFiltrationFunc = (
+	type: keyof DateSpecicalFiltrations
+): DateSpecicalFiltrationsFunction => {
 	switch (type) {
 		case 'is within':
 			return (fieldName: string, firstValue: string, secondValue: string) =>
 				`${fieldName}<${firstValue}&${fieldName}>${secondValue}`
 	}
-
-	throw new Error('getDateSpecicalFiltrationFunc error with type ' + type)
 }
 
 export const filters: Filter[] = [
@@ -48,10 +50,12 @@ export const filters: Filter[] = [
 		},
 
 		specicalFiltrations: {
-			'is within': getDateSpecicalFiltrationFunc('is within')
+			'is within': {
+				type: 'two',
+				getResult: getDateSpecicalFiltrationFunc('is within')
+			}
 		}
 	},
-
 	{
 		id: 1,
 		label: 'Date',
@@ -65,7 +69,10 @@ export const filters: Filter[] = [
 		},
 
 		specicalFiltrations: {
-			'is within': getDateSpecicalFiltrationFunc('is within')
+			'is within': {
+				type: 'two',
+				getResult: getDateSpecicalFiltrationFunc('is within')
+			}
 		}
 	}
 ]
