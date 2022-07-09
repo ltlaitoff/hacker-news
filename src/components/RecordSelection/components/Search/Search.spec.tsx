@@ -250,7 +250,7 @@ describe('Search', () => {
 			customAttributes: { 'data-hello': '1' }
 		})
 
-		const form = document.querySelector('form')
+		const form = screen.getByTestId('form')
 
 		expect(form).toHaveAttribute('data-hello', '1')
 	})
