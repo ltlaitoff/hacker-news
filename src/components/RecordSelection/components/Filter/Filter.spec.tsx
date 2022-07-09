@@ -2,15 +2,12 @@ import React from 'react'
 import { screen, render } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { act } from 'react-dom/test-utils'
-import user from '@testing-library/user-event'
 import { CurrentFiltersItem, FilterProps } from './Filter.interfaces'
 import Filter from './Filter'
-
 import { Filter as FilterType } from 'data/filters.interfaces'
 import { SelectListProps } from 'components/SelectList'
 import { FilterLineProps } from './components/FilterLine/FilterLine.interfaces'
 import { FilterDetailsWindowProps } from './components'
-import { filters } from '../../../../data/filters'
 
 const CURRENT_FILTERS = [
 	{
@@ -574,5 +571,15 @@ describe('Filter', () => {
 				value: new Date('01-03-2022')
 			}
 		])
+	})
+
+	it('If transfer data-hello="1" props into Filter, data-hello="1" should be in the "filter" html', () => {
+		setup({
+			customAttributes: { 'data-hello': '1' }
+		})
+
+		const filter = screen.getByTestId('filter')
+
+		expect(filter).toHaveAttribute('data-hello', '1')
 	})
 })
