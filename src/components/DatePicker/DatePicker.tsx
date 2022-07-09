@@ -39,6 +39,10 @@ const getDefaultDateValue = (
 	return [value, value]
 }
 
+/*
+	BUG: On click on date in calendar error not reset
+*/
+
 const DatePicker: FC<DatePickerProps> = ({
 	value,
 	onChange,
