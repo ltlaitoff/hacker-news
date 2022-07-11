@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { ReactElement } from 'react'
+import { Route } from './routes.interfaces'
 
 const Home = React.lazy(() => import('pages/Home.page'))
 const New = React.lazy(() => import('pages/New.page'))
@@ -11,15 +11,6 @@ const Show = React.lazy(() => import('pages/Show.page'))
 const Ask = React.lazy(() => import('pages/Ask.page'))
 const Profile = React.lazy(() => import('pages/Profile.page'))
 const RecordComments = React.lazy(() => import('pages/RecordComments.page'))
-
-export interface Route {
-	id: number
-	routeName: string
-	path: string
-	element: ReactElement
-	inMenu?: boolean
-	index?: boolean
-}
 
 export const routes: Route[] = [
 	{

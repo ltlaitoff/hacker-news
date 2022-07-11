@@ -138,13 +138,13 @@ export interface getSearchUrlProps {
 	query?: string
 	tags?: Array<string>
 	searchByDate?: boolean
-	numericFilters?: numericFilters
+	numericFilters?: string
 	page?: number
 }
 export interface getBySearchProps {
 	query?: string
 	tags?: Array<string> | string
 	searchByDate?: boolean
-	numericFilters?: numericFilters
+	numericFilters?: string
 	page?: number
 }

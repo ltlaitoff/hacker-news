@@ -1,12 +1,12 @@
-import React, { FC, useState, useEffect } from 'react'
+import React, { FC, useState, useCallback } from 'react'
 import classNames from 'classnames'
 
 import { SelectProps, SelectRecord } from './Select.interfaces'
-import { ReactComponent as DownArrow } from 'assets/icons/down-arrow.svg'
+import { SelectBase } from './components'
+import { getSelectRecordItemById } from './helpers'
 
-const getItemById = (items: SelectRecord[], id: number): SelectRecord[] => {
-	return items.filter(item => item.id === id)
-}
+import SelectList from 'components/SelectList'
+import useEscKeyDown from 'hooks/useEscKeyDown'
 
 const Select: FC<SelectProps> = ({
 	options,
@@ -14,34 +14,30 @@ const Select: FC<SelectProps> = ({
 	onChange,
 	disabled,
 	defaultSelectId,
+	shadowDisabled,
+	shadowBaseDisabled,
+	shadowListDisabled,
 	className,
 	...args
 }) => {
 	const [selectedItem, setSelectedItem] = useState<SelectRecord>(
-		defaultSelectId ? getItemById(options, defaultSelectId)[0] : options[0]
+		defaultSelectId
+			? getSelectRecordItemById(options, defaultSelectId)
+			: options[0]
 	)
 	const [listIsOpened, setListIsOpened] = useState<boolean>(false)
 
-	useEffect(() => {
-		if (!disabled) {
-			const onEscPress = (e: KeyboardEvent) => {
-				if (e.code === 'Escape') {
-					setListIsOpened(false)
-				}
-			}
+	const onSelectListOutsideClick = useCallback(() => setListIsOpened(false), [])
+	const onEscPress = useCallback(() => setListIsOpened(false), [])
 
-			document.addEventListener('keydown', onEscPress)
-
-			return () => {
-				document.removeEventListener('keydown', onEscPress)
-			}
-		}
-	})
+	useEscKeyDown(onEscPress, true, !disabled)
 
 	const onItemClick = (itemData: SelectRecord) => {
-		onClick(itemData.id)
+		if (onClick) onClick(itemData.id)
+
 		if (selectedItem.id !== itemData.id) {
-			onChange(itemData.id)
+			if (onChange) onChange(itemData.id)
+
 			setSelectedItem(itemData)
 		}
 
@@ -54,65 +50,30 @@ const Select: FC<SelectProps> = ({
 		}
 	}
 
-	const mainButtonStyles = classNames(
-		'hover:text-cyan-500 relative w-full h-10 px-5 py-2 text-left border rounded flex shadow-lg items-center justify-between duration-200',
-		{
-			'border-stone-400/20 hover:border-stone-400/30': !listIsOpened,
-			'border-stone-400/50 hover:border-stone-400/50': listIsOpened,
-			'bg-gray-100/50 text-gray-400 hover:text-gray-400 cursor-default':
-				disabled
-		}
-	)
-
-	const listStyles =
-		'top-12 shadow-stone-700/5 absolute flex flex-col w-full py-1 border border-stone-400/20 rounded shadow-lg z-[100] bg-white'
-
 	return (
 		<div
 			className={classNames('relative w-48 text-gray-500', className)}
+			data-testid='select'
 			{...args}
 		>
-			<button
-				className={mainButtonStyles}
+			<SelectBase
 				onClick={listOpenedToggle}
-				tabIndex={0}
-				data-testid='main-button'
-			>
-				{selectedItem.label}
+				listIsOpened={listIsOpened}
+				disabled={disabled}
+				shadowDisabled={shadowDisabled || shadowBaseDisabled}
+				selectedItem={selectedItem}
+				data-testid='base'
+			/>
 
-				<span className={'gap-x-2 flex items-center text-gray-300'}>
-					{'|'}
-					<DownArrow
-						className={classNames('fill-gray-400 w-4 h-4', {
-							'fill-pink-400': listIsOpened,
-							'fill-gray-300': disabled
-						})}
-					/>
-				</span>
-			</button>
-
-			{listIsOpened && (
-				<div className={listStyles} data-testid='list'>
-					{options.map(item => {
-						const listItemStyles = classNames(
-							'hover:bg-sky-700/10 hover:text-cyan-600 hover:duration-50 p-2',
-							{
-								'text-pink-400': item.id === selectedItem.id
-							}
-						)
-
-						return (
-							<button
-								className={listItemStyles}
-								key={item.id}
-								onClick={() => onItemClick(item)}
-								data-testid='item'
-							>
-								{item.label}
-							</button>
-						)
-					})}
-				</div>
+			{listIsOpened && !disabled && (
+				<SelectList
+					options={options}
+					onItemClick={onItemClick}
+					selectedItem={selectedItem}
+					onOutsideClick={onSelectListOutsideClick}
+					shadowDisabled={shadowDisabled || shadowListDisabled}
+					data-testid='list'
+				/>
 			)}
 		</div>
 	)
