@@ -2,7 +2,13 @@ import filtersReducer, { changeFilters, FiltersStoreType } from './filtersSlice'
 
 describe('Filters reducer', () => {
 	const initialState: FiltersStoreType = {
-		value: []
+		home: [],
+		new: [],
+		stories: [],
+		comments: [],
+		polls: [],
+		show: [],
+		ask: []
 	}
 
 	it('filtersReducer should handle initial state', () => {
@@ -12,13 +18,21 @@ describe('Filters reducer', () => {
 	it('filtersReducer should handle changeFilters', () => {
 		const actual = filtersReducer(
 			initialState,
-			changeFilters([
-				{ id: 0, name: 'test', key: 'is', value: new Date('01-01-2022') }
-			])
+			changeFilters({
+				home: [
+					{ id: 0, name: 'test', key: 'is', value: new Date('01-01-2022') }
+				]
+			})
 		)
 
-		expect(actual).toEqual([
-			{ id: 0, name: 'test', key: 'is', value: new Date('01-01-2022') }
-		])
+		expect(actual).toEqual({
+			home: [{ id: 0, name: 'test', key: 'is', value: new Date('01-01-2022') }],
+			new: [],
+			stories: [],
+			comments: [],
+			polls: [],
+			show: [],
+			ask: []
+		})
 	})
 })

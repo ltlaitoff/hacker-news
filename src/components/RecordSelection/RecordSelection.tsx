@@ -3,17 +3,38 @@ import Filter from './components/Filter'
 import { CurrentFiltersItem } from './components/Filter/Filter.interfaces'
 import Search from './components/Search'
 import { filters } from 'data/filters'
-import { changeFilters, selectFilters } from 'store'
+import {
+	changeFilters,
+	FiltersStoreType,
+	RequireOnlyOneFilters,
+	selectFilters
+} from 'store'
 import { useAppDispatch, useAppSelector } from 'hooks/reduxHooks'
+import { useLocation } from 'react-router-dom'
+import { getRouteNameByPath } from 'routes'
 
 const RecordSelection: FC = () => {
 	const [searchValue, setSearchValue] = useState<string>('')
 
-	const currentFilters = useAppSelector(selectFilters)
+	const location = useLocation()
+	const currentPage = getRouteNameByPath(location.pathname)
+
+	if (!currentPage) {
+		throw new Error('location pathname error')
+	}
+
+	const currentFilters = useAppSelector(state =>
+		selectFilters(state, currentPage)
+	)
+
 	const dispatch = useAppDispatch()
 
 	const setCurrentFilters = (array: CurrentFiltersItem[]) => {
-		dispatch(changeFilters(array))
+		const returnValue: RequireOnlyOneFilters = {
+			[currentPage]: array
+		} as FiltersStoreType
+
+		dispatch(changeFilters(returnValue))
 	}
 
 	return (
