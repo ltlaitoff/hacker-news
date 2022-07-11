@@ -40,7 +40,6 @@ export const selectFilters = createSelector(
 		(state: RootState, page: PageNames) => page
 	],
 	(filters, page) => {
-		console.log(filters[page])
 		return filters[page]
 	}
 )

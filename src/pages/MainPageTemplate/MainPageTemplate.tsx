@@ -19,12 +19,15 @@ const renderTypes = (type: string): FC<any> => {
 	throw new Error('renderTypesError')
 }
 
+/*
+	TODO: API Errors handling
+*/
+
 const MainPageTemplate: FC<MainPageTemplateProps> = ({
 	renderType,
 	type
 }: MainPageTemplateProps) => {
 	const [items, setItems] = useState<APISearch | null>(null)
-	const [searchValue, setSearchValue] = useState<string>('')
 
 	useEffect(() => {
 		let tags: string | Array<string> | undefined = type

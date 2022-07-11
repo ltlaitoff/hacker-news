@@ -1,21 +1,22 @@
-import React, { FC, useState } from 'react'
+import React, { FC } from 'react'
 import Filter from './components/Filter'
 import { CurrentFiltersItem } from './components/Filter/Filter.interfaces'
 import Search from './components/Search'
 import { filters } from 'data/filters'
 import {
 	changeFilters,
+	changeSearch,
 	FiltersStoreType,
 	RequireOnlyOneFilters,
-	selectFilters
+	selectFilters,
+	selectSearch,
+	SearchesStoreType
 } from 'store'
 import { useAppDispatch, useAppSelector } from 'hooks/reduxHooks'
 import { useLocation } from 'react-router-dom'
 import { getRouteNameByPath } from 'routes'
 
 const RecordSelection: FC = () => {
-	const [searchValue, setSearchValue] = useState<string>('')
-
 	const location = useLocation()
 	const currentPage = getRouteNameByPath(location.pathname)
 
@@ -25,6 +26,10 @@ const RecordSelection: FC = () => {
 
 	const currentFilters = useAppSelector(state =>
 		selectFilters(state, currentPage)
+	)
+
+	const currentSearch = useAppSelector(state =>
+		selectSearch(state, currentPage)
 	)
 
 	const dispatch = useAppDispatch()
@@ -37,9 +42,17 @@ const RecordSelection: FC = () => {
 		dispatch(changeFilters(returnValue))
 	}
 
+	const setCurrentSearch = (value: string) => {
+		const returnValue = {
+			[currentPage]: value
+		} as SearchesStoreType
+
+		dispatch(changeSearch(returnValue))
+	}
+
 	return (
 		<div>
-			<Search defaultValue={searchValue} onSubmit={setSearchValue} />
+			<Search defaultValue={currentSearch} onSubmit={setCurrentSearch} />
 			<Filter
 				filters={filters}
 				currentFilters={currentFilters}

@@ -74,6 +74,7 @@ const Search: FC<SearchProps> = ({
 
 		setInputError(false)
 		setInputValue('')
+		onSubmit('')
 	}
 
 	return (

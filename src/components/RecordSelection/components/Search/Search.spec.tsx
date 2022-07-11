@@ -126,14 +126,14 @@ describe('Search', () => {
 			expect(onSubmit).toBeCalledWith(text)
 		})
 
-		it(`If write "${text}" in input and press on "reset-button", input text should be = ""`, () => {
+		it(`If write "${text}" in input and press on "reset-button", onSubmit should be called with "" and Search re rendered with defaultValue = ""`, () => {
 			const input = screen.getByTestId('input') as HTMLInputElement
 			const resetButton = screen.getByTestId('reset-button')
 
 			user.type(input, text)
 			user.click(resetButton)
 
-			expect(input.value).toBe('')
+			expect(onSubmit).toBeCalledWith('')
 		})
 	})
 
