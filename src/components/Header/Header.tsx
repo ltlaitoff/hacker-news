@@ -2,7 +2,7 @@ import React, { FC } from 'react'
 import { NavLink, Link } from 'react-router-dom'
 import classNames from 'classnames'
 
-import { routerData } from 'routes'
+import { routerData, Route } from 'routes'
 
 const Header: FC = () => {
 	return (
@@ -18,7 +18,7 @@ const Header: FC = () => {
 
 			<nav className='pl-16'>
 				<ul className='flex items-center h-full'>
-					{routerData.routes.map((route: routerData.Route) => {
+					{routerData.routes.map((route: Route) => {
 						if (!route.inMenu) return null
 						return (
 							<li className='align-center h-full' key={route.id}>
