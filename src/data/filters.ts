@@ -6,7 +6,7 @@ import {
 	DateSpecicalFiltrationsFunction
 } from './filters.interfaces'
 
-const getDateStandartFiltrationFunc = (
+export const getDateStandartFiltrationFunc = (
 	type: keyof DateStandartFiltrations
 ): DateStandartFiltrationsFunction => {
 	return (fieldName: string, value: string) => {
@@ -17,24 +17,24 @@ const getDateStandartFiltrationFunc = (
 				return `${fieldName}<${value}`
 
 			case 'is after':
-				return `${value}<${fieldName}`
+				return `${fieldName}>${value}`
 
 			case 'is on or before':
 				return `${fieldName}<=${value}`
 
 			case 'is on or after':
-				return `${value}<=${fieldName}`
+				return `${fieldName}>=${value}`
 		}
 	}
 }
 
-const getDateSpecicalFiltrationFunc = (
+export const getDateSpecicalFiltrationFunc = (
 	type: keyof DateSpecicalFiltrations
 ): DateSpecicalFiltrationsFunction => {
 	switch (type) {
 		case 'is within':
 			return (fieldName: string, firstValue: string, secondValue: string) =>
-				`${fieldName}<${firstValue}&${fieldName}>${secondValue}`
+				`${fieldName}<${firstValue},${fieldName}>${secondValue}`
 	}
 }
 

@@ -59,12 +59,12 @@ const getSearchUrl = ({
 	}
 
 	if (numericFilters) {
-		urlParams.push(`numericFilters=${getNumericFilters(numericFilters)}`)
+		urlParams.push(`numericFilters=${numericFilters}`)
 	}
 
 	if (page) urlParams.push(`page=${String(page)}`)
 
-	return `${SEARCH_URL_TEMPLATE}${searchType}?${urlParams.join(',')}`
+	return `${SEARCH_URL_TEMPLATE}${searchType}?${urlParams.join('&')}`
 }
 
 export const getItemInfo = (id: number): Promise<Item> => {

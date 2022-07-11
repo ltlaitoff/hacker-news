@@ -1,14 +1,12 @@
-import React, { FC, useState, useEffect, useRef } from 'react'
+import React, { FC, useState, useCallback } from 'react'
 import classNames from 'classnames'
 
 import { SelectProps, SelectRecord } from './Select.interfaces'
+import { SelectBase } from './components'
+import { getSelectRecordItemById } from './helpers'
 
 import SelectList from 'components/SelectList'
-import SelectBase from './components/SelectBase'
-
-const getItemById = (items: SelectRecord[], id: number): SelectRecord[] => {
-	return items.filter(item => item.id === id)
-}
+import useEscKeyDown from 'hooks/useEscKeyDown'
 
 const Select: FC<SelectProps> = ({
 	options,
@@ -23,40 +21,16 @@ const Select: FC<SelectProps> = ({
 	...args
 }) => {
 	const [selectedItem, setSelectedItem] = useState<SelectRecord>(
-		defaultSelectId ? getItemById(options, defaultSelectId)[0] : options[0]
+		defaultSelectId
+			? getSelectRecordItemById(options, defaultSelectId)
+			: options[0]
 	)
 	const [listIsOpened, setListIsOpened] = useState<boolean>(false)
 
-	const selectRef = useRef<HTMLDivElement>(null)
+	const onSelectListOutsideClick = useCallback(() => setListIsOpened(false), [])
+	const onEscPress = useCallback(() => setListIsOpened(false), [])
 
-	useEffect(() => {
-		if (!disabled) {
-			const onEscPress = (e: KeyboardEvent) => {
-				if (e.code === 'Escape') {
-					setListIsOpened(false)
-				}
-			}
-
-			const onClickOutside = (e: MouseEvent) => {
-				if (
-					!selectRef.current ||
-					selectRef.current.contains(e.target as Node)
-				) {
-					return
-				}
-
-				setListIsOpened(false)
-			}
-
-			document.addEventListener('keydown', onEscPress)
-			document.addEventListener('click', onClickOutside)
-
-			return () => {
-				document.removeEventListener('keydown', onEscPress)
-				document.removeEventListener('click', onClickOutside)
-			}
-		}
-	}, [])
+	useEscKeyDown(onEscPress, true, !disabled)
 
 	const onItemClick = (itemData: SelectRecord) => {
 		if (onClick) onClick(itemData.id)
@@ -79,7 +53,7 @@ const Select: FC<SelectProps> = ({
 	return (
 		<div
 			className={classNames('relative w-48 text-gray-500', className)}
-			ref={selectRef}
+			data-testid='select'
 			{...args}
 		>
 			<SelectBase
@@ -88,15 +62,19 @@ const Select: FC<SelectProps> = ({
 				disabled={disabled}
 				shadowDisabled={shadowDisabled || shadowBaseDisabled}
 				selectedItem={selectedItem}
+				data-testid='base'
 			/>
 
-			<SelectList
-				show={listIsOpened && !disabled}
-				options={options}
-				onItemClick={onItemClick}
-				selectedItem={selectedItem}
-				shadowDisabled={shadowDisabled || shadowListDisabled}
-			/>
+			{listIsOpened && !disabled && (
+				<SelectList
+					options={options}
+					onItemClick={onItemClick}
+					selectedItem={selectedItem}
+					onOutsideClick={onSelectListOutsideClick}
+					shadowDisabled={shadowDisabled || shadowListDisabled}
+					data-testid='list'
+				/>
+			)}
 		</div>
 	)
 }

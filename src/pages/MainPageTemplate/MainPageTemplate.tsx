@@ -1,12 +1,16 @@
 import React, { FC, useState, useEffect, FormEvent } from 'react'
 
 import { Search as APISearch } from 'api/api.interfaces'
-import { getBySearch } from 'api/api'
+import { getBySearch } from 'api/apiWrapper'
 import Post from 'components/Post'
 import Comment from 'components/Comment'
 import { MainPageTemplateProps } from './MainPageTemplate.interfaces'
 import Loader from 'components/Loader'
 import RecordSelection from 'components/RecordSelection'
+import { useLocation } from 'react-router-dom'
+import { getRouteNameByPath } from 'routes/helpers'
+import { store } from 'store'
+import { useAppDispatch, useAppSelector } from 'hooks/reduxHooks'
 
 const renderTypes = (type: string): FC<any> => {
 	switch (type) {
@@ -29,6 +33,16 @@ const MainPageTemplate: FC<MainPageTemplateProps> = ({
 }: MainPageTemplateProps) => {
 	const [items, setItems] = useState<APISearch | null>(null)
 
+	const location = useLocation()
+	const currentPage = getRouteNameByPath(location.pathname)
+
+	if (currentPage === undefined) {
+		throw new Error('location error')
+	}
+
+	const dispatch = useAppDispatch()
+	const state = useAppSelector(state => state)
+
 	useEffect(() => {
 		let tags: string | Array<string> | undefined = type
 		let searchByDate: boolean = false
@@ -39,10 +53,16 @@ const MainPageTemplate: FC<MainPageTemplateProps> = ({
 				searchByDate = true
 		}
 
-		getBySearch({ tags: tags, searchByDate: searchByDate }).then(value => {
+		console.log('rerender')
+
+		getBySearch({
+			tags: tags,
+			searchByDate: searchByDate,
+			pageName: currentPage
+		}).then(value => {
 			setItems(value)
 		})
-	}, [])
+	}, [dispatch, state])
 
 	const Item = renderTypes(renderType)
 

@@ -27,7 +27,6 @@ const SelectBase: FC<SelectBaseProps> = ({
 			onClick={onClick}
 			tabIndex={0}
 			{...args}
-			data-testid='main-button'
 		>
 			{selectedItem.label}
 
