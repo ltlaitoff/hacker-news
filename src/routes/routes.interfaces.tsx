@@ -1,5 +1,4 @@
 import { ReactElement } from 'react'
-import { Pathname } from 'react-router-dom'
 
 export type PageNames =
 	| 'home'
