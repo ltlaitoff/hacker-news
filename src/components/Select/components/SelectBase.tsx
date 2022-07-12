@@ -31,12 +31,17 @@ const SelectBase: FC<SelectBaseProps> = ({
 				}
 			)}
 			onClick={onButtonClick}
-			tabIndex={0}
+			data-testid='button'
 			{...args}
 		>
-			{selectedItem.label}
+			<div data-testid='selectedItem' key={selectedItem.id}>
+				{selectedItem.label}
+			</div>
 
-			<span className={'gap-x-2 flex items-center text-gray-300'}>
+			<span
+				className={'gap-x-2 flex items-center text-gray-300'}
+				data-testid='icon'
+			>
 				{'|'}
 				<DownArrow
 					className={classNames('fill-gray-400 w-4 h-4', {
