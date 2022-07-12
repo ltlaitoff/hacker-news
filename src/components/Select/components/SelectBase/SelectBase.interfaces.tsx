@@ -1,4 +1,4 @@
-import { SelectRecord } from '../Select.interfaces'
+import { SelectRecord } from '../../Select.interfaces'
 
 export interface SelectBaseProps {
 	onClick: () => void

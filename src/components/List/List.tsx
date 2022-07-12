@@ -1,9 +1,9 @@
 import React, { FC, useState } from 'react'
 import classNames from 'classnames'
-import { SelectListProps } from './SelectList.interfaces'
+import { ListProps } from './List.interfaces'
 import { useOutsideClick } from 'hooks'
 
-const SelectList: FC<SelectListProps> = ({
+const List: FC<ListProps> = ({
 	options,
 	onItemClick,
 	selectedItem,
@@ -19,10 +19,12 @@ const SelectList: FC<SelectListProps> = ({
 		setCurrentSelectedItem(id)
 	}
 
-	const outsideRef = useOutsideClick(onOutsideClick)
+	const outsideRef = useOutsideClick(
+		onOutsideClick
+	) as React.RefObject<HTMLUListElement>
 
 	return (
-		<div
+		<ul
 			className={classNames(
 				'shadow-stone-700/5 absolute flex flex-col w-full py-1 px-1 border shadow border-stone-400/20 rounded z-[100] bg-white',
 				{ 'shadow-lg': !shadowDisabled },
@@ -34,27 +36,28 @@ const SelectList: FC<SelectListProps> = ({
 		>
 			{options.map(item => {
 				const id = item.id
-				const listItemStyles = classNames('px-2 py-1', {
+				const listItemStyles = classNames('px-2 py-1 w-full', {
 					'text-pink-400': id === selectedItem?.id,
 					'bg-sky-700/10': currentSelectedItem === id,
 					'text-cyan-600': currentSelectedItem === id && id !== selectedItem?.id
 				})
 
 				return (
-					<button
-						className={listItemStyles}
-						key={id}
-						onClick={() => onItemClick(item)}
-						onMouseOver={() => onListItemMouseOver(id)}
-						style={style}
-						data-testid='item'
-					>
-						{item.label}
-					</button>
+					<li key={id} className='w-full' data-testid='item'>
+						<button
+							className={listItemStyles}
+							onClick={() => onItemClick(item)}
+							onMouseOver={() => onListItemMouseOver(id)}
+							style={style}
+							data-testid='button'
+						>
+							{item.label}
+						</button>
+					</li>
 				)
 			})}
-		</div>
+		</ul>
 	)
 }
 
-export default SelectList
+export default List

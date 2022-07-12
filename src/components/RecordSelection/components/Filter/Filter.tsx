@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react'
 import classNames from 'classnames'
 
-import SelectList, { SelectRecord } from 'components/SelectList'
+import List, { ListRecord } from 'components/List'
 
 import {
 	CurrentFiltersItem,
@@ -42,7 +42,7 @@ const Filter: FC<FilterProps> = ({
 		}
 	}
 
-	const onChoiceFilterInSelect = (item: SelectRecord) => {
+	const onChoiceFilterInSelect = (item: ListRecord) => {
 		setCurrentSelectedFiterId(item.id)
 		setViewSelectFilter(false)
 		setViewFilterDetailsWindow(true)
@@ -75,7 +75,7 @@ const Filter: FC<FilterProps> = ({
 		onChange([...currentFilters, newValue])
 	}
 
-	const onSelectListOutsideClick = () => {
+	const onListOutsideClick = () => {
 		setViewSelectFilter(false)
 	}
 
@@ -135,14 +135,14 @@ const Filter: FC<FilterProps> = ({
 			/>
 
 			{viewSelectFilter && (
-				<SelectList
+				<List
 					className='w-40'
 					options={getDifferenceFirstAndSecondArraysWithIdField(
 						filters,
 						currentFilters
 					)}
 					onItemClick={onChoiceFilterInSelect}
-					onOutsideClick={onSelectListOutsideClick}
+					onOutsideClick={onListOutsideClick}
 					style={popupOffset}
 				/>
 			)}
