@@ -62,7 +62,6 @@ const Select: FC<SelectProps> = ({
 				disabled={disabled}
 				shadowDisabled={shadowDisabled || shadowBaseDisabled}
 				selectedItem={selectedItem}
-				data-testid='base'
 			/>
 
 			{listIsOpened && !disabled && (
@@ -72,7 +71,6 @@ const Select: FC<SelectProps> = ({
 					selectedItem={selectedItem}
 					onOutsideClick={onListOutsideClick}
 					shadowDisabled={shadowDisabled || shadowListDisabled}
-					data-testid='list'
 				/>
 			)}
 		</div>
