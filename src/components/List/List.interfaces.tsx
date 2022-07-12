@@ -1,15 +1,15 @@
 import { CSSProperties } from 'react'
 
-export type SelectRecord = {
+export type ListRecord = {
 	id: number
 	label: string
 }
 
-export interface SelectListProps {
-	options: SelectRecord[]
-	onItemClick: (item: SelectRecord) => void
+export interface ListProps {
+	options: ListRecord[]
+	onItemClick: (item: ListRecord) => void
 	onOutsideClick: () => void
-	selectedItem?: SelectRecord
+	selectedItem?: ListRecord
 	shadowDisabled?: boolean
 	className?: string
 	style?: CSSProperties

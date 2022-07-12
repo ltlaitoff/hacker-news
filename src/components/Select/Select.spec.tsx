@@ -4,11 +4,11 @@ import user from '@testing-library/user-event'
 import '@testing-library/jest-dom'
 import Select from './Select'
 import { SelectRecord } from './Select.interfaces'
-import { SelectListProps } from 'components/SelectList'
+import { ListProps } from 'components/List'
 
-jest.doMock('components/SelectList', () => {
-	const SelectList = () => <div />
-	return SelectList
+jest.doMock('components/List', () => {
+	const List = () => <div />
+	return List
 })
 
 const OPTIONS: SelectRecord[] = [

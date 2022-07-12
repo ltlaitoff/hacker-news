@@ -5,7 +5,7 @@ import { act } from 'react-dom/test-utils'
 import { CurrentFiltersItem, FilterProps } from './Filter.interfaces'
 import Filter from './Filter'
 import { Filter as FilterType } from 'data/filters.interfaces'
-import { SelectListProps } from 'components/SelectList'
+import { ListProps } from 'components/List'
 import { FilterLineProps } from './components/FilterLine/FilterLine.interfaces'
 import { FilterDetailsWindowProps } from './components'
 
@@ -61,7 +61,7 @@ const FILTERS = [
 	}
 ] as FilterType[]
 
-const SELECT_LIST_PROPS_DEFAULT = {
+const LIST_PROPS_DEFAULT = {
 	options: [],
 	onItemClick: jest.fn(),
 	onOutsideClick: jest.fn()
@@ -87,18 +87,18 @@ const FILTER_DETAILS_WINDOW_PROPS_DEFAULT = {
 	onClose: jest.fn()
 } as FilterDetailsWindowProps
 
-let mockSelectListProps: SelectListProps = SELECT_LIST_PROPS_DEFAULT
+let mockListProps: ListProps = LIST_PROPS_DEFAULT
 let mockFilterLineProps: FilterLineProps = FILTER_LINE_PROPS_DEFAULT
 let mockFilterDetailsWindowProps: FilterDetailsWindowProps =
 	FILTER_DETAILS_WINDOW_PROPS_DEFAULT
 
-jest.mock('components/SelectList', () => {
-	const SelectList = (props: SelectListProps) => {
-		mockSelectListProps = { ...props }
+jest.mock('components/List', () => {
+	const List = (props: ListProps) => {
+		mockListProps = { ...props }
 
-		return <div data-testid='SelectList' />
+		return <div data-testid='List' />
 	}
-	return SelectList
+	return List
 })
 
 jest.mock('./components', () => {
@@ -153,7 +153,7 @@ describe('Filter', () => {
 	})
 
 	describe('After call FilterLine onAddClick', () => {
-		it('SelectList(with left: 100, top: 100, height: 50 and window.scrollX = 50, window.scrollY = 50) should be rendered with props {"options":[{"id":2,"label":"three","type":"date","standartFiltrations":{}}],"style":{"left":150,"top":200}}', () => {
+		it('List(with left: 100, top: 100, height: 50 and window.scrollX = 50, window.scrollY = 50) should be rendered with props {"options":[{"id":2,"label":"three","type":"date","standartFiltrations":{}}],"style":{"left":150,"top":200}}', () => {
 			setup()
 
 			window.scrollX = 50
@@ -172,10 +172,10 @@ describe('Filter', () => {
 				})
 			})
 
-			const selectList = screen.queryByTestId('SelectList')
-			expect(selectList).toBeInTheDocument()
+			const List = screen.queryByTestId('List')
+			expect(List).toBeInTheDocument()
 
-			expect(JSON.stringify(mockSelectListProps.options)).toEqual(
+			expect(JSON.stringify(mockListProps.options)).toEqual(
 				JSON.stringify([
 					{
 						id: 2,
@@ -188,33 +188,33 @@ describe('Filter', () => {
 				])
 			)
 
-			expect(mockSelectListProps.style).toMatchObject({
+			expect(mockListProps.style).toMatchObject({
 				left: 150,
 				top: 200
 			})
 
-			expect(mockSelectListProps.onItemClick).toBeInstanceOf(Function)
-			expect(mockSelectListProps.onOutsideClick).toBeInstanceOf(Function)
+			expect(mockListProps.onItemClick).toBeInstanceOf(Function)
+			expect(mockListProps.onOutsideClick).toBeInstanceOf(Function)
 		})
 
-		it('After call SelectList onOutsideClick, SelectList should hide', () => {
+		it('After call List onOutsideClick, List should hide', () => {
 			setup()
 
 			act(() => {
 				mockFilterLineProps.onAddClick(null)
 			})
 
-			const selectList = screen.queryByTestId('SelectList')
-			expect(selectList).toBeInTheDocument()
+			const List = screen.queryByTestId('List')
+			expect(List).toBeInTheDocument()
 
 			act(() => {
 				mockFilterLineProps.onAddClick(null)
 			})
 
-			expect(selectList).not.toBeInTheDocument()
+			expect(List).not.toBeInTheDocument()
 		})
 
-		describe('After call SelectList onItemClick', () => {
+		describe('After call List onItemClick', () => {
 			it('FilterDetailsWindow should be rendered with props {filter: {id: 2,label: "three", type: "date", standartFiltrations: { is: ==SomeFunction== }},currentFilter: null,onSubmit: ==SomeFunction==,onClose: ==SomeFunction==,style: { left: 150, top: 200 }}', () => {
 				setup()
 
@@ -235,7 +235,7 @@ describe('Filter', () => {
 				})
 
 				act(() => {
-					mockSelectListProps.onItemClick({ id: 2, label: 'three' })
+					mockListProps.onItemClick({ id: 2, label: 'three' })
 				})
 
 				expect(mockFilterDetailsWindowProps.filter.id).toEqual(2)
@@ -266,7 +266,7 @@ describe('Filter', () => {
 					})
 
 					act(() => {
-						mockSelectListProps.onItemClick({ id: 2, label: 'three' })
+						mockListProps.onItemClick({ id: 2, label: 'three' })
 					})
 
 					const filterDetailsWindow = screen.getByTestId('FilterDetailsWindow')
@@ -290,7 +290,7 @@ describe('Filter', () => {
 					})
 
 					act(() => {
-						mockSelectListProps.onItemClick({ id: 2, label: 'three' })
+						mockListProps.onItemClick({ id: 2, label: 'three' })
 					})
 
 					act(() => {
@@ -321,7 +321,7 @@ describe('Filter', () => {
 					})
 
 					act(() => {
-						mockSelectListProps.onItemClick({ id: 2, label: 'three' })
+						mockListProps.onItemClick({ id: 2, label: 'three' })
 					})
 
 					const filterDetailsWindow = screen.getByTestId('FilterDetailsWindow')

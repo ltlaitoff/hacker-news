@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react'
 import { checkElementInArray } from 'helpers'
 
 const useOutsideClick = (callback: () => void) => {
-	const ref = useRef<HTMLDivElement>(null)
+	const ref = useRef<HTMLElement>(null)
 
 	const checkClickOutside = (e: MouseEvent): void => {
 		e.preventDefault()

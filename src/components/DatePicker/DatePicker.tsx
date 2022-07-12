@@ -64,7 +64,9 @@ const DatePicker: FC<DatePickerProps> = ({
 		setCalendarShow(false)
 	}
 
-	const wrapperRef = useOutsideClick(onOutsideClick)
+	const wrapperRef = useOutsideClick(
+		onOutsideClick
+	) as React.RefObject<HTMLDivElement>
 
 	const onEscPress = useCallback(() => setCalendarShow(false), [])
 
