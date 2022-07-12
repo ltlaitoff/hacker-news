@@ -1,9 +1,9 @@
 import React, { FC, useState } from 'react'
 import classNames from 'classnames'
-import { SelectListProps } from './SelectList.interfaces'
+import { ListProps } from './List.interfaces'
 import { useOutsideClick } from 'hooks'
 
-const SelectList: FC<SelectListProps> = ({
+const List: FC<ListProps> = ({
 	options,
 	onItemClick,
 	selectedItem,
@@ -57,4 +57,4 @@ const SelectList: FC<SelectListProps> = ({
 	)
 }
 
-export default SelectList
+export default List
