@@ -5,7 +5,7 @@ import { SelectProps, SelectRecord } from './Select.interfaces'
 import { SelectBase } from './components'
 import { getSelectRecordItemById } from './helpers'
 
-import SelectList from 'components/SelectList'
+import List from 'components/List'
 import useEscKeyDown from 'hooks/useEscKeyDown'
 
 const Select: FC<SelectProps> = ({
@@ -27,7 +27,7 @@ const Select: FC<SelectProps> = ({
 	)
 	const [listIsOpened, setListIsOpened] = useState<boolean>(false)
 
-	const onSelectListOutsideClick = useCallback(() => setListIsOpened(false), [])
+	const onListOutsideClick = useCallback(() => setListIsOpened(false), [])
 	const onEscPress = useCallback(() => setListIsOpened(false), [])
 
 	useEscKeyDown(onEscPress, true, !disabled)
@@ -66,11 +66,11 @@ const Select: FC<SelectProps> = ({
 			/>
 
 			{listIsOpened && !disabled && (
-				<SelectList
+				<List
 					options={options}
 					onItemClick={onItemClick}
 					selectedItem={selectedItem}
-					onOutsideClick={onSelectListOutsideClick}
+					onOutsideClick={onListOutsideClick}
 					shadowDisabled={shadowDisabled || shadowListDisabled}
 					data-testid='list'
 				/>
