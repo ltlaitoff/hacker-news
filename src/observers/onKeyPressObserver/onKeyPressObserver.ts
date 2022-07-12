@@ -9,6 +9,8 @@ import {
 	Store
 } from './onKeyPressObserver.interfaces'
 
+import 'core-js/features/array/at'
+
 /* 
 	TODO: callEveryOnce option 
 */

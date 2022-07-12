@@ -1,5 +1,7 @@
 import { isValidDate } from 'helpers'
 
+import 'core-js/features/string/replace-all'
+
 type getFormattedDateOptions = {
 	Y: number | string
 	M: number | string
