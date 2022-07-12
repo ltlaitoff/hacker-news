@@ -39,15 +39,21 @@ const SelectBase: FC<SelectBaseProps> = ({
 			</div>
 
 			<span
-				className={'gap-x-2 flex items-center text-gray-300'}
-				data-testid='icon'
+				className={classNames(
+					'gap-x-2 flex items-center relative text-gray-300 before:content-[""] before:h-full before:w-[0.06em] before:rounded before:absolute before:-left-2 before:bg-slate-400',
+					{
+						'before:bg-pink-400': listIsOpened,
+						'before:bg-gray-300': disabled
+					}
+				)}
+				data-testid='icon-span'
 			>
-				{'|'}
 				<DownArrow
 					className={classNames('fill-gray-400 w-4 h-4', {
 						'fill-pink-400': listIsOpened,
 						'fill-gray-300': disabled
 					})}
+					data-testid='icon'
 				/>
 			</span>
 		</button>
