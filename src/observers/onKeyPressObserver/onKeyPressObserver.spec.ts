@@ -1,4 +1,5 @@
 import onKeyPressObserver from './onKeyPressObserver'
+import 'core-js/features/array/at'
 
 describe('onKeyPressObserver', () => {
 	let keydown: Function = (value: { key: string }) => {}
