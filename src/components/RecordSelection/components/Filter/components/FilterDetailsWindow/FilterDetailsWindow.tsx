@@ -120,7 +120,7 @@ const FilterDetailsWindow: FC<FilterDetailsWindowProps> = ({
 		onClose()
 	}
 
-	const ref = useOutsideClick(onOutsideClick)
+	const ref = useOutsideClick(onOutsideClick) as React.RefObject<HTMLDivElement>
 
 	useEffect(() => {
 		if (filter) {
