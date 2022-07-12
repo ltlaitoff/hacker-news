@@ -43,13 +43,13 @@ const List: FC<ListProps> = ({
 				})
 
 				return (
-					<li key={id} className='w-full'>
+					<li key={id} className='w-full' data-testid='item'>
 						<button
 							className={listItemStyles}
 							onClick={() => onItemClick(item)}
 							onMouseOver={() => onListItemMouseOver(id)}
 							style={style}
-							data-testid='item'
+							data-testid='button'
 						>
 							{item.label}
 						</button>
