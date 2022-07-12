@@ -12,6 +12,12 @@ const SelectBase: FC<SelectBaseProps> = ({
 	className,
 	...args
 }) => {
+	const onButtonClick = () => {
+		if (disabled) return
+
+		onClick()
+	}
+
 	return (
 		<button
 			className={classNames(
@@ -24,7 +30,7 @@ const SelectBase: FC<SelectBaseProps> = ({
 					'shadow-lg': !shadowDisabled
 				}
 			)}
-			onClick={onClick}
+			onClick={onButtonClick}
 			tabIndex={0}
 			{...args}
 		>
