@@ -55,8 +55,8 @@ describe('someElementIs', () => {
 
 	it.each`
 		arg                   | result
-		${[NaN, 2, 4]}        | ${true}
-		${[2, NaN]}           | ${true}
+		${[NaN, 2, 4]}        | ${false}
+		${[2, NaN]}           | ${false}
 		${[2, false]}         | ${true}
 		${[2, true]}          | ${true}
 		${[2, true]}          | ${true}
@@ -72,8 +72,8 @@ describe('someElementIs', () => {
 
 	it.each`
 		arg                   | result
-		${[NaN, 2, 4]}        | ${true}
-		${[2, NaN]}           | ${true}
+		${[NaN, 2, 4]}        | ${false}
+		${[2, NaN]}           | ${false}
 		${[2, false]}         | ${true}
 		${[2, true]}          | ${true}
 		${[2, true]}          | ${true}
