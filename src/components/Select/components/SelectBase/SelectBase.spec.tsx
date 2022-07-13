@@ -36,11 +36,11 @@ describe('Select/SelectBase', () => {
 
 		const button = screen.getByTestId('button')
 		const selectedItem = within(button).getByTestId('selectedItem')
-		const svg = within(button).getByRole('svgElement')
+		const icon = within(button).getByTestId('icon')
 
 		expect(button).toBeInTheDocument()
 		expect(selectedItem).toBeInTheDocument()
-		expect(svg).toBeInTheDocument()
+		expect(icon).toBeInTheDocument()
 	})
 
 	it('With selectedItem = {id: 1, label: "test selectedItem"}, "selectedItem" should have text = "test selectedItem', () => {
