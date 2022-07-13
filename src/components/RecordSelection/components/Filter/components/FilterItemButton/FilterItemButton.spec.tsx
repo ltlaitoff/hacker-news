@@ -93,7 +93,7 @@ describe('FilterItemButton', () => {
 		setup()
 
 		const closeButton = screen.getByTestId('close-button')
-		const svg = screen.getByRole('svgElement')
+		const svg = screen.getByTestId('close-button-icon')
 
 		expect(closeButton).toContainElement(svg)
 	})

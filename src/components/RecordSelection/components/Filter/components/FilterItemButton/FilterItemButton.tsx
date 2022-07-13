@@ -55,7 +55,10 @@ const FilterItemButton = (
 				className='h-full p-[0.6rem]'
 				data-testid='close-button'
 			>
-				<Cross className='fill-gray-400 h-full' />
+				<Cross
+					className='fill-gray-400 h-full'
+					data-testid='close-button-icon'
+				/>
 			</button>
 		</div>
 	)
