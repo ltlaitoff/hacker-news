@@ -1,7 +1,7 @@
 import React, { FC, useState, useEffect, FormEvent } from 'react'
 
 import { Search as APISearch } from 'api/api.interfaces'
-import { getBySearch } from 'api/apiWrapper'
+import { getBySearch } from 'api'
 import Post from 'components/Post'
 import Comment from 'components/Comment'
 import { MainPageTemplateProps } from './MainPageTemplate.interfaces'
@@ -9,7 +9,6 @@ import Loader from 'components/Loader'
 import RecordSelection from 'components/RecordSelection'
 import { useLocation } from 'react-router-dom'
 import { getRouteNameByPath } from 'routes/helpers'
-import { store } from 'store'
 import { useAppDispatch, useAppSelector } from 'hooks/reduxHooks'
 
 const renderTypes = (type: string): FC<any> => {
@@ -56,9 +55,9 @@ const MainPageTemplate: FC<MainPageTemplateProps> = ({
 		console.log('rerender')
 
 		getBySearch({
-			tags: tags,
-			searchByDate: searchByDate,
-			pageName: currentPage
+			searchValue: state.searches[currentPage],
+			filters: state.filters[currentPage],
+			page: 1
 		}).then(value => {
 			setItems(value)
 		})
@@ -75,7 +74,7 @@ const MainPageTemplate: FC<MainPageTemplateProps> = ({
 		<>
 			{items ? (
 				<>
-					<RecordSelection />
+					{/* <RecordSelection /> */}
 					{items.data.hits.map((item, index) => {
 						return <Item {...item} key={index} />
 					})}

@@ -1,4 +1,5 @@
 import filtersReducer, { changeFilters, FiltersStoreType } from './filtersSlice'
+import { FilterBaseName, FilterBaseType } from 'typescript/filters/filters'
 
 describe('Filters reducer', () => {
 	const initialState: FiltersStoreType = {
@@ -20,13 +21,27 @@ describe('Filters reducer', () => {
 			initialState,
 			changeFilters({
 				home: [
-					{ id: 0, name: 'test', key: 'is', value: new Date('01-01-2022') }
+					{
+						id: 0,
+						type: FilterBaseType.DATE,
+						name: FilterBaseName.DATE,
+						filtration: 'is',
+						value: new Date('01-01-2022')
+					}
 				]
 			})
 		)
 
 		expect(actual).toEqual({
-			home: [{ id: 0, name: 'test', key: 'is', value: new Date('01-01-2022') }],
+			home: [
+				{
+					id: 0,
+					type: FilterBaseType.DATE,
+					name: FilterBaseName.DATE,
+					filtration: 'is',
+					value: new Date('01-01-2022')
+				}
+			],
 			new: [],
 			stories: [],
 			comments: [],
