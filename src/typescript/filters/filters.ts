@@ -2,13 +2,13 @@ import { FilterDateTemplate, FilterDateReceived } from './filtersDate'
 import { FilterNumberTemplate, FilterNumberReceived } from './filtersNumber'
 import { FilterListTemplate, FilterListReceived } from './filtersList'
 
-export enum FilterBaseType {
+export const enum FilterBaseType {
 	DATE = 'date',
 	NUMBER = 'number',
 	LIST = 'list'
 }
 
-export enum FilterBaseName {
+export const enum FilterBaseName {
 	DATE = 'date',
 	COMMENTS = 'comments',
 	POINTS = 'points',

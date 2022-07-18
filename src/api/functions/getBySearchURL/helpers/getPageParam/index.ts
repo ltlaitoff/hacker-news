@@ -1,0 +1,1 @@
+export { getPageParam } from './getPageParam'
