@@ -148,3 +148,16 @@ export interface getBySearchProps {
 	numericFilters?: string
 	page?: number
 }
+
+export const enum APIParameters {
+	QUERY = 'query',
+	TAGS = 'tags',
+	NUMBERIC_FILTERS = 'numericFilters',
+	PAGE = 'page'
+}
+
+export const enum NumericFilters {
+	DATE = 'created_at_i',
+	POINTS = 'points',
+	COMMENTS = 'num_comments'
+}

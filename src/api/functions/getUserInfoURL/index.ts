@@ -1,0 +1,1 @@
+export { getUserInfoURL } from './getUserInfoURL'

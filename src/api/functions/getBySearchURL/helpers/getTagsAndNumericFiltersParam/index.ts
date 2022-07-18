@@ -1,0 +1,1 @@
+export { getTagsAndNumericFiltersParam } from './getTagsAndNumericFiltersParam'
