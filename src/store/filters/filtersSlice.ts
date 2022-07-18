@@ -1,14 +1,14 @@
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { CurrentFiltersItem } from 'components/RecordSelection/components/Filter/Filter.interfaces'
 import { PageNames } from 'routes'
-import { Entries, RequireOnlyOne } from 'typescript'
+import { Entries, FilterReceived, RequireOnlyOne } from 'typescript'
 import { RootState } from '../store'
 
-export type FiltersStoreType = Record<PageNames, CurrentFiltersItem[]>
+export type FiltersStoreType = Record<PageNames, FilterReceived[]>
 
 export type RequireOnlyOneFilters = RequireOnlyOne<FiltersStoreType>
 
 const initialState: FiltersStoreType = {
+	// TODO: Add on every page tags by default
 	home: [],
 	new: [],
 	stories: [],
