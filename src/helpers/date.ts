@@ -38,3 +38,7 @@ export const getNowDateWithoutTime = (): Date => {
 
 	return date
 }
+
+export const getDateSeconds = (date: Date): number => {
+	return Math.round(date.getTime() / 1000)
+}

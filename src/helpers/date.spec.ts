@@ -5,7 +5,8 @@ import {
 	getDateMonth,
 	getDatePeopleMonth,
 	getDateFullYear,
-	getNowDateWithoutTime
+	getNowDateWithoutTime,
+	getDateSeconds
 } from './date'
 
 jest.useFakeTimers()
@@ -74,6 +75,19 @@ describe('date helpers', () => {
 				jest.setSystemTime(localdate)
 
 				expect(getNowDateWithoutTime()).toStrictEqual(localdate)
+			}
+		)
+
+		it.each`
+			date                                  | result
+			${new Date('01-01-2022 23:54:38.6')}  | ${1641074079}
+			${new Date('01-02-2020')}             | ${1577916000}
+			${new Date('05-01-2025')}             | ${1746046800}
+			${new Date('07-02-1999 22:29:31.42')} | ${930943771}
+		`(
+			'getDateSeconds with date = $date should return $result',
+			({ date, result }) => {
+				expect(getDateSeconds(date)).toBe(result)
 			}
 		)
 	})
