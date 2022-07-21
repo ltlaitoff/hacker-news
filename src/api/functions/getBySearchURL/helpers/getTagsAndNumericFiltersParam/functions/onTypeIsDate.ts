@@ -10,7 +10,7 @@ const onTypeIsDate = (filter: FilterDateReceived) => {
 		const firstDaySec = getDateSeconds(filter.value[0])
 		const secondDaySec = getDateSeconds(filter.value[1])
 
-		return `${API_DAY}<${firstDaySec},${API_DAY}>${secondDaySec}`
+		return `${API_DAY}>${firstDaySec},${API_DAY}<${secondDaySec}`
 	}
 
 	const dayStartSec = getDateSeconds(filter.value)
