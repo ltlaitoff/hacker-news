@@ -1,18 +1,19 @@
 import { NumericFilters } from 'api/api.interfaces'
 import { SECONDS_IN_DAY } from 'data/constants'
+import { getDateSeconds } from 'helpers'
 import { FilterDateReceived } from 'typescript'
 
 const API_DAY = NumericFilters.DATE
 
 const onTypeIsDate = (filter: FilterDateReceived) => {
 	if (filter.filtration === 'is within') {
-		const firstDaySec = filter.value[0].getTime() / 1000
-		const secondDaySec = filter.value[1].getTime() / 1000
+		const firstDaySec = getDateSeconds(filter.value[0])
+		const secondDaySec = getDateSeconds(filter.value[1])
 
 		return `${API_DAY}<${firstDaySec},${API_DAY}>${secondDaySec}`
 	}
 
-	const dayStartSec = filter.value.getTime() / 1000
+	const dayStartSec = getDateSeconds(filter.value)
 	const dayEndSec = dayStartSec + SECONDS_IN_DAY
 
 	switch (filter.filtration) {
