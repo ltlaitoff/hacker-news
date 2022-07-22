@@ -1,8 +1,6 @@
-export interface FilterItemButtonProps {
-	id: number
-	name: string
-	filterKey: string
-	value: Date | [Date, Date]
+import { FilterReceived } from 'typescript'
+
+export type FilterItemButtonProps = FilterReceived & {
 	onClose: (id: number) => void
 	onClick: (id: number) => void
 	className?: string

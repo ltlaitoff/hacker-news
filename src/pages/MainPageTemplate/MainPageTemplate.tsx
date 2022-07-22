@@ -65,16 +65,11 @@ const MainPageTemplate: FC<MainPageTemplateProps> = ({
 
 	const Item = renderTypes(renderType)
 
-	// const onSearchChange = (value: string) => {
-	// 	console.log(value)
-	// 	setSearchValue(value)
-	// }
-
 	return (
 		<>
 			{items ? (
 				<>
-					{/* <RecordSelection /> */}
+					<RecordSelection />
 					{items.data.hits.map((item, index) => {
 						return <Item {...item} key={index} />
 					})}

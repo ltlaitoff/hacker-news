@@ -1,30 +1,14 @@
 import React, { forwardRef, Ref } from 'react'
-
 import { ReactComponent as Cross } from 'assets/icons/cross.svg'
-
-import { FILTER_DATE_FORMAT } from '../../constants'
-
-// XXX: WTF
-import { trasformDateIntoFormat } from 'components/DatePicker/DatePickerInput/helpers'
 import { FilterItemButtonProps } from './FilterItemButton.interfaces'
-
-// XXX: WTF
-const dateFormatter = (value: Date | Date[]): string | null => {
-	if (value instanceof Array) {
-		return `${trasformDateIntoFormat(
-			value[0],
-			FILTER_DATE_FORMAT
-		)} and ${trasformDateIntoFormat(value[1], FILTER_DATE_FORMAT)}`
-	}
-
-	return trasformDateIntoFormat(value, FILTER_DATE_FORMAT)
-}
+import { formatFilterValueForOutput } from '../../helpers'
 
 const FilterItemButton = (
 	{
 		id,
 		name,
-		filterKey,
+		type,
+		filtration,
 		value,
 		onClose,
 		onClick,
@@ -46,8 +30,8 @@ const FilterItemButton = (
 				data-testid='content-button'
 			>
 				<div>{name}</div>
-				<div>{filterKey}</div>
-				<div>{dateFormatter(value)}</div>
+				<div>{filtration}</div>
+				<div>{formatFilterValueForOutput(value)}</div>
 			</button>
 
 			<button

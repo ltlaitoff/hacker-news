@@ -103,6 +103,7 @@ const DatePicker: FC<DatePickerProps> = ({
 		if (type === 'standart') {
 			if (value instanceof Array) {
 				if (
+					// XXX: Check it of errors
 					dateInput[0].valueOf() !== value.valueOf() ||
 					dateInput[1].valueOf() !== value.valueOf()
 				) {

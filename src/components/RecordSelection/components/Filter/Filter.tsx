@@ -1,20 +1,16 @@
 import React, { FC, useState } from 'react'
 import classNames from 'classnames'
-
 import List, { ListRecord } from 'components/List'
-
-import {
-	CurrentFiltersItem,
-	FilterPosition,
-	FilterProps
-} from './Filter.interfaces'
+import { FilterPosition, FilterProps } from './Filter.interfaces'
 import { DEFAULT_POPUP_OFFSET } from './constants'
-import { FilterDetailsWindow, onSubmitType, FilterLine } from './components'
+import { FilterDetailsWindow, FilterLine } from './components'
 import {
 	getDifferenceFirstAndSecondArraysWithIdField,
 	getFilterById,
-	getPopupOffset
+	getPopupOffset,
+	transformNameObjectArrayToOptions
 } from './helpers'
+import { FilterReceived } from 'typescript'
 
 const Filter: FC<FilterProps> = ({
 	filters,
@@ -48,17 +44,17 @@ const Filter: FC<FilterProps> = ({
 		setViewFilterDetailsWindow(true)
 	}
 
-	const onSubmit = (value: onSubmitType) => {
+	const onSubmit = (value: any) => {
 		if (currentSelectedFiterId === null) return
 
 		const filterExistsIndex = currentFilters.findIndex(
 			filter => filter.id === currentSelectedFiterId
 		)
 
-		const newValue: CurrentFiltersItem = {
+		const newValue: FilterReceived = {
 			id: currentSelectedFiterId,
 			name: filters.filter(filter => filter.id === currentSelectedFiterId)[0]
-				.label,
+				.name,
 			...value
 		}
 
@@ -98,7 +94,6 @@ const Filter: FC<FilterProps> = ({
 		}
 	}
 
-	// XXX: Deleted ref from onFilterDelete
 	const onFilterDelete = (id: number) => {
 		onChange(currentFilters.filter(value => value.id !== id))
 
@@ -137,9 +132,11 @@ const Filter: FC<FilterProps> = ({
 			{viewSelectFilter && (
 				<List
 					className='w-40'
-					options={getDifferenceFirstAndSecondArraysWithIdField(
-						filters,
-						currentFilters
+					options={transformNameObjectArrayToOptions(
+						getDifferenceFirstAndSecondArraysWithIdField(
+							filters,
+							currentFilters
+						)
 					)}
 					onItemClick={onChoiceFilterInSelect}
 					onOutsideClick={onListOutsideClick}
