@@ -1,9 +1,8 @@
-import { Filter } from 'data/filters.interfaces'
-import { CurrentFiltersItem } from '../../Filter.interfaces'
+import { FilterTemplate, FilterReceived } from 'typescript'
 
 export interface FilterLineProps {
-	allFilters: Filter[]
-	currentFilters: CurrentFiltersItem[]
+	allFilters: FilterTemplate[]
+	currentFilters: FilterReceived[]
 	onAddClick: (ref: HTMLButtonElement | null) => void
 	onItemClick: (id: number, ref: HTMLDivElement) => void
 	onItemDeleteClick: (id: number) => void

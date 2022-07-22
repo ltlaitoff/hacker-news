@@ -1,6 +1,5 @@
 import React, { FC, RefCallback, useRef } from 'react'
-
-import { FilterAddingButton, FilterItemButton } from '../../components'
+import { FilterAddingButton, FilterItemButton } from '..'
 import { getDifferenceFirstAndSecondArraysWithIdField } from '../../helpers'
 import { FilterLineProps } from './FilterLine.interfaces'
 
@@ -16,13 +15,6 @@ const FilterLine: FC<FilterLineProps> = ({
 	const addingButtonRef = useRef<HTMLButtonElement>(null)
 	const itemsRef = useRef<Record<string, HTMLDivElement>>({})
 	itemsRef.current = {}
-
-	// useEffect(() => {
-	// /*
-	// XXX: А не означает ли это что мы при каждом перерендере просто удаляем все наши уже созданные рефи и переписываем их
-	// */
-	// itemsRef.current = Object(Array(currentFilters.length))
-	// }, [currentFilters])
 
 	const FilterAddingButtonComponent = () => {
 		return (
@@ -60,10 +52,7 @@ const FilterLine: FC<FilterLineProps> = ({
 					<FilterItemButton
 						ref={refCallback}
 						key={filter.id}
-						filterKey={filter.key}
-						id={filter.id}
-						name={filter.name}
-						value={filter.value}
+						{...filter}
 						onClick={() => onItemClick(filter.id, itemsRef.current[filter.id])}
 						onClose={() => onItemDeleteClick(filter.id)}
 						data-testid='item-button'
