@@ -1,103 +1,16 @@
-import React, { FC, useState, useEffect, useCallback } from 'react'
-import {
-	DateSpecicalFiltrations,
-	DateStandartFiltrations,
-	Filter
-} from 'data/filters.interfaces'
+import React, { FC, useCallback, useReducer, useState } from 'react'
 import classNames from 'classnames'
-import Select from 'components/Select'
-import DatePicker from 'components/DatePicker'
 import { ReactComponent as Cross } from 'assets/icons/cross.svg'
-import { getNowDateWithoutTime } from 'helpers'
-import {
-	DateSpecicalFiltrationsKeys,
-	DateSpecicalFiltrationsKeysArray,
-	DateStandartFiltrationsKeys,
-	DateStandartFiltrationsKeysArray,
-	FilterDetailsWindowProps,
-	Filtrations
-} from './FilterDetailsWindow.interfaces'
 import { useEscKeyDown, useOutsideClick } from 'hooks'
-import { CurrentFiltersItem } from '../../Filter.interfaces'
-import {
-	checkDateInDateArray,
-	checkDifferenceExistsInTwoDateArrays
-} from '../../helpers'
-import { FILTER_DATE_FORMAT } from '../../constants'
-
-/* eslint-disable no-mixed-spaces-and-tabs, indent */
-const getFiltrationsList = (filter: Filter): Filtrations => {
-	const standartFiltrationsKeys = filter.standartFiltrations
-		? (Object.keys(
-				filter.standartFiltrations
-		  ) as DateStandartFiltrationsKeysArray)
-		: []
-
-	const specicalFiltrationsKeys = filter.specicalFiltrations
-		? (Object.keys(
-				filter.specicalFiltrations
-		  ) as DateSpecicalFiltrationsKeysArray)
-		: []
-
-	return { standart: standartFiltrationsKeys, special: specicalFiltrationsKeys }
-}
-/* eslint-enable no-mixed-spaces-and-tabs, indent */
-
-const getSelectOptions = (
-	filtrations: Array<DateStandartFiltrationsKeys | DateSpecicalFiltrationsKeys>
-) => {
-	return filtrations.map((label, index) => {
-		return {
-			id: index,
-			label: label
-		}
-	})
-}
+import Select from 'components/Select'
+import { FilterValuePicker } from '..'
+import { transformArrayToOptions } from '../../helpers'
+import { FilterDetailsWindowProps } from './FilterDetailsWindow.interfaces'
+import { filterDetailsWindowReducer, getDefaultReducerValue } from './reducer'
 
 /* 
 	TODO: On enter press in DatePickerInput form should be close
 */
-
-const getDefaultDateValue = (
-	currentFilter: CurrentFiltersItem | null
-): [Date, Date] => {
-	if (currentFilter === null) {
-		return [getNowDateWithoutTime(), getNowDateWithoutTime()]
-	}
-
-	if (currentFilter.value instanceof Date) {
-		return [currentFilter.value, currentFilter.value]
-	}
-
-	return [...currentFilter.value]
-}
-
-const getDefaultKey = (
-	currentFilter: CurrentFiltersItem | null
-): keyof DateStandartFiltrations | keyof DateSpecicalFiltrations | '' => {
-	if (currentFilter === null) {
-		return ''
-	}
-
-	return currentFilter.key
-}
-
-const getDatePickerType = (
-	array: DateStandartFiltrationsKeysArray,
-	current: DateStandartFiltrationsKeys | DateSpecicalFiltrationsKeys | ''
-) => {
-	if (includes(array, current)) return 'standart'
-
-	return 'range'
-}
-
-function includes<T extends U, U>(
-	array: ReadonlyArray<T>,
-	element: U
-): element is T {
-	return array.includes(element as T)
-}
-
 const FilterDetailsWindow: FC<FilterDetailsWindowProps> = ({
 	filter,
 	currentFilter,
@@ -107,86 +20,38 @@ const FilterDetailsWindow: FC<FilterDetailsWindowProps> = ({
 	style,
 	...args
 }) => {
-	const [filtrations, setFiltrations] = useState<Filtrations | null>(null)
-	const [currentFiltration, setCurrentFiltration] = useState<
-		keyof DateStandartFiltrations | keyof DateSpecicalFiltrations | ''
-	>(getDefaultKey(currentFilter))
-	const [filtrationValues, setFiltrationValues] = useState<[Date, Date]>(
-		getDefaultDateValue(currentFilter)
+	const [state, reducerDispatch] = useReducer(
+		filterDetailsWindowReducer,
+		getDefaultReducerValue(filter, currentFilter)
 	)
 	const [error, setError] = useState<boolean>(false)
 
-	const onOutsideClick = () => {
-		onClose()
-	}
-
-	const ref = useOutsideClick(onOutsideClick) as React.RefObject<HTMLDivElement>
-
-	useEffect(() => {
-		if (filter) {
-			const filtrations = getFiltrationsList(filter)
-			setFiltrations(filtrations)
-
-			if (currentFiltration === '') {
-				setCurrentFiltration(filtrations.standart[0])
-			}
-		}
-		// XXX: currentFiltration
-	}, [filter, currentFiltration])
-
-	const onEscPress = useCallback(
-		(e: KeyboardEvent) => {
-			onClose()
-		},
-		[onClose]
-	)
+	const ref = useOutsideClick(onClose) as React.RefObject<HTMLDivElement>
+	const onEscPress = useCallback(onClose, [onClose])
 
 	useEscKeyDown(onEscPress, true)
 
-	const handleDateChange = useCallback(
-		(value: Date | [Date, Date]) => {
-			if (value instanceof Array) {
-				if (checkDifferenceExistsInTwoDateArrays(filtrationValues, value)) {
-					setFiltrationValues(value)
-				}
+	const handleValueChange = (value: typeof state['value']) => {
+		reducerDispatch({ type: 'change-value', payload: value })
+	}
 
-				return
-			}
+	const onError = useCallback((value: boolean) => setError(value), [])
 
-			if (!checkDateInDateArray(value, filtrationValues)) {
-				setFiltrationValues([value, value])
-			}
-		},
-		[filtrationValues]
-	)
+	if (filter === null) return null
+	if (currentFilter && filter.type !== currentFilter.type) return null
 
-	const onError = useCallback((value: boolean) => {
-		setError(value)
-	}, [])
-
-	if (filter === null || filtrations === null) return null
-
-	const selectOptions = getSelectOptions([
-		...filtrations.standart,
-		...filtrations.special
-	])
+	const selectOptions = transformArrayToOptions(filter.filtrations)
 
 	const onSelectItemClick = (id: number) => {
 		const filtration = selectOptions[id]?.label
 
-		setCurrentFiltration(filtration)
+		reducerDispatch({ type: 'change-filtration', payload: filtration })
 	}
 
 	const onDoneClick = () => {
-		if (currentFiltration === '') return
 		if (error) return
 
-		if (includes(filtrations.standart, currentFiltration)) {
-			onSubmit({ key: currentFiltration, value: filtrationValues[0] })
-			return
-		}
-
-		onSubmit({ key: currentFiltration, value: filtrationValues })
+		onSubmit(state)
 	}
 
 	return (
@@ -194,11 +59,6 @@ const FilterDetailsWindow: FC<FilterDetailsWindowProps> = ({
 			ref={ref}
 			className={classNames(
 				'absolute h-26 gap-y-3 z-10 bg-white border-2 rounded-lg shadow-stone-700/20 shadow-[0_10px_60px_0_rgba(0,0,0,0.3)]',
-				{
-					// XXX: Move it into variable?
-					'max-w-md': includes(filtrations.standart, currentFiltration),
-					'max-w-lg': !includes(filtrations.standart, currentFiltration)
-				},
 				className
 			)}
 			data-testid='wrapper'
@@ -208,26 +68,22 @@ const FilterDetailsWindow: FC<FilterDetailsWindowProps> = ({
 			<div className='relative px-4 py-3'>
 				<div className='gap-x-4 flex items-center'>
 					<div className='text-lg text-gray-700' data-testid='label-text'>
-						{filter.label}
+						{filter.name}
 					</div>
 					<Select
 						options={selectOptions}
 						onClick={onSelectItemClick}
 						defaultSelectId={selectOptions.findIndex(
-							element => element.label === currentFiltration
+							element => element.label === state.filtration
 						)}
 					/>
 				</div>
 
-				<div className='flex py-4'>
-					<DatePicker
-						type={getDatePickerType(filtrations.standart, currentFiltration)}
-						value={filtrationValues}
-						onChange={handleDateChange}
-						format={FILTER_DATE_FORMAT}
-						onError={onError}
-					/>
-				</div>
+				<FilterValuePicker
+					filter={state}
+					onError={onError}
+					onChange={handleValueChange}
+				/>
 
 				<div className='flex justify-center'>
 					<button
