@@ -40,5 +40,5 @@ export const getNowDateWithoutTime = (): Date => {
 }
 
 export const getDateSeconds = (date: Date): number => {
-	return Math.round(date.getTime() / 1000) + date.getTimezoneOffset() * 60
+	return Math.round(date.getTime() / 1000)
 }
