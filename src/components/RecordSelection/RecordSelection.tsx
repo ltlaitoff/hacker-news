@@ -1,6 +1,5 @@
 import React, { FC } from 'react'
 import Filter from './components/Filter'
-import { CurrentFiltersItem } from './components/Filter/Filter.interfaces'
 import Search from './components/Search'
 import { filters } from 'data/filters'
 import {
@@ -15,6 +14,7 @@ import {
 import { useAppDispatch, useAppSelector } from 'hooks/reduxHooks'
 import { useLocation } from 'react-router-dom'
 import { getRouteNameByPath } from 'routes'
+import { FilterReceived } from 'typescript'
 
 const RecordSelection: FC = () => {
 	const location = useLocation()
@@ -34,7 +34,7 @@ const RecordSelection: FC = () => {
 
 	const dispatch = useAppDispatch()
 
-	const setCurrentFilters = (array: CurrentFiltersItem[]) => {
+	const setCurrentFilters = (array: FilterReceived[]) => {
 		const returnValue: RequireOnlyOneFilters = {
 			[currentPage]: array
 		} as FiltersStoreType
