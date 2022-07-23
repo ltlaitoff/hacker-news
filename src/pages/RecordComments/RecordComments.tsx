@@ -2,8 +2,7 @@ import React, { FC, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { getItemInfo } from 'api'
 import { Item } from 'api/api.interfaces'
-import ParentRecord from './components/ParentRecord'
-import Comments from './components/Comments'
+import { Comments, ParentRecord } from './components'
 import Loader from 'components/Loader'
 
 const RecordComments: FC = () => {
@@ -14,25 +13,21 @@ const RecordComments: FC = () => {
 		const numberId: number = Number(id)
 
 		getItemInfo(numberId).then(value => setRecordInfo(value))
-	}, [])
+		/* TODO: Add catch error */
+	}, [id])
 
-	const Main = () => {
-		if (recordInfo) {
-			const parentRecordData = recordInfo.data
-			const comments = recordInfo.data.children
-
-			return (
+	return (
+		<div>
+			{recordInfo !== null ? (
 				<>
-					<ParentRecord data={parentRecordData} />
-					<Comments comments={comments} />
+					<ParentRecord data={recordInfo.data} />
+					<Comments comments={recordInfo.data.children} />
 				</>
-			)
-		}
-
-		return null
-	}
-
-	return <div>{recordInfo !== null ? <Main /> : <Loader />}</div>
+			) : (
+				<Loader />
+			)}
+		</div>
+	)
 }
 
 export default RecordComments
