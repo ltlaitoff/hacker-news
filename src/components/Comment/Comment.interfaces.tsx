@@ -8,5 +8,6 @@ export interface CommentProps {
 	parent_id: number
 	story_id: number
 	level: number
+	onHideClick?: () => void
 	className?: string
 }

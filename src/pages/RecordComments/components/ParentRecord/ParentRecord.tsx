@@ -1,14 +1,7 @@
-import React, { useState, FC } from 'react'
-import { ItemStory } from 'api/api.interfaces'
+import React, { FC } from 'react'
 import Post from 'components/Post'
-
-import { ItemComment } from '../../../api/api.interfaces'
 import Comment from 'components/Comment'
-
-interface ParentRecordProps {
-	data: ItemStory | ItemComment
-	className?: string
-}
+import { ParentRecordProps } from './ParentRecord.interfaces'
 
 const ParentRecord: FC<ParentRecordProps> = ({ data, className, ...args }) => {
 	if (data.type === 'story') {

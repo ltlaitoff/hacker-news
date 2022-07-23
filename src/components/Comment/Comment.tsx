@@ -22,9 +22,14 @@ const Comment: FC<CommentProps> = ({
 	parent_id,
 	story_id,
 	level,
+	onHideClick,
 	className,
 	...args
 }: CommentProps) => {
+	if (onHideClick === undefined) {
+		onHideClick = () => {}
+	}
+
 	const [vote, setVote] = useState<boolean>(false)
 
 	const toogleVote = () => setVote(currentVote => !currentVote)
@@ -70,7 +75,7 @@ const Comment: FC<CommentProps> = ({
 					type='comment'
 					author={author}
 					dateTimeStamp={created_at_i}
-					onHideClick={() => {}}
+					onHideClick={onHideClick}
 					parentId={parent_id}
 				/>
 			</div>
