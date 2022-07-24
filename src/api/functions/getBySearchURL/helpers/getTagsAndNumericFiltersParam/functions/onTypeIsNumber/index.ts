@@ -1,0 +1,1 @@
+export { onTypeIsNumber } from './onTypeIsNumber'

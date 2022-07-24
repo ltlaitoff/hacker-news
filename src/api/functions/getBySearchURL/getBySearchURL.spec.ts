@@ -11,7 +11,7 @@
 
 import ColoredConsoleLogTemplates from 'utils/colors'
 
-ColoredConsoleLogTemplates.todo('Write tests on getBySearchURL')
+ColoredConsoleLogTemplates.todo('Write tests on getBySearchURL(#85)')
 
 /*
 	Notion: https://www.notion.so/getBySearchURL-tests-af65c970a7004237b7010f91ea2b5902

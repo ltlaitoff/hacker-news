@@ -1,6 +1,6 @@
 import ColoredConsoleLogTemplates from 'utils/colors'
 
-ColoredConsoleLogTemplates.todo('Write tests on getUrlParams')
+ColoredConsoleLogTemplates.todo('Write tests on getUrlParams(#85)')
 /*
 	Notion: https://www.notion.so/getUrlParams-tests-c430f173a7cc468f9875166b8ec62433
 */
