@@ -1,4 +1,4 @@
-import { APIParameters } from '../../../../api.interfaces'
+import { APIParameters } from '../../api.interfaces'
 
 type getUrlParamsType = {
 	[APIParameters.QUERY]: string

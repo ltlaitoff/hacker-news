@@ -1,12 +1,24 @@
-import ColoredConsoleLogTemplates from 'utils/colors'
+import { getUrlParams } from './getUrlParams'
 
-ColoredConsoleLogTemplates.todo('Write tests on getUrlParams(#85)')
-/*
-	Notion: https://www.notion.so/getUrlParams-tests-c430f173a7cc468f9875166b8ec62433
-*/
+jest.mock('../../api.interfaces', () => {
+	return {
+		APIParameters: {
+			QUERY: 'query_mock',
+			PAGE: 'page_mock',
+			TAGS: 'tags_mock',
+			NUMBERIC_FILTERS: 'numberic_filters_mock'
+		}
+	}
+})
 
-describe('getUrlParams', () => {
-	it('-', () => {
-		expect(true).toBe(true)
+describe('api/helpers/getUrlParams', () => {
+	it.each`
+		arg                                                                                                                | result
+		${{ query_mock: 'test_query', page_mock: '4', tags: 'test_tags', numberic_filters_mock: 'numberic_filters_mock' }} | ${'?query_mock=test_query&page_mock=4&tags=test_tags&numberic_filters_mock=numberic_filters_mock'}
+		${{ query_mock: 'random_query', page_mock: '5', tags: 'TAG' }}                                                     | ${'?query_mock=random_query&page_mock=5&tags=TAG'}
+		${{ page_mock: '5', tags: 'story' }}                                                                               | ${'?page_mock=5&tags=story'}
+		${{}}                                                                                                              | ${''}
+	`('getUrlParams with arg = $arg should return $result', ({ arg, result }) => {
+		expect(getUrlParams(arg)).toBe(result)
 	})
 })
