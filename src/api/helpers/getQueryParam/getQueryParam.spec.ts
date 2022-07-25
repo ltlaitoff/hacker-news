@@ -1,12 +1,13 @@
-import ColoredConsoleLogTemplates from 'utils/colors'
+import { getQueryParam } from '.'
 
-ColoredConsoleLogTemplates.todo('Write tests on getQueryParam(#85)')
-/*
-	Notion: https://www.notion.so/getQueryParam-tests-e5b36b16a60a40f79ba277b143c83698
-*/
-
-describe('getQueryParam', () => {
-	it('-', () => {
-		expect(true).toBe(true)
+describe('api/helpers/getQueryParam', () => {
+	it.each`
+		arg
+		${'hello'}
+		${'test'}
+		${'QUERY'}
+		${'WDYT'}
+	`('getQueryParam with arg = $arg should return $arg', ({ arg }) => {
+		expect(getQueryParam(arg)).toBe(arg)
 	})
 })
