@@ -1,12 +1,17 @@
-import ColoredConsoleLogTemplates from 'utils/colors'
+import { getPageParam } from '.'
 
-ColoredConsoleLogTemplates.todo('Write tests on getPageParam(#85)')
-/*
-	Notion: https://www.notion.so/getPageParam-tests-46de8db0166445cc9154204ce7d12b92
-*/
-
-describe('getPageParam', () => {
-	it('-', () => {
-		expect(true).toBe(true)
-	})
+describe('api/helpers/getPageParam', () => {
+	it.each`
+		pageNumber
+		${1}
+		${2}
+		${5}
+		${6}
+		${47}
+	`(
+		'getPageParam with page = $pageNumber should return "$pageNumber"',
+		({ pageNumber }) => {
+			expect(getPageParam(pageNumber)).toBe(String(pageNumber))
+		}
+	)
 })
