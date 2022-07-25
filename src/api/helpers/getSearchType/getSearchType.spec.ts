@@ -1,12 +1,24 @@
-import ColoredConsoleLogTemplates from 'utils/colors'
+import { getSearchType } from './getSearchType'
 
-ColoredConsoleLogTemplates.todo('Write tests on getSearchType(#85)')
-/*
-	Notion: https://www.notion.so/getSearchType-tests-e119af596f9e44518e58b89d05c590b3
-*/
+jest.mock('../../constants', () => {
+	return {
+		SEARCH_TYPES: {
+			test1: 'test1value',
+			test2: 'test2value'
+		}
+	}
+})
 
-describe('getSearchType', () => {
-	it('-', () => {
-		expect(true).toBe(true)
-	})
+describe('api/helpers/getSearchType', () => {
+	it.each`
+		arg         | result
+		${'test1'}  | ${'test1value'}
+		${'test2'}  | ${'test2value'}
+		${'random'} | ${undefined}
+	`(
+		'getSearchType with arg = $arg should return $result',
+		({ arg, result }) => {
+			expect(getSearchType(arg)).toBe(result)
+		}
+	)
 })

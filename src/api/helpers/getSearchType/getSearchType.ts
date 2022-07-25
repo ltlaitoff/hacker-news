@@ -1,4 +1,4 @@
-import { SEARCH_TYPES } from 'api/constants'
+import { SEARCH_TYPES } from '../../constants'
 
 type ReverseMap<T> = T[keyof T]
 
