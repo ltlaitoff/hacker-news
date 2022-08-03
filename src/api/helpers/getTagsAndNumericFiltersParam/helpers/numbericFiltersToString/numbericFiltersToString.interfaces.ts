@@ -1,6 +1,6 @@
 import { NumericFilters } from '../../../../api.interfaces'
 
-export type NumbericFilters = {
+export type NumbericFiltersProp = {
 	[NumericFilters.COMMENTS]: string
 	[NumericFilters.POINTS]: string
 	[NumericFilters.DATE]: string
