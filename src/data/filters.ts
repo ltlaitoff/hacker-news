@@ -48,6 +48,6 @@ export const filters: FilterTemplate[] = [
 		id: 3,
 		type: FilterBaseType.STRING,
 		name: FilterBaseName.AUTHOR,
-		filtrations: ['is', 'is except']
+		filtrations: ['is']
 	}
 ]
