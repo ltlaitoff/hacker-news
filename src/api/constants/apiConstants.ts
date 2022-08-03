@@ -10,3 +10,4 @@ export enum SEARCH_TYPES {
 }
 
 export const PAGE_DEFAULT_VALUE = 0
+export const ON_TYPE_IS_LIST_DEFAULT = ''
