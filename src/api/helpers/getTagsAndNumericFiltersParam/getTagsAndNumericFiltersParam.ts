@@ -12,6 +12,7 @@ import { numbericFiltersToString, tagsToString } from './helpers'
 /*
 	TODO: Rename it
 */
+
 export const getTagsAndNumericFiltersParam = (
 	filters: FilterReceived[]
 ): GetTagsAndNumericFiltersParamReturnType => {
