@@ -57,7 +57,7 @@ const MainPageTemplate: FC<MainPageTemplateProps> = ({
 		getBySearch({
 			searchValue: state.searches[currentPage],
 			filters: state.filters[currentPage],
-			page: 1
+			page: 0
 		}).then(value => {
 			setItems(value)
 		})
