@@ -43,5 +43,11 @@ export const filters: FilterTemplate[] = [
 			'is on or lower',
 			'is between'
 		]
+	},
+	{
+		id: 3,
+		type: FilterBaseType.STRING,
+		name: FilterBaseName.AUTHOR,
+		filtrations: ['is', 'is except']
 	}
 ]
