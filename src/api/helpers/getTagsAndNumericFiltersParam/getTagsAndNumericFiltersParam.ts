@@ -1,4 +1,4 @@
-import { APIParameters, NumericFilters } from 'api/api.interfaces'
+import { APIParameters, NumericFilters } from '../../api.interfaces'
 import { FilterBaseName, FilterReceived } from 'typescript/filters'
 import {
 	onTypeIsNumber,
@@ -6,46 +6,15 @@ import {
 	onTypeIsDate,
 	onTypeIsString
 } from './functions'
-
-type NumbericFilters = {
-	[NumericFilters.COMMENTS]: string
-	[NumericFilters.POINTS]: string
-	[NumericFilters.DATE]: string
-}
-
-type TAGS = {
-	[APIParameters.AUTHOR]: string
-	[APIParameters.TAGS]: string
-}
-
-type getTagsAndNumericFiltersParamReturnType = {
-	[APIParameters.TAGS]: string
-	[APIParameters.NUMBERIC_FILTERS]: string
-}
-
-const numbericFiltersToString = (value: NumbericFilters) => {
-	console.log(value)
-	const array = Object.values(value)
-	const filteredArray = array.filter(value => value !== '')
-
-	return filteredArray.join(',')
-}
-
-const tagsToString = (value: TAGS) => {
-	const resultArray = [
-		value[APIParameters.AUTHOR],
-		value[APIParameters.TAGS]
-	].filter(value => value !== '')
-
-	return resultArray.join(',')
-}
+import { GetTagsAndNumericFiltersParamReturnType } from './getTagsAndNumericFiltersParam.interfaces'
+import { numbericFiltersToString, tagsToString } from './helpers'
 
 /*
 	TODO: Rename it
 */
 export const getTagsAndNumericFiltersParam = (
 	filters: FilterReceived[]
-): getTagsAndNumericFiltersParamReturnType => {
+): GetTagsAndNumericFiltersParamReturnType => {
 	const result = {
 		[APIParameters.TAGS]: {
 			[APIParameters.AUTHOR]: '',
@@ -57,10 +26,6 @@ export const getTagsAndNumericFiltersParam = (
 			[NumericFilters.DATE]: ''
 		}
 	}
-
-	/*
-		Вынести forEach в отдельную функцию
-	*/
 
 	filters.forEach(filter => {
 		switch (filter.name) {
@@ -100,10 +65,6 @@ export const getTagsAndNumericFiltersParam = (
 			}
 		}
 	})
-
-	/*
-		TODO: NumericFilter -> string
-	*/
 
 	const finalResult = {
 		[APIParameters.TAGS]: tagsToString(result[APIParameters.TAGS]),
