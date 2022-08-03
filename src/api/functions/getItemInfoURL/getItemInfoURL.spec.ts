@@ -1,13 +1,26 @@
-import ColoredConsoleLogTemplates from 'utils/colors'
+import { getItemInfoURL } from './getItemInfoURL'
 
-ColoredConsoleLogTemplates.todo('Write tests on getItemInfoURL(#85)')
-
-/*
-	Notion: https://www.notion.so/getItemInfoURL-tests-131cd5e980fa4e079c482fe08af46ea8
-*/
+jest.mock('../../constants', () => ({
+	ITEM_URL_TEMPLATE: 'template/'
+}))
 
 describe('getItemInfoURL', () => {
-	it('-', () => {
-		expect(true).toBe(true)
+	it.each`
+		value  | result
+		${10}  | ${'template/10'}
+		${50}  | ${'template/50'}
+		${111} | ${'template/111'}
+		${0}   | ${'template/0'}
+	`(
+		'getItemInfoURL with value = $value should return $result',
+		({ value, result }) => {
+			expect(getItemInfoURL(value)).toBe(result)
+		}
+	)
+
+	it('getItemInfoURL with value < 0 should throw an error', () => {
+		expect(() => getItemInfoURL(-1)).toThrowError(
+			'api getItemInfo error: id must be greated or equals 0'
+		)
 	})
 })
