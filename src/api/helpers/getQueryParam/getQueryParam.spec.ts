@@ -7,6 +7,7 @@ describe('api/helpers/getQueryParam', () => {
 		${'test'}
 		${'QUERY'}
 		${'WDYT'}
+		${''}
 	`('getQueryParam with arg = $arg should return $arg', ({ arg }) => {
 		expect(getQueryParam(arg)).toBe(arg)
 	})
