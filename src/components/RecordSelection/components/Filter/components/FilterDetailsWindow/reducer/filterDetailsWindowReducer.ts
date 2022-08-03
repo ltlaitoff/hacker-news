@@ -5,6 +5,7 @@ import {
 	FilterListReceived,
 	FilterNumberReceived,
 	FilterReceived,
+	FilterStringReceived,
 	FilterTemplate
 } from 'typescript/filters'
 import {
@@ -91,6 +92,16 @@ export function getDefaultReducerValue(
 				filtration: filter.filtrations[0],
 				value: 100
 			} as FilterNumberReceived
+		}
+
+		case FilterBaseType.STRING: {
+			return {
+				id: filter.id,
+				name: filter.name,
+				type: filter.type,
+				filtration: filter.filtrations[0],
+				value: 'gg'
+			} as FilterStringReceived
 		}
 	}
 }

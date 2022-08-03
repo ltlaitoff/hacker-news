@@ -7,8 +7,12 @@ const onTypeIsNumber = (filter: FilterNumberReceived) => {
 	if (filter.filtration === 'is between') {
 		const [first, second] = filter.value
 
+		if (first <= 0 || second <= 0) return ''
+
 		return `${COMMENTS_API}>${first},${COMMENTS_API}<${second}`
 	}
+
+	if (filter.value <= 0) return ''
 
 	const value = filter.value
 
@@ -34,7 +38,10 @@ const onTypeIsNumber = (filter: FilterNumberReceived) => {
 		}
 	}
 
-	throw new Error(`Invalid filter.filtration on filter = ${filter}`)
+	throw new Error(
+		// @ts-expect-error
+		`Invalid filter.filtration = ${filter.filtration} in onTypeIsNumber`
+	)
 }
 
 export { onTypeIsNumber }

@@ -1,6 +1,6 @@
 import ColoredConsoleLogTemplates from 'utils/colors'
 
-ColoredConsoleLogTemplates.todo('Write tests on getFromAPI')
+ColoredConsoleLogTemplates.todo('Write tests on getFromAPI(#85)')
 
 /*
 	Notion: https://www.notion.so/getFromAPI-tests-f12baf39a32c4b5c9eccbfe40012a7ca

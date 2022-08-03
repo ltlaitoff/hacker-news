@@ -6,6 +6,7 @@ import { FilterBaseType } from 'typescript/filters'
 import { FILTER_DATE_FORMAT } from '../../constants'
 import { transformArrayToOptions } from '../../helpers'
 import { FilterValuePickerProps } from './FilterValuePicker.interfaces'
+import StringPicker from 'components/StringPicker'
 
 const FilterValuePicker: FC<FilterValuePickerProps> = ({
 	filter,
@@ -71,6 +72,14 @@ const FilterValuePicker: FC<FilterValuePickerProps> = ({
 						options={transformArrayToOptions(filter.listValues)}
 						onClick={onSelectItemClick}
 					/>
+				</div>
+			)
+		}
+
+		case FilterBaseType.STRING: {
+			return (
+				<div className='flex py-4'>
+					<StringPicker value={filter.value} onChange={onChange} />
 				</div>
 			)
 		}

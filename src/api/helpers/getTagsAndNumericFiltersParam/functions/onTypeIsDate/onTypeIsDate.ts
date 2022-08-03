@@ -38,7 +38,10 @@ const onTypeIsDate = (filter: FilterDateReceived) => {
 		}
 	}
 
-	throw new Error(`Invalid filter.filtration on filter = ${filter}`)
+	throw new Error(
+		// @ts-expect-error
+		`Invalid filter.filtration = ${filter.filtration} in onTypeIsDate`
+	)
 }
 
 export { onTypeIsDate }

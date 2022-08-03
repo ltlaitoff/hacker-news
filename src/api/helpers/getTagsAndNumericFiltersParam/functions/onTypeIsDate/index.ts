@@ -1,0 +1,1 @@
+export { onTypeIsDate } from './onTypeIsDate'

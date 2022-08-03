@@ -6,7 +6,7 @@ import {
 	FilterReceived
 } from '../typescript/filters/filters'
 
-ColoredConsoleLogTemplates.todo('Write tests on api')
+ColoredConsoleLogTemplates.todo('Write tests on api(#85)')
 
 /*
 	Notion: https://www.notion.so/api-tests-d21fb069b4ac486a80c63b81c0864c7d

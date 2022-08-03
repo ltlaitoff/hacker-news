@@ -7,7 +7,7 @@ import {
 	getSearchType,
 	getTagsAndNumericFiltersParam,
 	getUrlParams
-} from './helpers'
+} from '../../helpers'
 
 type GetBySearchURL = {
 	searchValue: string

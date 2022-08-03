@@ -1,0 +1,1 @@
+export { onTypeIsList } from './onTypeIsList'
