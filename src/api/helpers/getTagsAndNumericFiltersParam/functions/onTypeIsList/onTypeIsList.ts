@@ -30,7 +30,6 @@ const onTypeIsList = (filter: FilterListReceived) => {
 		}
 	}
 
-	console.log('er')
 	throw new Error(
 		`Invalid filter.filtration = ${filter.filtration} in onTypeIsList`
 	)
