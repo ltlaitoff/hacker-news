@@ -1,3 +1,4 @@
+import { ON_TYPE_IS_LIST_DEFAULT } from '../../../../constants'
 import { FilterListReceived } from 'typescript'
 
 const onTypeIsList = (filter: FilterListReceived) => {
@@ -5,10 +6,18 @@ const onTypeIsList = (filter: FilterListReceived) => {
 
 	switch (filter.filtration) {
 		case 'is': {
+			if (!filter.listValues.includes(filter.value)) {
+				return ON_TYPE_IS_LIST_DEFAULT
+			}
+
 			return filter.value
 		}
 
 		case 'is except': {
+			if (!filter.listValues.includes(filter.value)) {
+				return ON_TYPE_IS_LIST_DEFAULT
+			}
+
 			const tagsArray = filter.listValues.filter(
 				currentValue => currentValue !== filter.value && currentValue !== 'all'
 			)
@@ -21,7 +30,10 @@ const onTypeIsList = (filter: FilterListReceived) => {
 		}
 	}
 
-	throw new Error(`Invalid filter.filtration on filter = ${filter}`)
+	console.log('er')
+	throw new Error(
+		`Invalid filter.filtration = ${filter.filtration} in onTypeIsList`
+	)
 }
 
 export { onTypeIsList }
