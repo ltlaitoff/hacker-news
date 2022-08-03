@@ -153,7 +153,8 @@ export const enum APIParameters {
 	QUERY = 'query',
 	TAGS = 'tags',
 	NUMBERIC_FILTERS = 'numericFilters',
-	PAGE = 'page'
+	PAGE = 'page',
+	AUTHOR = 'author'
 }
 
 export const enum NumericFilters {
