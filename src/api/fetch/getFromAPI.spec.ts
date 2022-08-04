@@ -1,13 +1,22 @@
-import ColoredConsoleLogTemplates from 'utils/colors'
+import { getFromAPI } from '.'
 
-ColoredConsoleLogTemplates.todo('Write tests on getFromAPI(#85)')
+const mockAxiosGet = jest.fn()
 
-/*
-	Notion: https://www.notion.so/getFromAPI-tests-f12baf39a32c4b5c9eccbfe40012a7ca
-*/
+jest.mock('axios', () => {
+	return {
+		get: (url: string) => mockAxiosGet(url)
+	}
+})
 
-describe('getFromAPI', () => {
-	it('-', () => {
-		expect(true).toBe(true)
+describe('api/getFromAPI', () => {
+	it.each`
+		url
+		${'test'}
+		${'url'}
+		${'random text'}
+	`('getFromAPI with url = $url should call axios.get with $url', ({ url }) => {
+		getFromAPI(url)
+
+		expect(mockAxiosGet).toBeCalledWith(url)
 	})
 })
