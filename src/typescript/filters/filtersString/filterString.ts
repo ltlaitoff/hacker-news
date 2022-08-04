@@ -1,6 +1,6 @@
 import { FilterBase, FilterBaseType, FilterBaseName } from '../filters'
 
-type FilterStrinFiltrations = 'is' | 'is except'
+type FilterStringFiltrations = 'is'
 type FilterStringElementType = string
 
 interface FilterStringBase extends FilterBase {
@@ -9,10 +9,10 @@ interface FilterStringBase extends FilterBase {
 }
 
 export interface FilterStringTemplate extends FilterStringBase {
-	filtrations: Array<FilterStrinFiltrations>
+	filtrations: Array<FilterStringFiltrations>
 }
 
 export interface FilterStringReceived extends FilterStringBase {
-	filtration: FilterStrinFiltrations
+	filtration: FilterStringFiltrations
 	value: FilterStringElementType
 }

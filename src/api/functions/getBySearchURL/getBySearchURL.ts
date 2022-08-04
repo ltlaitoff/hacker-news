@@ -1,6 +1,5 @@
-import { APIParameters } from 'api/api.interfaces'
-import { FilterReceived } from 'typescript'
-import { SEARCH_URL_TEMPLATE, SEARCH_TYPES } from '../../constants'
+import { APIParameters } from '../../api.interfaces'
+import { SEARCH_URL_TEMPLATE } from '../../constants'
 import {
 	getPageParam,
 	getQueryParam,
@@ -8,17 +7,8 @@ import {
 	getTagsAndNumericFiltersParam,
 	getUrlParams
 } from '../../helpers'
+import { GetBySearchURL } from './getBySearchURL.interfaces'
 
-type GetBySearchURL = {
-	searchValue: string
-	filters: FilterReceived[]
-	page: number
-	sorting?: keyof typeof SEARCH_TYPES
-}
-
-/*
-	Tests: https://www.notion.so/getBySearchURL-tests-af65c970a7004237b7010f91ea2b5902
-*/
 export const getBySearchURL = ({
 	searchValue,
 	filters,

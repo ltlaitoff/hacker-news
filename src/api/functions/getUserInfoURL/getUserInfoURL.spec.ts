@@ -1,13 +1,20 @@
-import ColoredConsoleLogTemplates from 'utils/colors'
+import { getUserInfoURL } from './getUserInfoURL'
 
-ColoredConsoleLogTemplates.todo('Write tests on getUserInfoURL(#85)')
-
-/*
-	Notion: https://www.notion.so/getUserInfoURL-tests-64c17ac04b8e4f84bd2353073b872112
-*/
+jest.mock('../../constants', () => ({
+	USER_URL_TEMPLATE: 'template/'
+}))
 
 describe('getUserInfoURL', () => {
-	it('-', () => {
-		expect(true).toBe(true)
-	})
+	it.each`
+		value     | result
+		${'test'} | ${'template/test'}
+		${'gg'}   | ${'template/gg'}
+		${'gth'}  | ${'template/gth'}
+		${''}     | ${'template/'}
+	`(
+		'getUserInfoURL with value = $value should return $result',
+		({ value, result }) => {
+			expect(getUserInfoURL(value)).toBe(result)
+		}
+	)
 })

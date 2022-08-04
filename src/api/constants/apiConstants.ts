@@ -8,3 +8,6 @@ export enum SEARCH_TYPES {
 	DEFAULT = 'search',
 	DATE = 'search_by_date'
 }
+
+export const PAGE_DEFAULT_VALUE = 0
+export const ON_TYPE_IS_LIST_DEFAULT = ''
