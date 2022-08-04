@@ -1,249 +1,191 @@
-// import {
-// 	FilterBaseType,
-// 	FilterBaseName,
-// 	FilterReceived
-// } from 'typescript/filters'
-// import {
-// 	getBySearchURL,
-// 	getQueryParam,
-// 	getTagsAndNumericFiltersParam
-// } from './getBySearchURL'
+import {
+	FilterBaseName,
+	FilterBaseType,
+	FilterReceived
+} from 'typescript/filters'
+import { getBySearchURL as apiGetBySearchURL } from '.'
 
-import ColoredConsoleLogTemplates from 'utils/colors'
+const APIParameters = {
+	QUERY: 'query_mock',
+	TAGS: 'tags_mock',
+	NUMBERIC_FILTERS: 'numericFilters_mock',
+	PAGE: 'page_mock'
+}
 
-ColoredConsoleLogTemplates.todo('Write tests on getBySearchURL(#85)')
+const NumericFilters = {
+	DATE: 'date_mock',
+	POINTS: 'points_mock',
+	COMMENTS: 'comments_mock'
+}
 
-/*
-	Notion: https://www.notion.so/getBySearchURL-tests-af65c970a7004237b7010f91ea2b5902
-*/
+const SEARCH_URL_TEMPLATE = 'SEARCH_URL_TEMPLATE'
 
-describe('getBySearchURL', () => {
-	it('-', () => {
-		expect(true).toBe(true)
-	})
+jest.mock('api/api.interfaces', () => {
+	return {
+		APIParameters,
+		NumericFilters
+	}
 })
 
-// const APIParameters = {
-// 	QUERY: 'query_mock',
-// 	TAGS: 'tags_mock',
-// 	NUMBERIC_FILTERS: 'numericFilters_mock',
-// 	PAGE: 'page_mock'
-// }
+jest.mock('../../constants', () => ({
+	SEARCH_URL_TEMPLATE: SEARCH_URL_TEMPLATE
+}))
 
-// const NumericFilters = {
-// 	DATE: 'created_at_i_mock',
-// 	POINTS: 'points_mock',
-// 	COMMENTS: 'num_comments_mock'
-// }
+let mockGetPageParam = jest.fn(value => value)
+let mockGetQueryParam = jest.fn(value => value)
+let mockGetSearchType = jest.fn(value => value)
+let mockGetTagsAndNumericFiltersParam = jest.fn(value => ({
+	[APIParameters.NUMBERIC_FILTERS]: 'numberic_filters_return',
+	[APIParameters.TAGS]: 'tags_return'
+}))
+let mockGetUrlParams = jest.fn(value => 'params_string')
 
-// jest.mock('api/api.interfaces', () => {
-// 	return {
-// 		APIParameters,
-// 		NumericFilters
-// 	}
-// })
+jest.mock('../../helpers', () => ({
+	getPageParam: (value: any) => mockGetPageParam(value),
+	getQueryParam: (value: any) => mockGetQueryParam(value),
+	getSearchType: (value: any) => mockGetSearchType(value),
+	getTagsAndNumericFiltersParam: (value: any) =>
+		mockGetTagsAndNumericFiltersParam(value),
+	getUrlParams: (value: any) => mockGetUrlParams(value)
+}))
 
-// describe('test getBySearchURL', () => {
-// 	it.only('getBySearchURL test', () => {
-// 		const filters: FilterReceived[] = [
-// 			{
-// 				id: 0,
-// 				type: FilterBaseType.LIST,
-// 				name: FilterBaseName.TAGS,
-// 				filtration: 'is',
-// 				listValues: ['all', 'story', 'poll', 'ask_hn'],
-// 				value: 'story'
-// 			},
-// 			{
-// 				id: 1,
-// 				type: FilterBaseType.DATE,
-// 				name: FilterBaseName.DATE,
-// 				filtration: 'is before',
-// 				value: new Date('01-05-2022')
-// 			},
-// 			{
-// 				id: 0,
-// 				type: FilterBaseType.NUMBER,
-// 				name: FilterBaseName.COMMENTS,
-// 				filtration: 'is on or bigger',
-// 				value: 15
-// 			}
-// 		]
+describe('test getBySearchURL', () => {
+	it.each`
+		sorting           | callValue
+		${'test_sorting'} | ${'test_sorting'}
+		${'123'}          | ${'123'}
+		${undefined}      | ${'DEFAULT'}
+	`(
+		'getBySearchURL with sorting = $sorting should call getSearchType with value = $callValue',
+		({ sorting, callValue }) => {
+			apiGetBySearchURL({
+				searchValue: '',
+				filters: [],
+				page: 0,
+				sorting: sorting
+			})
 
-// 		const value = {
-// 			searchValue: 'search',
-// 			filters,
-// 			page: 1
-// 		}
+			expect(mockGetSearchType).toBeCalledWith(callValue)
+		}
+	)
 
-// 		expect(getBySearchURL(value)).toBe({})
-// 	})
+	it.each([
+		[
+			[
+				{
+					id: 1,
+					type: FilterBaseType.NUMBER,
+					name: FilterBaseName.COMMENTS,
+					filtration: 'is',
+					value: 13
+				}
+			]
+		],
+		[
+			[
+				{
+					id: 2,
+					type: FilterBaseType.NUMBER,
+					name: FilterBaseName.POINTS,
+					filtration: 'is',
+					value: 13
+				}
+			]
+		],
+		[
+			[
+				{
+					id: 3,
+					type: FilterBaseType.STRING,
+					name: FilterBaseName.AUTHOR,
+					filtration: 'is',
+					value: 'gg'
+				}
+			]
+		],
+		[
+			[
+				{
+					id: 4,
+					type: FilterBaseType.LIST,
+					name: FilterBaseName.TAGS,
+					listValues: ['all', 'story', 'ask_hn'],
+					filtration: 'is',
+					value: 'story'
+				}
+			]
+		]
+	])(
+		'getBySearchURL with filters = %j should call getTagsAndNumericFiltersParam with value = filters',
+		filters => {
+			apiGetBySearchURL({
+				searchValue: '',
+				filters: filters as FilterReceived[],
+				page: 0
+			})
 
-// 	it('getQueryParam with value = "hello" should return "query=hello"', () => {
-// 		expect(getQueryParam('hello')).toEqual({ [APIParameters.QUERY]: 'hello' })
-// 	})
+			expect(mockGetTagsAndNumericFiltersParam).toBeCalledWith(filters)
+		}
+	)
 
-// 	it('getQueryParam with value = "" should return "query="', () => {
-// 		expect(getQueryParam('')).toEqual({ [APIParameters.QUERY]: '' })
-// 	})
+	it.each`
+		searchValue
+		${'test_sorting'}
+		${'123'}
+		${'test'}
+	`(
+		'getBySearchURL with searchValue = $searchValue should call getQueryParam with value = $searchValue',
+		({ searchValue }) => {
+			apiGetBySearchURL({
+				searchValue: searchValue,
+				filters: [],
+				page: 0
+			})
 
-// 	describe('getTagsAndNumericFiltersParam', () => {
-// 		it('getTagsAndNumericFiltersParam with filters = [] should return {"numericFilters_mock": { "created_at_i_mock": "", "num_comments_mock": "", "points_mock": ""},"tags_mock": ""}', () => {
-// 			expect(getTagsAndNumericFiltersParam([])).toEqual({
-// 				numericFilters_mock: {
-// 					created_at_i_mock: '',
-// 					num_comments_mock: '',
-// 					points_mock: ''
-// 				},
-// 				tags_mock: ''
-// 			})
-// 		})
+			expect(mockGetQueryParam).toBeCalledWith(searchValue)
+		}
+	)
 
-// 		describe('With type: FilterBaseType.DATE, name: FilterBaseName.DATE', () => {
-// 			const DATE_VALUE = 1641333600
-// 			const SEC_IN_DAY = 86400
-// 			const date = new Date(DATE_VALUE * 1000)
+	it.each`
+		page
+		${0}
+		${55}
+		${100}
+	`(
+		'getBySearchURL with page = $page should call getPageParam with value = $page',
+		({ page }) => {
+			apiGetBySearchURL({
+				searchValue: '',
+				filters: [],
+				page: page
+			})
 
-// 			it.each`
-// 				date    | filtration           | dateResult
-// 				${date} | ${'is'}              | ${`created_at_i_mock>${DATE_VALUE},created_at_i_mock<${DATE_VALUE + SEC_IN_DAY}`}
-// 				${date} | ${'is before'}       | ${`created_at_i_mock<${DATE_VALUE}`}
-// 				${date} | ${'is after'}        | ${`created_at_i_mock>${DATE_VALUE + SEC_IN_DAY}`}
-// 				${date} | ${'is on or before'} | ${`created_at_i_mock<${DATE_VALUE + SEC_IN_DAY}`}
-// 				${date} | ${'is on or after'}  | ${`created_at_i_mock>${DATE_VALUE}`}
-// 				${date} | ${'invalid'}         | ${''}
-// 			`(
-// 				'getTagsAndNumericFiltersParam with filters = [{id: 0, type: FilterBaseType.DATE, name: FilterBaseName.DATE,filtration: $filtration, value: $date}] should return {"numericFilters_mock": { "created_at_i_mock": $dateResult, "num_comments_mock": "", "points_mock": ""},"tags_mock": ""}',
-// 				({ date, filtration, dateResult }) => {
-// 					const filters: FilterReceived[] = [
-// 						{
-// 							id: 0,
-// 							type: FilterBaseType.DATE,
-// 							name: FilterBaseName.DATE,
-// 							filtration: filtration,
-// 							value: date
-// 						}
-// 					]
+			expect(mockGetPageParam).toBeCalledWith(page)
+		}
+	)
 
-// 					expect(getTagsAndNumericFiltersParam(filters)).toEqual({
-// 						numericFilters_mock: {
-// 							created_at_i_mock: dateResult,
-// 							num_comments_mock: '',
-// 							points_mock: ''
-// 						},
-// 						tags_mock: ''
-// 					})
-// 				}
-// 			)
-// 		})
+	it('getBySearchURL with searchValue = "test", filters = [], page = 0 should call getUrlParams with params = {"numericFilters_mock": "numberic_filters_return", "page_mock": 0, "query_mock": "", "tags_mock": "tags_return"}', () => {
+		apiGetBySearchURL({
+			searchValue: '',
+			filters: [],
+			page: 0
+		})
 
-// 		describe('With type: FilterBaseType.NUMBER, name: FilterBaseName.COMMENTS', () => {
-// 			const VALUE = 10
+		expect(mockGetUrlParams).toBeCalledWith({
+			numericFilters_mock: 'numberic_filters_return',
+			page_mock: 0,
+			query_mock: '',
+			tags_mock: 'tags_return'
+		})
+	})
 
-// 			it.each`
-// 				value    | filtration           | commentsResult
-// 				${VALUE} | ${'is'}              | ${`num_comments_mock=${VALUE}`}
-// 				${VALUE} | ${'is bigger'}       | ${`num_comments_mock>${VALUE}`}
-// 				${VALUE} | ${'is lower'}        | ${`num_comments_mock<${VALUE}`}
-// 				${VALUE} | ${'is on or bigger'} | ${`num_comments_mock>=${VALUE}`}
-// 				${VALUE} | ${'is on or lower'}  | ${`num_comments_mock<=${VALUE}`}
-// 				${VALUE} | ${'invalid'}         | ${''}
-// 			`(
-// 				'getTagsAndNumericFiltersParam with filters = [{id: 0, type: FilterBaseType.NUMBER, name: FilterBaseName.COMMENTS, filtration: $filtration, value: $value}] should return {"numericFilters_mock": { "created_at_i_mock": "", "num_comments_mock": $commentsResult, "points_mock": ""},"tags_mock": ""}',
-// 				({ value, filtration, commentsResult }) => {
-// 					const filters: FilterReceived[] = [
-// 						{
-// 							id: 0,
-// 							type: FilterBaseType.NUMBER,
-// 							name: FilterBaseName.COMMENTS,
-// 							filtration: filtration,
-// 							value: value
-// 						}
-// 					]
+	it(`getBySearchURL with searchValue = "test", filters = [], page = 0 should return "${SEARCH_URL_TEMPLATE}DEFAULTparams_string"`, () => {
+		const result = apiGetBySearchURL({
+			searchValue: '',
+			filters: [],
+			page: 0
+		})
 
-// 					expect(getTagsAndNumericFiltersParam(filters)).toEqual({
-// 						numericFilters_mock: {
-// 							created_at_i_mock: '',
-// 							num_comments_mock: commentsResult,
-// 							points_mock: ''
-// 						},
-// 						tags_mock: ''
-// 					})
-// 				}
-// 			)
-// 		})
-
-// 		describe('With type: FilterBaseType.NUMBER, name: FilterBaseName.POINTS', () => {
-// 			const VALUE = 15
-
-// 			it.each`
-// 				value    | filtration           | pointsResult
-// 				${VALUE} | ${'is'}              | ${`points_mock=${VALUE}`}
-// 				${VALUE} | ${'is bigger'}       | ${`points_mock>${VALUE}`}
-// 				${VALUE} | ${'is lower'}        | ${`points_mock<${VALUE}`}
-// 				${VALUE} | ${'is on or bigger'} | ${`points_mock>=${VALUE}`}
-// 				${VALUE} | ${'is on or lower'}  | ${`points_mock<=${VALUE}`}
-// 				${VALUE} | ${'invalid'}         | ${''}
-// 			`(
-// 				'getTagsAndNumericFiltersParam with filters = [{id: 0, type: FilterBaseType.NUMBER, name: FilterBaseName.COMMENTS, filtration: $filtration, value: $value}] should return {"numericFilters_mock": { "created_at_i_mock": "", "num_comments_mock": "", "points_mock": $pointsResult},"tags_mock": ""}',
-// 				({ value, filtration, pointsResult }) => {
-// 					const filters: FilterReceived[] = [
-// 						{
-// 							id: 0,
-// 							type: FilterBaseType.NUMBER,
-// 							name: FilterBaseName.POINTS,
-// 							filtration: filtration,
-// 							value: value
-// 						}
-// 					]
-
-// 					expect(getTagsAndNumericFiltersParam(filters)).toEqual({
-// 						numericFilters_mock: {
-// 							created_at_i_mock: '',
-// 							num_comments_mock: '',
-// 							points_mock: pointsResult
-// 						},
-// 						tags_mock: ''
-// 					})
-// 				}
-// 			)
-// 		})
-
-// 		describe('With type: FilterBaseType.LIST, name: FilterBaseName.TAGS, listValues = ["all", "story", "poll", "ask_hn"]', () => {
-// 			it.each`
-// 				value       | filtration     | tagsResult
-// 				${'all'}    | ${'is'}        | ${''}
-// 				${'story'}  | ${'is'}        | ${'story'}
-// 				${'poll'}   | ${'is'}        | ${'poll'}
-// 				${'ask_hn'} | ${'is'}        | ${'ask_hn'}
-// 				${'all'}    | ${'is except'} | ${''}
-// 				${'story'}  | ${'is except'} | ${'(poll,ask_hn)'}
-// 				${'poll'}   | ${'is except'} | ${'(story,ask_hn)'}
-// 				${'ask_hn'} | ${'is except'} | ${'(story,poll)'}
-// 			`(
-// 				'getTagsAndNumericFiltersParam with filters = [{id: 0, type: FilterBaseType.LIST, name: FilterBaseName.TAGS, listValues: ["all", "story", "poll", "ask_hn"], filtration: $filtration, value: $value}] should return {"numericFilters_mock": { "created_at_i_mock": "", "num_comments_mock": "", "points_mock": $pointsResult}, "tags_mock": $tagsResult}',
-// 				({ value, filtration, tagsResult }) => {
-// 					const filters: FilterReceived[] = [
-// 						{
-// 							id: 0,
-// 							type: FilterBaseType.LIST,
-// 							name: FilterBaseName.TAGS,
-// 							filtration: filtration,
-// 							listValues: ['all', 'story', 'poll', 'ask_hn'],
-// 							value: value
-// 						}
-// 					]
-
-// 					expect(getTagsAndNumericFiltersParam(filters)).toEqual({
-// 						numericFilters_mock: {
-// 							created_at_i_mock: '',
-// 							num_comments_mock: '',
-// 							points_mock: ''
-// 						},
-// 						tags_mock: tagsResult
-// 					})
-// 				}
-// 			)
-// 		})
-// 	})
-// })
+		expect(result).toBe(`${SEARCH_URL_TEMPLATE}DEFAULTparams_string`)
+	})
+})
