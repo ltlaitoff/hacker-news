@@ -16,7 +16,7 @@ describe('api/helpers/getUrlParams', () => {
 		arg                                                                                                                | result
 		${{ query_mock: 'test_query', page_mock: '4', tags: 'test_tags', numberic_filters_mock: 'numberic_filters_mock' }} | ${'?query_mock=test_query&page_mock=4&tags=test_tags&numberic_filters_mock=numberic_filters_mock'}
 		${{ query_mock: 'random_query', page_mock: '5', tags: 'TAG' }}                                                     | ${'?query_mock=random_query&page_mock=5&tags=TAG'}
-		${{ page_mock: '5', tags: 'story' }}                                                                               | ${'?page_mock=5&tags=story'}
+		${{ query_mock: '', page_mock: '5', tags: 'story', numberic_filters_mock: '' }}                                    | ${'?page_mock=5&tags=story'}
 		${{}}                                                                                                              | ${''}
 	`('getUrlParams with arg = $arg should return $result', ({ arg, result }) => {
 		expect(getUrlParams(arg)).toBe(result)
