@@ -1,61 +1,116 @@
-import ColoredConsoleLogTemplates from 'utils/colors'
-import { getBySearch as getAPIBySearch, getItemInfo, getUserInfo } from './api'
-import {
-	FilterBaseName,
-	FilterBaseType,
-	FilterReceived
-} from '../typescript/filters/filters'
+import { getBySearch as apiGetBySearch, getItemInfo, getUserInfo } from '.'
 
-ColoredConsoleLogTemplates.todo('Write tests on api(#85)')
+const mockGetFromAPI = jest.fn()
 
-/*
-	Notion: https://www.notion.so/api-tests-d21fb069b4ac486a80c63b81c0864c7d
-*/
+jest.mock('./fetch', () => ({
+	getFromAPI: (value: any) => mockGetFromAPI(value)
+}))
 
-// const mockGetFromAPI = jest.fn()
+const mockGetBySearchURL = jest.fn(
+	value => `getBySearchURL_result_${JSON.stringify(value)}`
+)
+const mockGetItemInfoURL = jest.fn(value => `getItemInfoURL_result_${value}`)
+const mockGetUserInfoURL = jest.fn(value => `getUserInfoURL_result_${value}`)
 
-// jest.mock('./fetch', () => {
-// 	return {
-// 		getFromAPI: (args) => mockGetFromAPI(args)
-// 	}
-// })
+jest.mock('./functions', () => ({
+	getBySearchURL: (value: any) => mockGetBySearchURL(value),
+	getItemInfoURL: (value: any) => mockGetItemInfoURL(value),
+	getUserInfoURL: (value: any) => mockGetUserInfoURL(value)
+}))
 
 describe('api', () => {
-	it('-', () => {
-		expect(true).toBe(true)
+	describe.each`
+		id
+		${0}
+		${100}
+		${1000}
+	`('getItemInfo with id = $id', ({ id }) => {
+		it(`should call getItemInfoURL with id = ${id}`, () => {
+			getItemInfo(id)
+
+			expect(mockGetItemInfoURL).toBeCalledWith(id)
+		})
+
+		it(`should call getFromAPI with value = "getItemInfoURL_result_${id}"`, () => {
+			getItemInfo(id)
+
+			expect(mockGetFromAPI).toBeCalledWith(`getItemInfoURL_result_${id}`)
+		})
 	})
 
-	// it('getItemInfo', () => {
-	// 	getItemInfo(1)
+	describe.each`
+		user
+		${'test'}
+		${'user'}
+		${'gg'}
+	`('getUserInfo with user = $user', ({ user }) => {
+		it(`should call getUserInfoURL with user = ${user}`, () => {
+			getUserInfo(user)
 
-	// 	expect(mockGetFromAPI).toBeCalledWith('1')
-	// })
+			expect(mockGetUserInfoURL).toBeCalledWith(user)
+		})
 
-	// it('getUserInfo', () => {
-	// 	getUserInfo('test')
+		it(`should call getFromAPI with value = "getUserInfoURL_result_${user}"`, () => {
+			getUserInfo(user)
 
-	// 	expect(mockGetFromAPI).toBeCalledWith('1')
-	// })
+			expect(mockGetFromAPI).toBeCalledWith(`getUserInfoURL_result_${user}`)
+		})
+	})
 
-	// it('getBySearch', () => {
-	// 	const filters: FilterReceived[] = [
-	// 		{
-	// 			id: 0,
-	// 			type: FilterBaseType.LIST,
-	// 			name: FilterBaseName.TAGS,
-	// 			listValues: ['all', 'ask_hn', 'poll', 'story'],
-	// 			value: 'poll',
-	// 			filtration: 'is except'
-	// 		}
-	// 	]
+	describe.each`
+		searchValue      | filters                       | page   | sorting
+		${'test'}        | ${[]}                         | ${1}   | ${'DEFAULT'}
+		${'queery'}      | ${[{ id: 0, value: 'test' }]} | ${100} | ${'TEST'}
+		${'searchValue'} | ${[]}                         | ${1}   | ${'DEFAULT'}
+	`(
+		'getBySearch with searchValue = $searchValue, filters = $filters, page = $page and sorting = $sorting',
+		({ searchValue, filters, page, sorting }) => {
+			it(`should call getBySearchURL with ${JSON.stringify({
+				searchValue,
+				filters,
+				page,
+				sorting
+			})}}`, () => {
+				apiGetBySearch({ searchValue, filters, page, sorting })
 
-	// 	getAPIBySearch({
-	// 		searchValue: 'seach',
-	// 		filters,
-	// 		page: 1,
-	// 		sorting: 'DEFAULT'
-	// 	})
+				expect(mockGetBySearchURL).toBeCalledWith({
+					searchValue,
+					filters,
+					page,
+					sorting
+				})
+			})
 
-	// 	expect(mockGetFromAPI).toBeCalledWith('1')
-	// })
+			it(`should call getFromAPI with value = "getBySearchURL_result_${JSON.stringify(
+				{ searchValue, filters, page, sorting }
+			)})"`, () => {
+				apiGetBySearch({ searchValue, filters, page, sorting })
+
+				expect(mockGetFromAPI).toBeCalledWith(
+					`getBySearchURL_result_${JSON.stringify({
+						searchValue,
+						filters,
+						page,
+						sorting
+					})}`
+				)
+			})
+		}
+	)
+
+	it('getBySearch with searchValue = "", filters = [], page = 0 and sorting = undefined should call getBySearchURL with {"searchValue": "", filters: [], page: 0, sorting: "DEFAULT"}', () => {
+		apiGetBySearch({
+			searchValue: '',
+			filters: [],
+			page: 0,
+			sorting: undefined
+		})
+
+		expect(mockGetBySearchURL).toBeCalledWith({
+			searchValue: '',
+			filters: [],
+			page: 0,
+			sorting: 'DEFAULT'
+		})
+	})
 })
