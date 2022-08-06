@@ -5,6 +5,18 @@
 @import url('react-calendar/dist/Calendar.css');
 
 @layer utilities {
+	.remove-arrows-input-number {
+		&::-webkit-inner-spin-button,
+		&::-webkit-outer-spin-button {
+			-webkit-appearance: none;
+			margin: 0;
+		}
+
+		& {
+			-moz-appearance: textfield;
+		}
+	}
+
 	.blue-focus-visible {
 		@apply focus-visible:outline focus-visible:outline-blue-500 focus-visible:outline-2 focus-visible:duration-0;
 	}
