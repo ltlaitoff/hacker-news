@@ -3,9 +3,10 @@ import { getValueFromEvent, isEnterKey } from 'helpers'
 import classNames from 'classnames'
 import { NumberPickerInputProps } from './NumberPickerInput.interfaces'
 import { NumberSubmitType } from '../../NumberPicker.interfaces'
+import { DEFAULT_VALUE } from './NumberPickerInput.constants'
 
 const NumberPickerInput: FC<NumberPickerInputProps> = ({
-	value = 100,
+	value = DEFAULT_VALUE,
 	disabled,
 	onSubmit,
 	aboveZero,
@@ -31,7 +32,6 @@ const NumberPickerInput: FC<NumberPickerInputProps> = ({
 			return
 		}
 
-		console.log(aboveZero, number, checkErrorNumber)
 		if (aboveZero && number < 0) {
 			setError(true)
 			onError(true)
