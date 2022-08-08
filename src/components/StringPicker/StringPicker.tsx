@@ -11,6 +11,9 @@ const StringPicker: FC<StringPickerProps> = ({
 	className,
 	...args
 }) => {
+	/*
+		TODO: Add an onSubmit event to avoid unnecessary re-renders
+	*/
 	const [inputValue, setInputValue] = useState<string>(value || '')
 	const [error, setError] = useState<boolean>(
 		value === '' || value === undefined
