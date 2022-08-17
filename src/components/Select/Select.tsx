@@ -44,11 +44,11 @@ const Select: FC<SelectProps> = ({
 		setListIsOpened(false)
 	}
 
-	const listOpenedToggle = () => {
+	const listOpenedToggle = useCallback(() => {
 		if (!disabled) {
 			setListIsOpened(currentListOpened => !currentListOpened)
 		}
-	}
+	}, [disabled])
 
 	return (
 		<div
