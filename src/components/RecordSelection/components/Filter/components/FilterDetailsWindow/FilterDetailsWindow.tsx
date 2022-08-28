@@ -1,4 +1,11 @@
-import React, { FC, useCallback, useReducer, useState } from 'react'
+import React, {
+	FC,
+	useCallback,
+	useEffect,
+	useMemo,
+	useReducer,
+	useState
+} from 'react'
 import classNames from 'classnames'
 import { ReactComponent as Cross } from 'assets/icons/cross.svg'
 import { useEscKeyDown, useOutsideClick } from 'hooks'
@@ -7,10 +14,8 @@ import { FilterValuePicker } from '..'
 import { transformArrayToOptions } from '../../helpers'
 import { FilterDetailsWindowProps } from './FilterDetailsWindow.interfaces'
 import { filterDetailsWindowReducer, getDefaultReducerValue } from './reducer'
+import { FilterValuePickerFilter } from '../FilterValuePicker/FilterValuePicker.interfaces'
 
-/* 
-	TODO: On enter press in DatePickerInput form should be close
-*/
 const FilterDetailsWindow: FC<FilterDetailsWindowProps> = ({
 	filter,
 	currentFilter,
@@ -25,28 +30,52 @@ const FilterDetailsWindow: FC<FilterDetailsWindowProps> = ({
 		getDefaultReducerValue(filter, currentFilter)
 	)
 	const [error, setError] = useState<boolean>(false)
+	const [enterKeyPressed, setEnterKeyPressed] = useState<boolean>(false)
 
 	const ref = useOutsideClick(onClose) as React.RefObject<HTMLDivElement>
 	const onEscPress = useCallback(onClose, [onClose])
 
 	useEscKeyDown(onEscPress, true)
 
-	const handleValueChange = (value: typeof state['value']) => {
-		reducerDispatch({ type: 'change-value', payload: value })
-	}
+	useEffect(() => {
+		if (enterKeyPressed) {
+			onDoneClick()
+		}
+	}, [enterKeyPressed, state])
+
+	const onChange = useCallback(
+		(value: typeof state['value'], type?: 'enterKey' | string) => {
+			if (type === 'enterKey') {
+				setEnterKeyPressed(true)
+			}
+
+			reducerDispatch({ type: 'change-value', payload: value })
+		},
+		[]
+	)
 
 	const onError = useCallback((value: boolean) => setError(value), [])
 
+	const getFilterValuePickerProps = useMemo<FilterValuePickerFilter>(() => {
+		return state
+	}, [state.type, state.value])
+
+	const selectOptions = useMemo(
+		() => transformArrayToOptions(filter.filtrations),
+		[filter.filtrations]
+	)
+
+	const onSelectItemClick = useCallback(
+		(id: number) => {
+			const filtration = selectOptions[id]?.label
+
+			reducerDispatch({ type: 'change-filtration', payload: filtration })
+		},
+		[selectOptions]
+	)
+
 	if (filter === null) return null
 	if (currentFilter && filter.type !== currentFilter.type) return null
-
-	const selectOptions = transformArrayToOptions(filter.filtrations)
-
-	const onSelectItemClick = (id: number) => {
-		const filtration = selectOptions[id]?.label
-
-		reducerDispatch({ type: 'change-filtration', payload: filtration })
-	}
 
 	const onDoneClick = () => {
 		if (error) return
@@ -80,9 +109,10 @@ const FilterDetailsWindow: FC<FilterDetailsWindowProps> = ({
 				</div>
 
 				<FilterValuePicker
-					filter={state}
+					filter={getFilterValuePickerProps}
 					onError={onError}
-					onChange={handleValueChange}
+					error={error}
+					onChange={onChange}
 				/>
 
 				<div className='flex justify-center'>
@@ -114,4 +144,5 @@ const FilterDetailsWindow: FC<FilterDetailsWindowProps> = ({
 		</div>
 	)
 }
-export default FilterDetailsWindow
+
+export default React.memo(FilterDetailsWindow)
