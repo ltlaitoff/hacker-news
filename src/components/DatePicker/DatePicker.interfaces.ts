@@ -15,6 +15,11 @@ export enum onChangeTypes {
 	CALENDAR = 'calendar'
 }
 
+export enum DatePickerTypes {
+	STANDART = 'standart',
+	RANGE = 'range'
+}
+
 export type DateInputProps = Omit<
 	Omit<DatePickerInputProps, 'onSubmit'>,
 	'date'
@@ -33,13 +38,13 @@ export type DatePickerRangeValueWithNull = [Date, Date] | null
 export type DatePickerRangeOnChange = [Date, Date]
 
 export interface DatePickerStandartProps extends DatePickerBase {
-	type?: 'standart'
+	type?: DatePickerTypes.STANDART
 	value: Date | [Date, Date] | null
 	onChange: (value: Date | [Date, Date], type: onChangeTypes) => void
 }
 
 export interface DatePickerRangeProps extends DatePickerBase {
-	type: 'range'
+	type: DatePickerTypes.RANGE
 	value: [Date, Date] | null
 	onChange: (value: [Date, Date], type: onChangeTypes) => void
 }

@@ -8,6 +8,7 @@ import {
 	DatePickerProps,
 	DatePickerRangeValueWithNull,
 	DatePickerStandartValueWithNull,
+	DatePickerTypes,
 	onChangeTypes
 } from './DatePicker.interfaces'
 
@@ -48,7 +49,7 @@ const DatePicker: FC<DatePickerProps> = ({
 	...args
 }: DatePickerProps) => {
 	if (type === undefined) {
-		type = 'standart'
+		type = DatePickerTypes.STANDART
 	}
 
 	const [date, setDate] = useState<[Date, Date]>(getDefaultDateValue(value))
@@ -79,7 +80,7 @@ const DatePicker: FC<DatePickerProps> = ({
 
 			const dateInput = checkDatesOrder(dateValues)
 
-			if (isNotEqual(dateType, 'blur')) {
+			if (isNotEqual(dateType, onChangeTypes.BLUR)) {
 				setCalendarShow(false)
 			}
 
@@ -145,7 +146,7 @@ const DatePicker: FC<DatePickerProps> = ({
 			data-testid='picker'
 			{...args}
 		>
-			{type === 'standart' ? (
+			{type === DatePickerTypes.STANDART ? (
 				<StandartDateInput
 					date={date}
 					format={format}
@@ -168,8 +169,8 @@ const DatePicker: FC<DatePickerProps> = ({
 				<div className='absolute' data-testid='calendar'>
 					<Calendar
 						onChange={onCalendarDateChange}
-						value={type === 'range' ? date : date[0]}
-						selectRange={type === 'range'}
+						value={type === DatePickerTypes.RANGE ? date : date[0]}
+						selectRange={type === DatePickerTypes.RANGE}
 					/>
 				</div>
 			)}
