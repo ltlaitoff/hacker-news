@@ -11,7 +11,7 @@ import {
 } from './DatePicker.interfaces'
 
 import { StandartDateInput, RangeDateInput } from './components'
-import { getDefaultDateValue } from './helpers'
+import { checkDatesOrder, getDefaultDateValue } from './helpers'
 
 const DatePicker: FC<DatePickerProps> = ({
 	type,
@@ -40,15 +40,6 @@ const DatePicker: FC<DatePickerProps> = ({
 	) as React.RefObject<HTMLDivElement>
 
 	useEscKeyDown(setCalendarShowFalse, true, calendarShow)
-
-	// XXX: Why is it here
-	const checkDatesOrder = (date: [Date, Date]): [Date, Date] => {
-		if (date[0] > date[1]) {
-			return [date[1], date[0]]
-		}
-
-		return date
-	}
 
 	const onSubmit = useCallback(
 		(dateValues: [Date, Date], dateType: onChangeTypes) => {
