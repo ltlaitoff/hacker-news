@@ -1,7 +1,7 @@
 import React, { FC, useState, useCallback } from 'react'
 import Calendar from 'react-calendar'
 
-import { isFalse, isNotEqual } from 'helpers'
+import { datesNotEqual, isFalse, isNotEqual } from 'helpers'
 import { useOutsideClick, useEscKeyDown } from 'hooks'
 
 import {
@@ -61,18 +61,17 @@ const DatePicker: FC<DatePickerProps> = ({
 			}
 
 			if (
-				dateInput[0].valueOf() !== date[0].valueOf() ||
-				dateInput[1].valueOf() !== date[1].valueOf()
+				datesNotEqual(dateInput[0], date[0]) ||
+				datesNotEqual(dateInput[1], date[1])
 			) {
 				setDate(dateInput)
 			}
 
-			if (type === 'standart') {
+			if (type === DatePickerTypes.STANDART) {
 				if (value instanceof Array) {
 					if (
-						// XXX: Check it of errors
-						dateInput[0].valueOf() !== value.valueOf() ||
-						dateInput[1].valueOf() !== value.valueOf()
+						datesNotEqual(dateInput[0], value[0]) ||
+						datesNotEqual(dateInput[1], value[1])
 					) {
 						onChange(dateInput, dateType)
 					}
@@ -80,11 +79,27 @@ const DatePicker: FC<DatePickerProps> = ({
 					return
 				}
 
-				onChange(dateInput[0], dateType)
+				if (value === null || datesNotEqual(dateInput[0], value)) {
+					onChange(dateInput[0], dateType)
+				}
 				return
 			}
 
-			onChange(dateInput, dateType)
+			if (type === DatePickerTypes.RANGE) {
+				if (value === null) {
+					onChange(dateInput, dateType)
+					return
+				}
+
+				if (
+					datesNotEqual(dateInput[0], value[0]) ||
+					datesNotEqual(dateInput[1], value[1])
+				) {
+					onChange(dateInput, dateType)
+				}
+
+				return
+			}
 		},
 		[disabled, date, onChange, type, value]
 	)
