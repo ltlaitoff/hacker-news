@@ -66,7 +66,7 @@ export function getDefaultReducerValue(
 	currentFilter: FilterReceived | null
 ): FilterReceived {
 	if (currentFilter && currentFilter.type !== filter.type) {
-		throw new Error('123')
+		throw new Error('currentFilter type must be strict equal filter type')
 	}
 
 	if (currentFilter) return currentFilter
@@ -109,7 +109,7 @@ export function getDefaultReducerValue(
 				name: filter.name,
 				type: filter.type,
 				filtration: filter.filtrations[0],
-				value: 'gg'
+				value: ''
 			} as FilterStringReceived
 		}
 	}
