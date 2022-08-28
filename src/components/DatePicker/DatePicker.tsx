@@ -1,38 +1,17 @@
 import React, { FC, useState, useCallback } from 'react'
 import Calendar from 'react-calendar'
 
-import { isFalse, isNull, isNotEqual } from 'helpers'
+import { isFalse, isNotEqual } from 'helpers'
 import { useOutsideClick, useEscKeyDown } from 'hooks'
 
 import {
 	DatePickerProps,
-	DatePickerRangeValueWithNull,
-	DatePickerStandartValueWithNull,
 	DatePickerTypes,
 	onChangeTypes
 } from './DatePicker.interfaces'
 
 import { StandartDateInput, RangeDateInput } from './components'
-
-const getDefaultDateValue = (
-	value: DatePickerStandartValueWithNull | DatePickerRangeValueWithNull
-): [Date, Date] => {
-	const currentDate = new Date(Date.now())
-
-	if (isNull(value)) {
-		return [currentDate, currentDate]
-	}
-
-	if (value instanceof Array) {
-		if (isNull(value[0]) || isNull(value[1])) {
-			return [currentDate, currentDate]
-		}
-
-		return value
-	}
-
-	return [value, value]
-}
+import { getDefaultDateValue } from './helpers'
 
 /*
 	BUG: On click on date in calendar error not reset
