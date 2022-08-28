@@ -19,10 +19,18 @@ export function filterDetailsWindowReducer<T extends FilterReceived>(
 ): T {
 	switch (action.type) {
 		case 'change-value': {
+			if (state.value === action.payload) {
+				return state
+			}
+
 			return { ...state, value: action.payload }
 		}
 
 		case 'change-filtration': {
+			if (state.filtration === action.payload) {
+				return state
+			}
+
 			const getNewStateValue = (
 				filtration: FilterReceived['filtration'],
 				value: FilterReceived['value']
