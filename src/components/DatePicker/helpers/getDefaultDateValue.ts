@@ -1,11 +1,8 @@
 import { isNull } from 'helpers'
-import {
-	DatePickerRangeValueWithNull,
-	DatePickerStandartValueWithNull
-} from '../DatePicker.interfaces'
+import { DatePickerTwoDates } from '../DatePicker.interfaces'
 
 export const getDefaultDateValue = (
-	value: DatePickerStandartValueWithNull | DatePickerRangeValueWithNull
+	value: Date | DatePickerTwoDates | null
 ): [Date, Date] => {
 	const currentDate = new Date(Date.now())
 
