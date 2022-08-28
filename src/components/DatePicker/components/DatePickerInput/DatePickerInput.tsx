@@ -1,5 +1,5 @@
 import React, { useState, useEffect, KeyboardEvent, FC, FormEvent } from 'react'
-import { trasformDateIntoFormat } from './helpers/trasformDateIntoFormat'
+import classNames from 'classnames'
 import {
 	getValueFromEvent,
 	isEnterKey,
@@ -8,12 +8,11 @@ import {
 	isNull
 } from 'helpers'
 
-import classNames from 'classnames'
 import {
 	DatePickerInputOnSubmitType,
 	DatePickerInputProps
 } from './DatePickerInput.interfaces'
-import { checkStringDateOnErrors } from './helpers'
+import { checkStringDateOnErrors, trasformDateIntoFormat } from './helpers'
 
 const DatePickerInput: FC<DatePickerInputProps> = ({
 	date,
@@ -65,11 +64,11 @@ const DatePickerInput: FC<DatePickerInputProps> = ({
 	const onChange = (e: FormEvent<HTMLInputElement>) => {
 		if (disabled) return
 
-		const value = getValueFromEvent(e)
+		setInputValue(getValueFromEvent(e))
 
-		if (error) setError(false)
-
-		setInputValue(value)
+		if (error) {
+			setError(false)
+		}
 	}
 
 	const onBlur = (e: FormEvent<HTMLInputElement>) => {
