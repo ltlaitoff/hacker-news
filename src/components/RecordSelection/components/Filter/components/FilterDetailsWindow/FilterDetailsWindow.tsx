@@ -13,7 +13,12 @@ import Select from 'components/Select'
 import { FilterValuePicker } from '..'
 import { transformArrayToOptions } from '../../helpers'
 import { FilterDetailsWindowProps } from './FilterDetailsWindow.interfaces'
-import { filterDetailsWindowReducer, getDefaultReducerValue } from './reducer'
+import {
+	filterDetailsWindowReducer,
+	getDefaultReducerValue,
+	changeFilttration,
+	changeValue
+} from './reducer'
 import { FilterValuePickerFilter } from '../FilterValuePicker/FilterValuePicker.interfaces'
 
 const FilterDetailsWindow: FC<FilterDetailsWindowProps> = ({
@@ -44,12 +49,13 @@ const FilterDetailsWindow: FC<FilterDetailsWindowProps> = ({
 	}, [enterKeyPressed, state])
 
 	const onChange = useCallback(
+		// TODO: Разобраться с enterKey
 		(value: typeof state['value'], type?: 'enterKey' | string) => {
 			if (type === 'enterKey') {
 				setEnterKeyPressed(true)
 			}
 
-			reducerDispatch({ type: 'change-value', payload: value })
+			reducerDispatch(changeValue(value))
 		},
 		[]
 	)
@@ -69,7 +75,7 @@ const FilterDetailsWindow: FC<FilterDetailsWindowProps> = ({
 		(id: number) => {
 			const filtration = selectOptions[id]?.label
 
-			reducerDispatch({ type: 'change-filtration', payload: filtration })
+			reducerDispatch(changeFilttration(filtration))
 		},
 		[selectOptions]
 	)
