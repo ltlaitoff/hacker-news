@@ -1,6 +1,4 @@
-const datesCompare = (first: Date, second: Date): boolean => {
-	return first.valueOf() === second.valueOf()
-}
+import { datesEqual } from 'helpers'
 
 function checkElementInArrayWithCompareFunction<T>(
 	element: T,
@@ -15,7 +13,7 @@ function checkElementInArrayWithCompareFunction<T>(
 }
 
 const checkDateInDateArray = (date: Date, dateArray: Array<Date>): boolean => {
-	return checkElementInArrayWithCompareFunction(date, dateArray, datesCompare)
+	return checkElementInArrayWithCompareFunction(date, dateArray, datesEqual)
 	// const filteredArray = dateArray.filter(currentDate =>
 	// datesCompare(currentDate, date)
 	// )

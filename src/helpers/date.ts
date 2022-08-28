@@ -44,3 +44,13 @@ export const getDateSeconds = (date: Date): number => {
 		(date.getTime() - date.getTimezoneOffset() * 1000 * 60) / 1000
 	)
 }
+
+// TODO: Write tests for datesEqual function
+export const datesEqual = (first: Date, second: Date): boolean => {
+	return first.valueOf() === second.valueOf()
+}
+
+// TODO: Write tests for datesNotEqual function
+export const datesNotEqual = (first: Date, second: Date): boolean => {
+	return !datesEqual(first, second)
+}
