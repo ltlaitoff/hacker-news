@@ -9,7 +9,7 @@ import classNames from 'classnames'
 import Calendar from 'react-calendar'
 
 import { isFalse, isNull, isNotEqual } from 'helpers'
-import { DatePickerInputOnSubmitType } from './DatePickerInput'
+import { DatePickerInputOnSubmitType } from './components/DatePickerInput'
 import {
 	DatePickerProps,
 	DatePickerRangeValueWithNull,

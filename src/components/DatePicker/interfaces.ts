@@ -1,7 +1,7 @@
 import {
 	DatePickerInputOnSubmitType,
 	DatePickerInputProps
-} from './DatePickerInput'
+} from './components/DatePickerInput'
 
 export type DataPickerFormats = string
 
