@@ -54,3 +54,8 @@ export const datesEqual = (first: Date, second: Date): boolean => {
 export const datesNotEqual = (first: Date, second: Date): boolean => {
 	return !datesEqual(first, second)
 }
+
+// TODO: Write tests for dateIsBigger function
+export const dateIsBigger = (first: Date, second: Date): boolean => {
+	return first.valueOf() > second.valueOf()
+}
