@@ -52,8 +52,6 @@ const MainPageTemplate: FC<MainPageTemplateProps> = ({
 				searchByDate = true
 		}
 
-		console.log('rerender')
-
 		getBySearch({
 			searchValue: state.searches[currentPage],
 			filters: state.filters[currentPage],

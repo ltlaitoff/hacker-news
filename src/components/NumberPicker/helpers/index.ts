@@ -1,0 +1,1 @@
+export { checkOnMinMax } from './checkOnMinMax'

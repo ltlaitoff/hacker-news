@@ -1,0 +1,1 @@
+export { getValidNumberFromString } from './getValidNumberFromString'

@@ -1,18 +1,27 @@
 import React, { FC } from 'react'
 import DatePicker from 'components/DatePicker'
-import NumberPicker from 'components/NumberPicker'
+import NumberPicker, { NumberPickerProps } from 'components/NumberPicker'
 import Select from 'components/Select'
 import { FilterBaseType } from 'typescript/filters'
 import { FILTER_DATE_FORMAT } from '../../constants'
 import { transformArrayToOptions } from '../../helpers'
-import { FilterValuePickerProps } from './FilterValuePicker.interfaces'
+import {
+	excludeNullFromValue,
+	FilterValuePickerProps
+} from './FilterValuePicker.interfaces'
 import StringPicker from 'components/StringPicker'
+import { getRangePicker } from 'HOC/getRangePicker'
+import { NUMBER_PICKER } from './FilterValuePicker.constants'
 
 const FilterValuePicker: FC<FilterValuePickerProps> = ({
 	filter,
 	onError,
+	error,
 	onChange
 }) => {
+	const NumberPickerRange =
+		getRangePicker<excludeNullFromValue<NumberPickerProps>>(NumberPicker)
+
 	switch (filter.type) {
 		case FilterBaseType.DATE:
 			return (
@@ -41,20 +50,22 @@ const FilterValuePicker: FC<FilterValuePickerProps> = ({
 			return (
 				<div className='flex py-4'>
 					{filter.value instanceof Array ? (
-						<NumberPicker
-							type='range'
+						<NumberPickerRange
 							value={filter.value}
 							onChange={onChange}
-							aboveZero={true}
+							error={error}
 							onError={onError}
+							max={NUMBER_PICKER.max}
+							min={NUMBER_PICKER.min}
 						/>
 					) : (
 						<NumberPicker
-							type='standart'
 							value={filter.value}
 							onChange={onChange}
-							aboveZero={true}
+							error={error}
 							onError={onError}
+							max={NUMBER_PICKER.max}
+							min={NUMBER_PICKER.min}
 						/>
 					)}
 				</div>
@@ -86,4 +97,4 @@ const FilterValuePicker: FC<FilterValuePickerProps> = ({
 	}
 }
 
-export default FilterValuePicker
+export default React.memo(FilterValuePicker)
