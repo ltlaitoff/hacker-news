@@ -13,23 +13,22 @@ import { checkStringDateOnErrors, trasformDateIntoFormat } from './helpers'
 import { onChangeTypes } from '../../DatePicker.interfaces'
 
 const DatePickerInput: FC<DatePickerInputProps> = ({
-	date,
 	format,
-	disabled,
+	date,
 	onSubmit,
+	error,
 	onError,
+	disabled,
 	...args
 }) => {
 	const [inputValue, setInputValue] = useState<string>(
 		trasformDateIntoFormat(date, format) || ''
 	)
-	const [error, setError] = useState<boolean>(false)
 
 	useEffect(() => {
 		const inputValue = trasformDateIntoFormat(date, format)
 
 		if (isNull(inputValue)) {
-			setError(true)
 			onError(true)
 			return
 		}
@@ -39,7 +38,6 @@ const DatePickerInput: FC<DatePickerInputProps> = ({
 		const checkErrorDate = checkStringDateOnErrors(inputValue, format)
 
 		if (isNull(checkErrorDate) || isFalse(isValidDate(checkErrorDate))) {
-			setError(true)
 			onError(true)
 		}
 	}, [date, format, onError])
@@ -50,7 +48,6 @@ const DatePickerInput: FC<DatePickerInputProps> = ({
 		const date = checkStringDateOnErrors(value, format)
 
 		if (isNull(date) || isFalse(isValidDate(date))) {
-			setError(true)
 			onError(true)
 			return
 		}
@@ -65,7 +62,7 @@ const DatePickerInput: FC<DatePickerInputProps> = ({
 		setInputValue(getValueFromEvent(e))
 
 		if (error) {
-			setError(false)
+			onError(false)
 		}
 	}
 

@@ -13,17 +13,14 @@ import {
 import { StandartDateInput, RangeDateInput } from './components'
 import { getDefaultDateValue } from './helpers'
 
-/*
-	BUG: On click on date in calendar error not reset
-*/
-
 const DatePicker: FC<DatePickerProps> = ({
+	type,
 	value,
 	onChange,
-	type,
+	error,
+	onError,
 	disabled,
 	format = 'dd-MM-Y',
-	onError,
 	className,
 	...args
 }: DatePickerProps) => {
@@ -127,18 +124,20 @@ const DatePicker: FC<DatePickerProps> = ({
 		>
 			{type === DatePickerTypes.STANDART ? (
 				<StandartDateInput
-					date={date}
 					format={format}
+					date={date}
 					onSubmit={onSubmit}
-					disabled={disabled}
+					error={error}
 					onError={onError}
+					disabled={disabled}
 					data-testid='standart-input'
 				/>
 			) : (
 				<RangeDateInput
-					date={date}
 					format={format}
+					date={date}
 					onSubmit={onSubmit}
+					error={error}
 					onError={onError}
 					disabled={disabled}
 				/>

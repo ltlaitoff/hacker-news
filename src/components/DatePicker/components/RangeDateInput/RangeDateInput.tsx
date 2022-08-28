@@ -3,11 +3,12 @@ import { DatePickerInput } from '..'
 import { DateInputProps, onChangeTypes } from '../../DatePicker.interfaces'
 
 const DateRangePicker: FC<DateInputProps> = ({
-	date,
 	format,
+	date,
 	onSubmit,
-	disabled,
+	error,
 	onError,
+	disabled,
 	...args
 }) => {
 	const onFirstDateSubmit = useCallback(
@@ -28,18 +29,20 @@ const DateRangePicker: FC<DateInputProps> = ({
 		<div data-testid='range' {...args}>
 			<div className='gap-x-4 justify-items-end flex'>
 				<DatePickerInput
-					date={date[0]}
 					format={format}
+					date={date[0]}
 					onSubmit={onFirstDateSubmit}
+					error={error}
 					onError={onError}
 					disabled={disabled}
 					data-testid='first-input'
 				/>
 				<div className='self-center'>and</div>
 				<DatePickerInput
-					date={date[1]}
 					format={format}
+					date={date[1]}
 					onSubmit={onSecondDateSubmit}
+					error={error}
 					onError={onError}
 					disabled={disabled}
 					data-testid='second-input'

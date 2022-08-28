@@ -31,16 +31,18 @@ const FilterValuePicker: FC<FilterValuePickerProps> = ({
 							type={DatePickerTypes.RANGE}
 							value={filter.value}
 							onChange={onChange}
-							format={FILTER_DATE_FORMAT}
+							error={error}
 							onError={onError}
+							format={FILTER_DATE_FORMAT}
 						/>
 					) : (
 						<DatePicker
 							type={DatePickerTypes.STANDART}
 							value={filter.value}
 							onChange={onChange}
-							format={FILTER_DATE_FORMAT}
+							error={error}
 							onError={onError}
+							format={FILTER_DATE_FORMAT}
 						/>
 					)}
 				</div>

@@ -3,9 +3,10 @@ import { DatePickerInput } from '..'
 import { DateInputProps, onChangeTypes } from '../../DatePicker.interfaces'
 
 const StandartDateInput: FC<DateInputProps> = ({
-	date,
 	format,
+	date,
 	onSubmit,
+	error,
 	onError,
 	disabled,
 	...args
@@ -19,9 +20,10 @@ const StandartDateInput: FC<DateInputProps> = ({
 
 	return (
 		<DatePickerInput
-			date={date[0]}
 			format={format}
+			date={date[0]}
 			onSubmit={onDateSubmit}
+			error={error}
 			onError={onError}
 			disabled={disabled}
 			data-testid='input'
