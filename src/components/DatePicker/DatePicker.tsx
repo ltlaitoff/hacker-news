@@ -15,7 +15,7 @@ import {
 	DatePickerProps,
 	DatePickerRangeValueWithNull,
 	DatePickerStandartValueWithNull
-} from './interfaces'
+} from './DatePicker.interfaces'
 
 import {
 	DatePickerInputOnSubmitType,
