@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useCallback } from 'react'
 import { DatePickerInput, DatePickerInputOnSubmitType } from '..'
 import { DateInputProps } from '../../DatePicker.interfaces'
 
@@ -10,19 +10,19 @@ const DateRangePicker: FC<DateInputProps> = ({
 	onError,
 	...args
 }) => {
-	const onFirstDateSubmit = (
-		value: Date,
-		type: DatePickerInputOnSubmitType
-	) => {
-		onSubmit([value, date[1]], type)
-	}
+	const onFirstDateSubmit = useCallback(
+		(value: Date, type: DatePickerInputOnSubmitType) => {
+			onSubmit([value, date[1]], type)
+		},
+		[date, onSubmit]
+	)
 
-	const onSecondDateSubmit = (
-		value: Date,
-		type: DatePickerInputOnSubmitType
-	) => {
-		onSubmit([date[0], value], type)
-	}
+	const onSecondDateSubmit = useCallback(
+		(value: Date, type: DatePickerInputOnSubmitType) => {
+			onSubmit([date[0], value], type)
+		},
+		[date, onSubmit]
+	)
 
 	return (
 		<div data-testid='range' {...args}>
