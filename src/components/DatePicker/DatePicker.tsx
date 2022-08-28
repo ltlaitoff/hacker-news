@@ -1,7 +1,13 @@
 import React, { FC, useState, useCallback } from 'react'
 import Calendar from 'react-calendar'
 
-import { datesNotEqual, isFalse, isNotEqual } from 'helpers'
+import {
+	datesNotEqual,
+	isFalse,
+	isNotEqual,
+	isNull,
+	isUndefined
+} from 'helpers'
 import { useOutsideClick, useEscKeyDown } from 'hooks'
 
 import {
@@ -24,7 +30,7 @@ const DatePicker: FC<DatePickerProps> = ({
 	className,
 	...args
 }: DatePickerProps) => {
-	if (type === undefined) {
+	if (isUndefined(type)) {
 		type = DatePickerTypes.STANDART
 	}
 
@@ -70,14 +76,14 @@ const DatePicker: FC<DatePickerProps> = ({
 					return
 				}
 
-				if (value === null || datesNotEqual(dateInput[0], value)) {
+				if (isNull(value) || datesNotEqual(dateInput[0], value)) {
 					onChange(dateInput[0], dateType)
 				}
 				return
 			}
 
 			if (type === DatePickerTypes.RANGE) {
-				if (value === null) {
+				if (isNull(value)) {
 					onChange(dateInput, dateType)
 					return
 				}
