@@ -49,4 +49,4 @@ const DateRangePicker: FC<DateInputProps> = ({
 	)
 }
 
-export default DateRangePicker
+export default React.memo(DateRangePicker)

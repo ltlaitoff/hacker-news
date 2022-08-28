@@ -30,4 +30,4 @@ const StandartDateInput: FC<DateInputProps> = ({
 	)
 }
 
-export default StandartDateInput
+export default React.memo(StandartDateInput)

@@ -111,4 +111,4 @@ const DatePickerInput: FC<DatePickerInputProps> = ({
 	)
 }
 
-export default DatePickerInput
+export default React.memo(DatePickerInput)

@@ -189,4 +189,4 @@ const DatePicker: FC<DatePickerProps> = ({
 	)
 }
 
-export default DatePicker
+export default React.memo(DatePicker)
