@@ -9,15 +9,19 @@ import classNames from 'classnames'
 import Calendar from 'react-calendar'
 
 import { isFalse, isNull, isNotEqual } from 'helpers'
-import { DatePickerInputOnSubmitType } from './components/DatePickerInput'
+import { useOutsideClick, useEscKeyDown } from 'hooks'
+
 import {
 	DatePickerProps,
 	DatePickerRangeValueWithNull,
 	DatePickerStandartValueWithNull
 } from './interfaces'
-import { useOutsideClick, useEscKeyDown } from 'hooks'
-import StandartDateInput from './components/StandartDateInput'
-import RangeDateInput from './components/RangeDateInput'
+
+import {
+	DatePickerInputOnSubmitType,
+	StandartDateInput,
+	RangeDateInput
+} from './components'
 
 const getDefaultDateValue = (
 	value: DatePickerStandartValueWithNull | DatePickerRangeValueWithNull

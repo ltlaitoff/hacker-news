@@ -1,6 +1,5 @@
 import React, { FC } from 'react'
-import DatePickerInput from '../../DatePickerInput'
-import { DatePickerInputOnSubmitType } from '../../DatePickerInput/DatePickerInput.interfaces'
+import { DatePickerInput, DatePickerInputOnSubmitType } from '..'
 import { DateInputProps } from '../../interfaces'
 
 const DateRangePicker: FC<DateInputProps> = ({

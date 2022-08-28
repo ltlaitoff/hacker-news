@@ -1,8 +1,5 @@
 import React, { FC, useCallback } from 'react'
-import DatePickerInput, {
-	DatePickerInputOnSubmitType
-} from '../../DatePickerInput'
-
+import { DatePickerInput, DatePickerInputOnSubmitType } from '..'
 import { DateInputProps } from '../../interfaces'
 
 const StandartDateInput: FC<DateInputProps> = ({
