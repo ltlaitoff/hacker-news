@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import DatePicker from 'components/DatePicker'
+import DatePicker, { DatePickerTypes } from 'components/DatePicker'
 import NumberPicker, { NumberPickerProps } from 'components/NumberPicker'
 import Select from 'components/Select'
 import { FilterBaseType } from 'typescript/filters'
@@ -28,7 +28,7 @@ const FilterValuePicker: FC<FilterValuePickerProps> = ({
 				<div className='flex py-4'>
 					{filter.value instanceof Array ? (
 						<DatePicker
-							type='range'
+							type={DatePickerTypes.RANGE}
 							value={filter.value}
 							onChange={onChange}
 							format={FILTER_DATE_FORMAT}
@@ -36,7 +36,7 @@ const FilterValuePicker: FC<FilterValuePickerProps> = ({
 						/>
 					) : (
 						<DatePicker
-							type='standart'
+							type={DatePickerTypes.STANDART}
 							value={filter.value}
 							onChange={onChange}
 							format={FILTER_DATE_FORMAT}
