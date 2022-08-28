@@ -10,7 +10,8 @@ import {
 } from 'typescript/filters'
 import {
 	ReducerActionChangeFiltration,
-	ReducerActionChangeValue
+	ReducerActionChangeValue,
+	ReducerActionTypes
 } from './filterDetailsWindowReducer.interfaces'
 
 export function filterDetailsWindowReducer<T extends FilterReceived>(
@@ -18,7 +19,7 @@ export function filterDetailsWindowReducer<T extends FilterReceived>(
 	action: ReducerActionChangeValue<T> | ReducerActionChangeFiltration<T>
 ): T {
 	switch (action.type) {
-		case 'change-value': {
+		case ReducerActionTypes.CHANGE_VALUE: {
 			if (state.value === action.payload) {
 				return state
 			}
@@ -26,7 +27,7 @@ export function filterDetailsWindowReducer<T extends FilterReceived>(
 			return { ...state, value: action.payload }
 		}
 
-		case 'change-filtration': {
+		case ReducerActionTypes.CHANGE_FILTRATION: {
 			if (state.filtration === action.payload) {
 				return state
 			}
