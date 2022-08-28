@@ -1,11 +1,4 @@
-import React, {
-	FC,
-	useState,
-	MouseEvent as ReactMouseEvent,
-	ChangeEvent,
-	useCallback
-} from 'react'
-import classNames from 'classnames'
+import React, { FC, useState, useCallback } from 'react'
 import Calendar from 'react-calendar'
 
 import { isFalse, isNull, isNotEqual } from 'helpers'
@@ -64,19 +57,17 @@ const DatePicker: FC<DatePickerProps> = ({
 	const [date, setDate] = useState<[Date, Date]>(getDefaultDateValue(value))
 	const [calendarShow, setCalendarShow] = useState<boolean>(false)
 
-	const onOutsideClick = () => {
+	const setCalendarShowFalse = useCallback(() => {
 		setCalendarShow(false)
-	}
+	}, [])
 
 	const wrapperRef = useOutsideClick(
-		onOutsideClick
+		setCalendarShowFalse
 	) as React.RefObject<HTMLDivElement>
 
-	const onEscPress = useCallback(() => setCalendarShow(false), [])
+	useEscKeyDown(setCalendarShowFalse, true, calendarShow)
 
-	useEscKeyDown(onEscPress, true, calendarShow)
-
-	// TODO: Why is it here
+	// XXX: Why is it here
 	const checkDatesOrder = (date: [Date, Date]): [Date, Date] => {
 		if (date[0] > date[1]) {
 			return [date[1], date[0]]
@@ -85,73 +76,76 @@ const DatePicker: FC<DatePickerProps> = ({
 		return date
 	}
 
-	const onSubmit = (
-		dateValues: [Date, Date],
-		dateType: DatePickerInputOnSubmitType | 'calendar'
-	) => {
-		if (disabled) return
+	const onSubmit = useCallback(
+		(
+			dateValues: [Date, Date],
+			dateType: DatePickerInputOnSubmitType | 'calendar'
+		) => {
+			if (disabled) return
 
-		const dateInput = checkDatesOrder(dateValues)
+			const dateInput = checkDatesOrder(dateValues)
 
-		if (isNotEqual(dateType, 'blur')) {
-			setCalendarShow(false)
-		}
+			if (isNotEqual(dateType, 'blur')) {
+				setCalendarShow(false)
+			}
 
-		if (
-			dateInput[0].valueOf() !== date[0].valueOf() ||
-			dateInput[1].valueOf() !== date[1].valueOf()
-		) {
-			setDate(dateInput)
-		}
+			if (
+				dateInput[0].valueOf() !== date[0].valueOf() ||
+				dateInput[1].valueOf() !== date[1].valueOf()
+			) {
+				setDate(dateInput)
+			}
 
-		if (type === 'standart') {
-			if (value instanceof Array) {
-				if (
-					// XXX: Check it of errors
-					dateInput[0].valueOf() !== value.valueOf() ||
-					dateInput[1].valueOf() !== value.valueOf()
-				) {
-					onChange(dateInput)
+			if (type === 'standart') {
+				if (value instanceof Array) {
+					if (
+						// XXX: Check it of errors
+						dateInput[0].valueOf() !== value.valueOf() ||
+						dateInput[1].valueOf() !== value.valueOf()
+					) {
+						onChange(dateInput)
+					}
+
+					return
 				}
 
+				onChange(dateInput[0])
 				return
 			}
 
-			onChange(dateInput[0])
-			return
-		}
+			onChange(dateInput)
+		},
+		[disabled, date, onChange, type, value]
+	)
 
-		onChange(dateInput)
-	}
+	const onCalendarDateChange = useCallback(
+		(date: Date | [Date, Date]) => {
+			if (disabled) return
 
-	const onCalendarDateChange = (
-		date: Date | [Date, Date],
-		e: ChangeEvent<HTMLInputElement>
-	) => {
-		if (disabled) return
+			setCalendarShow(false)
+			onError(false)
 
-		setCalendarShow(false)
-		onError(false)
+			if (date instanceof Date) {
+				onSubmit([date, date], 'calendar')
+				return
+			}
 
-		if (date instanceof Date) {
-			onSubmit([date, date], 'calendar')
-			return
-		}
+			onSubmit(date, 'calendar')
+		},
+		[disabled, onError, onSubmit]
+	)
 
-		onSubmit(date, 'calendar')
-	}
-
-	const onBlockClick = (e: ReactMouseEvent<HTMLDivElement>) => {
+	const onBlockClick = useCallback(() => {
 		if (disabled) return
 
 		if (isFalse(calendarShow)) {
 			setCalendarShow(true)
 		}
-	}
+	}, [disabled, calendarShow])
 
 	return (
 		<div
-			className={classNames(className)}
+			className={className}
 			onClick={onBlockClick}
 			ref={wrapperRef}
 			data-testid='picker'
