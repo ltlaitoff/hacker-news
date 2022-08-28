@@ -2,7 +2,7 @@ import { FilterReceived } from 'typescript/filters'
 import { FILTER_DATE_FORMAT } from '../constants'
 
 // XXX: WTF
-import { trasformDateIntoFormat } from 'components/DatePicker/DatePickerInput/helpers'
+import { trasformDateIntoFormat } from 'components/DatePicker/components/DatePickerInput/helpers'
 
 function checkOnDateArray(value: [unknown, unknown]): value is [Date, Date] {
 	return value[0] instanceof Date && value[1] instanceof Date

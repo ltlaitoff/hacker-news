@@ -36,3 +36,15 @@ export function isNull(element: unknown): element is null {
 export function isNoStrictNull(element: unknown): element is null | undefined {
 	return isNoStrictEqual(element, null)
 }
+
+// TODO: Write tests for isUndefined function
+export function isUndefined(element: unknown): element is undefined {
+	return isEqual(element, undefined)
+}
+
+// TODO: Write tests for isNoStrictUndefined function
+export function isNoStrictUndefined(
+	element: unknown
+): element is null | undefined {
+	return isNoStrictEqual(element, undefined)
+}

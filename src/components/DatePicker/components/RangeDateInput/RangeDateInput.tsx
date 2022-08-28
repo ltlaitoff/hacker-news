@@ -1,46 +1,48 @@
-import React, { FC } from 'react'
-import DatePickerInput from '../../DatePickerInput'
-import { DatePickerInputOnSubmitType } from '../../DatePickerInput/DatePickerInput.interfaces'
-import { DateInputProps } from '../../interfaces'
+import React, { FC, useCallback } from 'react'
+import { DatePickerInput } from '..'
+import { DateInputProps, onChangeTypes } from '../../DatePicker.interfaces'
 
 const DateRangePicker: FC<DateInputProps> = ({
-	date,
 	format,
+	date,
 	onSubmit,
-	disabled,
+	error,
 	onError,
+	disabled,
 	...args
 }) => {
-	const onFirstDateSubmit = (
-		value: Date,
-		type: DatePickerInputOnSubmitType
-	) => {
-		onSubmit([value, date[1]], type)
-	}
+	const onFirstDateSubmit = useCallback(
+		(value: Date, type: onChangeTypes) => {
+			onSubmit([value, date[1]], type)
+		},
+		[date, onSubmit]
+	)
 
-	const onSecondDateSubmit = (
-		value: Date,
-		type: DatePickerInputOnSubmitType
-	) => {
-		onSubmit([date[0], value], type)
-	}
+	const onSecondDateSubmit = useCallback(
+		(value: Date, type: onChangeTypes) => {
+			onSubmit([date[0], value], type)
+		},
+		[date, onSubmit]
+	)
 
 	return (
 		<div data-testid='range' {...args}>
 			<div className='gap-x-4 justify-items-end flex'>
 				<DatePickerInput
-					date={date[0]}
 					format={format}
+					date={date[0]}
 					onSubmit={onFirstDateSubmit}
+					error={error}
 					onError={onError}
 					disabled={disabled}
 					data-testid='first-input'
 				/>
 				<div className='self-center'>and</div>
 				<DatePickerInput
-					date={date[1]}
 					format={format}
+					date={date[1]}
 					onSubmit={onSecondDateSubmit}
+					error={error}
 					onError={onError}
 					disabled={disabled}
 					data-testid='second-input'
@@ -50,4 +52,4 @@ const DateRangePicker: FC<DateInputProps> = ({
 	)
 }
 
-export default DateRangePicker
+export default React.memo(DateRangePicker)

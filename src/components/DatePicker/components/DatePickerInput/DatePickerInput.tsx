@@ -1,5 +1,5 @@
 import React, { useState, useEffect, KeyboardEvent, FC, FormEvent } from 'react'
-import { trasformDateIntoFormat } from './helpers/trasformDateIntoFormat'
+import classNames from 'classnames'
 import {
 	getValueFromEvent,
 	isEnterKey,
@@ -8,31 +8,27 @@ import {
 	isNull
 } from 'helpers'
 
-import classNames from 'classnames'
-import {
-	DatePickerInputOnSubmitType,
-	DatePickerInputProps
-} from './DatePickerInput.interfaces'
-import { checkStringDateOnErrors } from './helpers'
+import { DatePickerInputProps } from './DatePickerInput.interfaces'
+import { checkStringDateOnErrors, trasformDateIntoFormat } from './helpers'
+import { onChangeTypes } from '../../DatePicker.interfaces'
 
 const DatePickerInput: FC<DatePickerInputProps> = ({
-	date,
 	format,
-	disabled,
+	date,
 	onSubmit,
+	error,
 	onError,
+	disabled,
 	...args
 }) => {
 	const [inputValue, setInputValue] = useState<string>(
 		trasformDateIntoFormat(date, format) || ''
 	)
-	const [error, setError] = useState<boolean>(false)
 
 	useEffect(() => {
 		const inputValue = trasformDateIntoFormat(date, format)
 
 		if (isNull(inputValue)) {
-			setError(true)
 			onError(true)
 			return
 		}
@@ -42,18 +38,16 @@ const DatePickerInput: FC<DatePickerInputProps> = ({
 		const checkErrorDate = checkStringDateOnErrors(inputValue, format)
 
 		if (isNull(checkErrorDate) || isFalse(isValidDate(checkErrorDate))) {
-			setError(true)
 			onError(true)
 		}
 	}, [date, format, onError])
 
-	const dateSubmit = (value: string, type: DatePickerInputOnSubmitType) => {
+	const dateSubmit = (value: string, type: onChangeTypes) => {
 		if (disabled) return
 
 		const date = checkStringDateOnErrors(value, format)
 
 		if (isNull(date) || isFalse(isValidDate(date))) {
-			setError(true)
 			onError(true)
 			return
 		}
@@ -65,24 +59,24 @@ const DatePickerInput: FC<DatePickerInputProps> = ({
 	const onChange = (e: FormEvent<HTMLInputElement>) => {
 		if (disabled) return
 
-		const value = getValueFromEvent(e)
+		setInputValue(getValueFromEvent(e))
 
-		if (error) setError(false)
-
-		setInputValue(value)
+		if (error) {
+			onError(false)
+		}
 	}
 
 	const onBlur = (e: FormEvent<HTMLInputElement>) => {
 		if (disabled) return
 
-		dateSubmit(getValueFromEvent(e), 'blur')
+		dateSubmit(getValueFromEvent(e), onChangeTypes.BLUR)
 	}
 
 	const onKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
 		if (disabled) return
 
 		if (isEnterKey(e.key)) {
-			dateSubmit(getValueFromEvent(e), 'enterKey')
+			dateSubmit(getValueFromEvent(e), onChangeTypes.ENTER_KEY)
 		}
 	}
 
@@ -111,4 +105,4 @@ const DatePickerInput: FC<DatePickerInputProps> = ({
 	)
 }
 
-export default DatePickerInput
+export default React.memo(DatePickerInput)

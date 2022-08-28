@@ -1,172 +1,155 @@
-import React, {
-	FC,
-	useState,
-	MouseEvent as ReactMouseEvent,
-	ChangeEvent,
-	useCallback
-} from 'react'
-import classNames from 'classnames'
+import React, { FC, useState, useCallback } from 'react'
 import Calendar from 'react-calendar'
 
-import { isFalse, isNull, isNotEqual } from 'helpers'
-import { DatePickerInputOnSubmitType } from './DatePickerInput'
+import {
+	datesNotEqual,
+	isFalse,
+	isNotEqual,
+	isNull,
+	isUndefined
+} from 'helpers'
+import { useOutsideClick, useEscKeyDown } from 'hooks'
+
 import {
 	DatePickerProps,
-	DatePickerRangeValueWithNull,
-	DatePickerStandartValueWithNull
-} from './interfaces'
-import { useOutsideClick, useEscKeyDown } from 'hooks'
-import StandartDateInput from './components/StandartDateInput'
-import RangeDateInput from './components/RangeDateInput'
+	DatePickerTypes,
+	onChangeTypes
+} from './DatePicker.interfaces'
 
-const getDefaultDateValue = (
-	value: DatePickerStandartValueWithNull | DatePickerRangeValueWithNull
-): [Date, Date] => {
-	const currentDate = new Date(Date.now())
-
-	if (isNull(value)) {
-		return [currentDate, currentDate]
-	}
-
-	if (value instanceof Array) {
-		if (isNull(value[0]) || isNull(value[1])) {
-			return [currentDate, currentDate]
-		}
-
-		return value
-	}
-
-	return [value, value]
-}
-
-/*
-	BUG: On click on date in calendar error not reset
-*/
+import { StandartDateInput, RangeDateInput } from './components'
+import { checkDatesOrder, getDefaultDateValue } from './helpers'
 
 const DatePicker: FC<DatePickerProps> = ({
+	type,
 	value,
 	onChange,
-	type,
+	error,
+	onError,
 	disabled,
 	format = 'dd-MM-Y',
-	onError,
 	className,
 	...args
 }: DatePickerProps) => {
-	if (type === undefined) {
-		type = 'standart'
+	if (isUndefined(type)) {
+		type = DatePickerTypes.STANDART
 	}
 
 	const [date, setDate] = useState<[Date, Date]>(getDefaultDateValue(value))
 	const [calendarShow, setCalendarShow] = useState<boolean>(false)
 
-	const onOutsideClick = () => {
+	const setCalendarShowFalse = useCallback(() => {
 		setCalendarShow(false)
-	}
+	}, [])
 
 	const wrapperRef = useOutsideClick(
-		onOutsideClick
+		setCalendarShowFalse
 	) as React.RefObject<HTMLDivElement>
 
-	const onEscPress = useCallback(() => setCalendarShow(false), [])
+	useEscKeyDown(setCalendarShowFalse, true, calendarShow)
 
-	useEscKeyDown(onEscPress, true, calendarShow)
+	const onSubmit = useCallback(
+		(dateValues: [Date, Date], dateType: onChangeTypes) => {
+			if (disabled) return
 
-	// TODO: Why is it here
-	const checkDatesOrder = (date: [Date, Date]): [Date, Date] => {
-		if (date[0] > date[1]) {
-			return [date[1], date[0]]
-		}
+			const dateInput = checkDatesOrder(dateValues)
 
-		return date
-	}
+			if (isNotEqual(dateType, onChangeTypes.BLUR)) {
+				setCalendarShow(false)
+			}
 
-	const onSubmit = (
-		dateValues: [Date, Date],
-		dateType: DatePickerInputOnSubmitType | 'calendar'
-	) => {
-		if (disabled) return
+			if (
+				datesNotEqual(dateInput[0], date[0]) ||
+				datesNotEqual(dateInput[1], date[1])
+			) {
+				setDate(dateInput)
+			}
 
-		const dateInput = checkDatesOrder(dateValues)
+			if (type === DatePickerTypes.STANDART) {
+				if (value instanceof Array) {
+					if (
+						datesNotEqual(dateInput[0], value[0]) ||
+						datesNotEqual(dateInput[1], value[1])
+					) {
+						onChange(dateInput, dateType)
+					}
 
-		if (isNotEqual(dateType, 'blur')) {
-			setCalendarShow(false)
-		}
+					return
+				}
 
-		if (
-			dateInput[0].valueOf() !== date[0].valueOf() ||
-			dateInput[1].valueOf() !== date[1].valueOf()
-		) {
-			setDate(dateInput)
-		}
+				if (isNull(value) || datesNotEqual(dateInput[0], value)) {
+					onChange(dateInput[0], dateType)
+				}
+				return
+			}
 
-		if (type === 'standart') {
-			if (value instanceof Array) {
+			if (type === DatePickerTypes.RANGE) {
+				if (isNull(value)) {
+					onChange(dateInput, dateType)
+					return
+				}
+
 				if (
-					// XXX: Check it of errors
-					dateInput[0].valueOf() !== value.valueOf() ||
-					dateInput[1].valueOf() !== value.valueOf()
+					datesNotEqual(dateInput[0], value[0]) ||
+					datesNotEqual(dateInput[1], value[1])
 				) {
-					onChange(dateInput)
+					onChange(dateInput, dateType)
 				}
 
 				return
 			}
+		},
+		[disabled, date, onChange, type, value]
+	)
 
-			onChange(dateInput[0])
-			return
-		}
+	const onCalendarDateChange = useCallback(
+		(date: Date | [Date, Date]) => {
+			if (disabled) return
 
-		onChange(dateInput)
-	}
+			setCalendarShow(false)
+			onError(false)
 
-	const onCalendarDateChange = (
-		date: Date | [Date, Date],
-		e: ChangeEvent<HTMLInputElement>
-	) => {
-		if (disabled) return
+			if (date instanceof Date) {
+				onSubmit([date, date], onChangeTypes.CALENDAR)
+				return
+			}
 
-		setCalendarShow(false)
-		onError(false)
+			onSubmit(date, onChangeTypes.CALENDAR)
+		},
+		[disabled, onError, onSubmit]
+	)
 
-		if (date instanceof Date) {
-			onSubmit([date, date], 'calendar')
-			return
-		}
-
-		onSubmit(date, 'calendar')
-	}
-
-	const onBlockClick = (e: ReactMouseEvent<HTMLDivElement>) => {
+	const onBlockClick = useCallback(() => {
 		if (disabled) return
 
 		if (isFalse(calendarShow)) {
 			setCalendarShow(true)
 		}
-	}
+	}, [disabled, calendarShow])
 
 	return (
 		<div
-			className={classNames(className)}
+			className={className}
 			onClick={onBlockClick}
 			ref={wrapperRef}
 			data-testid='picker'
 			{...args}
 		>
-			{type === 'standart' ? (
+			{type === DatePickerTypes.STANDART ? (
 				<StandartDateInput
-					date={date}
 					format={format}
+					date={date}
 					onSubmit={onSubmit}
-					disabled={disabled}
+					error={error}
 					onError={onError}
+					disabled={disabled}
 					data-testid='standart-input'
 				/>
 			) : (
 				<RangeDateInput
-					date={date}
 					format={format}
+					date={date}
 					onSubmit={onSubmit}
+					error={error}
 					onError={onError}
 					disabled={disabled}
 				/>
@@ -176,13 +159,13 @@ const DatePicker: FC<DatePickerProps> = ({
 				<div className='absolute' data-testid='calendar'>
 					<Calendar
 						onChange={onCalendarDateChange}
-						value={type === 'range' ? date : date[0]}
-						selectRange={type === 'range'}
-					></Calendar>
+						value={type === DatePickerTypes.RANGE ? date : date[0]}
+						selectRange={type === DatePickerTypes.RANGE}
+					/>
 				</div>
 			)}
 		</div>
 	)
 }
 
-export default DatePicker
+export default React.memo(DatePicker)

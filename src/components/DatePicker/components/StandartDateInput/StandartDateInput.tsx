@@ -1,20 +1,18 @@
 import React, { FC, useCallback } from 'react'
-import DatePickerInput, {
-	DatePickerInputOnSubmitType
-} from '../../DatePickerInput'
-
-import { DateInputProps } from '../../interfaces'
+import { DatePickerInput } from '..'
+import { DateInputProps, onChangeTypes } from '../../DatePicker.interfaces'
 
 const StandartDateInput: FC<DateInputProps> = ({
-	date,
 	format,
+	date,
 	onSubmit,
+	error,
 	onError,
 	disabled,
 	...args
 }) => {
 	const onDateSubmit = useCallback(
-		(value: Date, type: DatePickerInputOnSubmitType) => {
+		(value: Date, type: onChangeTypes) => {
 			onSubmit([value, value], type)
 		},
 		[onSubmit]
@@ -22,9 +20,10 @@ const StandartDateInput: FC<DateInputProps> = ({
 
 	return (
 		<DatePickerInput
-			date={date[0]}
 			format={format}
+			date={date[0]}
 			onSubmit={onDateSubmit}
+			error={error}
 			onError={onError}
 			disabled={disabled}
 			data-testid='input'
@@ -33,4 +32,4 @@ const StandartDateInput: FC<DateInputProps> = ({
 	)
 }
 
-export default StandartDateInput
+export default React.memo(StandartDateInput)
