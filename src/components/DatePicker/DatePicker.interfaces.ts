@@ -1,7 +1,4 @@
-import {
-	DatePickerInputOnSubmitType,
-	DatePickerInputProps
-} from './components/DatePickerInput'
+import { DatePickerInputProps } from './components/DatePickerInput'
 
 export type DataPickerFormats = string
 
@@ -12,12 +9,18 @@ interface DatePickerBase {
 	onError: (value: boolean) => void
 }
 
+export enum onChangeTypes {
+	BLUR = 'blur',
+	ENTER_KEY = 'enterKey',
+	CALENDAR = 'calendar'
+}
+
 export type DateInputProps = Omit<
 	Omit<DatePickerInputProps, 'onSubmit'>,
 	'date'
 > & {
 	date: [Date, Date]
-	onSubmit: (date: [Date, Date], type: DatePickerInputOnSubmitType) => void
+	onSubmit: (date: [Date, Date], type: onChangeTypes) => void
 	onError?: (value: boolean) => void
 }
 
@@ -32,13 +35,13 @@ export type DatePickerRangeOnChange = [Date, Date]
 export interface DatePickerStandartProps extends DatePickerBase {
 	type?: 'standart'
 	value: Date | [Date, Date] | null
-	onChange: (value: Date | [Date, Date]) => void
+	onChange: (value: Date | [Date, Date], type: onChangeTypes) => void
 }
 
 export interface DatePickerRangeProps extends DatePickerBase {
 	type: 'range'
 	value: [Date, Date] | null
-	onChange: (value: [Date, Date]) => void
+	onChange: (value: [Date, Date], type: onChangeTypes) => void
 }
 
 export type DatePickerProps = DatePickerStandartProps | DatePickerRangeProps

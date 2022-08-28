@@ -7,14 +7,11 @@ import { useOutsideClick, useEscKeyDown } from 'hooks'
 import {
 	DatePickerProps,
 	DatePickerRangeValueWithNull,
-	DatePickerStandartValueWithNull
+	DatePickerStandartValueWithNull,
+	onChangeTypes
 } from './DatePicker.interfaces'
 
-import {
-	DatePickerInputOnSubmitType,
-	StandartDateInput,
-	RangeDateInput
-} from './components'
+import { StandartDateInput, RangeDateInput } from './components'
 
 const getDefaultDateValue = (
 	value: DatePickerStandartValueWithNull | DatePickerRangeValueWithNull
@@ -77,10 +74,7 @@ const DatePicker: FC<DatePickerProps> = ({
 	}
 
 	const onSubmit = useCallback(
-		(
-			dateValues: [Date, Date],
-			dateType: DatePickerInputOnSubmitType | 'calendar'
-		) => {
+		(dateValues: [Date, Date], dateType: onChangeTypes) => {
 			if (disabled) return
 
 			const dateInput = checkDatesOrder(dateValues)
@@ -103,17 +97,17 @@ const DatePicker: FC<DatePickerProps> = ({
 						dateInput[0].valueOf() !== value.valueOf() ||
 						dateInput[1].valueOf() !== value.valueOf()
 					) {
-						onChange(dateInput)
+						onChange(dateInput, dateType)
 					}
 
 					return
 				}
 
-				onChange(dateInput[0])
+				onChange(dateInput[0], dateType)
 				return
 			}
 
-			onChange(dateInput)
+			onChange(dateInput, dateType)
 		},
 		[disabled, date, onChange, type, value]
 	)
@@ -126,11 +120,11 @@ const DatePicker: FC<DatePickerProps> = ({
 			onError(false)
 
 			if (date instanceof Date) {
-				onSubmit([date, date], 'calendar')
+				onSubmit([date, date], onChangeTypes.CALENDAR)
 				return
 			}
 
-			onSubmit(date, 'calendar')
+			onSubmit(date, onChangeTypes.CALENDAR)
 		},
 		[disabled, onError, onSubmit]
 	)
@@ -176,7 +170,7 @@ const DatePicker: FC<DatePickerProps> = ({
 						onChange={onCalendarDateChange}
 						value={type === 'range' ? date : date[0]}
 						selectRange={type === 'range'}
-					></Calendar>
+					/>
 				</div>
 			)}
 		</div>
