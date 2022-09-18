@@ -13,3 +13,7 @@ export function getOrderedNumbers(
 
 	return [second, first]
 }
+
+export function getUniqueArray<T>(array: T[]) {
+	return Array.from(new Set(array))
+}

@@ -1,4 +1,4 @@
-import { getFilledArray, getOrderedNumbers } from './get'
+import { getFilledArray, getOrderedNumbers, getUniqueArray } from './get'
 
 describe('get', () => {
 	it.each`
@@ -24,6 +24,20 @@ describe('get', () => {
 		'getOrderedNumbers with first = $first, second = $second should return $result',
 		({ first, second, result }) => {
 			expect(getOrderedNumbers(first, second)).toStrictEqual(result)
+		}
+	)
+
+	it.each`
+		array                    | result
+		${[]}                    | ${[]}
+		${[1]}                   | ${[1]}
+		${[1, 1, 1]}             | ${[1]}
+		${[1, 1, 2]}             | ${[1, 2]}
+		${[1, 15, 2, 15, 3, 15]} | ${[1, 15, 2, 3]}
+	`(
+		'getUniqueArray with array = $array should return $result',
+		({ array, result }) => {
+			expect(getUniqueArray(array)).toStrictEqual(result)
 		}
 	)
 })

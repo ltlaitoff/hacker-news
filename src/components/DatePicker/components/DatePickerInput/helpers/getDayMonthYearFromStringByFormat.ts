@@ -1,6 +1,12 @@
 import { DayMonthYear } from './checkStringDateOnErrors'
 
-import { isNull, isNotEqual, isFalse, isEmptyString } from 'helpers'
+import {
+	isNull,
+	isNotEqual,
+	isFalse,
+	isEmptyString,
+	getUniqueArray
+} from 'helpers'
 import { FORMAT_KEYS, GetMinMaxType, getMinMax } from '../constants'
 import 'core-js/features/string/replace-all'
 import { checkOnMinMaxIncludes } from 'helpers'
@@ -47,8 +53,7 @@ const getFormatDividers = (format: string): string[] | null => {
 		.split(__DATE_DIVIDER__)
 		.filter(element => isNotEqual(element, ''))
 
-	// TODO: Create 'getSettedArray' func
-	return Array.from(new Set(splittedDividers))
+	return getUniqueArray(splittedDividers)
 }
 
 const getDayMonthYear = (stringDate: string, formatDividers: string[]) => {
