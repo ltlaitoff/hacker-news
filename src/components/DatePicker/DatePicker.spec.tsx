@@ -3,7 +3,7 @@ import { screen, render } from '@testing-library/react'
 import user from '@testing-library/user-event'
 import '@testing-library/jest-dom'
 import DatePicker from './DatePicker'
-import { DatePickerProps } from './interfaces'
+import { DatePickerProps, DatePickerTypes } from './DatePicker.interfaces'
 import { onKeyPressObserver } from 'observers'
 
 jest.useFakeTimers().setSystemTime(new Date('01-01-2022'))
@@ -42,7 +42,7 @@ describe('DatePicker', () => {
 	})
 
 	it('DatePicker with type = “standart” should have 1 input', () => {
-		setup({ type: 'standart' })
+		setup({ type: DatePickerTypes.STANDART })
 
 		const inputs = screen.getAllByRole('textbox')
 		expect(inputs).toHaveLength(1)
@@ -57,7 +57,7 @@ describe('DatePicker', () => {
 
 	it('DatePicker with type = “range” should have 2 inputs', () => {
 		setup({
-			type: 'range',
+			type: DatePickerTypes.RANGE,
 			value: [new Date('01-01-2022'), new Date('01-01-2022')]
 		})
 
@@ -108,12 +108,12 @@ describe('DatePicker', () => {
 		${new Date('01-01-2022')} | ${'02-01-2022'} | ${new Date('01-02-2022')}
 		${new Date('05-15-2022')} | ${'30-05-2022'} | ${new Date('05-30-2022')}
 	`('Standart type', ({ date, newDate, newDateAsDate }) => {
-		it('With value = $date, after type newDate = $newDate in input and press enter key - onChange should be called with ($newDateAsDate), calendar should hide', () => {
+		it('With value = $date, after type newDate = $newDate in input and press enter key - onChange should be called with ($newDateAsDate, "enterKey"), calendar should hide', () => {
 			const onChange = jest.fn()
 			setup({
 				value: date,
 				onChange: onChange,
-				type: 'standart'
+				type: DatePickerTypes.STANDART
 			})
 
 			const input = screen.getByTestId('standart-input')
@@ -126,15 +126,15 @@ describe('DatePicker', () => {
 
 			user.type(input, '{Enter}')
 			expect(screen.queryByTestId('calendar')).not.toBeInTheDocument()
-			expect(onChange).toBeCalledWith(newDateAsDate)
+			expect(onChange).toBeCalledWith(newDateAsDate, 'enterKey')
 		})
 
-		it('With value = [$date, $date], after type newDate = $newDate in input and press enter key - onChange should be called with ([$newDateAsDate, $newDateAsDate]), calendar should hide', () => {
+		it('With value = [$date, $date], after type newDate = $newDate in input and press enter key - onChange should be called with ([$newDateAsDate, $newDateAsDate], "enterKey"), calendar should hide', () => {
 			const onChange = jest.fn()
 			setup({
 				value: [date, date],
 				onChange: onChange,
-				type: 'standart'
+				type: DatePickerTypes.STANDART
 			})
 
 			const input = screen.getByTestId('standart-input')
@@ -147,7 +147,10 @@ describe('DatePicker', () => {
 
 			user.type(input, '{Enter}')
 			expect(screen.queryByTestId('calendar')).not.toBeInTheDocument()
-			expect(onChange).toBeCalledWith([newDateAsDate, newDateAsDate])
+			expect(onChange).toBeCalledWith(
+				[newDateAsDate, newDateAsDate],
+				'enterKey'
+			)
 		})
 
 		it('With value = $date, after type newDate = "invalid" in input and press enter key - onError should be called with true', () => {
@@ -155,7 +158,7 @@ describe('DatePicker', () => {
 			setup({
 				value: date,
 				onError,
-				type: 'standart'
+				type: DatePickerTypes.STANDART
 			})
 
 			const input = screen.getByTestId('standart-input')
@@ -178,14 +181,14 @@ describe('DatePicker', () => {
 			${new Date('01-15-2022')} | ${'02-01-2022'} | ${new Date('01-02-2022')}
 			${new Date('05-15-2022')} | ${'10-05-2022'} | ${new Date('05-10-2022')}
 		`(
-			'With value = [$date, $date], after type newDate = $newDate in first input and press enter key - onChange should be called with [$newDateAsDate, $date], calendar should hide',
+			'With value = [$date, $date], after type newDate = $newDate in first input and press enter key - onChange should be called with ([$newDateAsDate, $date], "enterKey"), calendar should hide',
 			({ date, newDate, newDateAsDate }) => {
 				const onChange = jest.fn()
 
 				setup({
 					value: [date, date],
 					onChange: onChange,
-					type: 'range'
+					type: DatePickerTypes.RANGE
 				})
 
 				const input = screen.getAllByRole('textbox')[0]
@@ -198,7 +201,7 @@ describe('DatePicker', () => {
 
 				user.type(input, '{Enter}')
 				expect(screen.queryByTestId('calendar')).not.toBeInTheDocument()
-				expect(onChange).toBeCalledWith([newDateAsDate, date])
+				expect(onChange).toBeCalledWith([newDateAsDate, date], 'enterKey')
 			}
 		)
 
@@ -207,14 +210,14 @@ describe('DatePicker', () => {
 			${new Date('01-01-2022')} | ${'15-01-2022'} | ${new Date('01-15-2022')}
 			${new Date('05-15-2022')} | ${'30-05-2022'} | ${new Date('05-30-2022')}
 		`(
-			'With value = [$date, $date], after type newDate = $newDate in second input and press enter key - onChange should be called with [$newDateAsDate, $date], calendar should hide',
+			'With value = [$date, $date], after type newDate = $newDate in second input and press enter key - onChange should be called with ([$newDateAsDate, $date], "enterKey"), calendar should hide',
 			({ date, newDate, newDateAsDate }) => {
 				const onChange = jest.fn()
 
 				setup({
 					value: [date, date],
 					onChange: onChange,
-					type: 'range'
+					type: DatePickerTypes.RANGE
 				})
 
 				const input = screen.getAllByRole('textbox')[1]
@@ -227,7 +230,7 @@ describe('DatePicker', () => {
 
 				user.type(input, '{Enter}')
 				expect(screen.queryByTestId('calendar')).not.toBeInTheDocument()
-				expect(onChange).toBeCalledWith([date, newDateAsDate])
+				expect(onChange).toBeCalledWith([date, newDateAsDate], 'enterKey')
 			}
 		)
 
@@ -236,14 +239,14 @@ describe('DatePicker', () => {
 			${new Date('01-01-2022')} | ${'15-01-2022'} | ${new Date('01-15-2022')}
 			${new Date('01-20-2022')} | ${'25-01-2022'} | ${new Date('01-25-2022')}
 		`(
-			'With value = [$date, $date], after type newDate = $newDate in first input and press enter key - onChange(first param Date ≤ second param Date) should be called with [$date, $newDateAsDate], calendar should hide',
+			'With value = [$date, $date], after type newDate = $newDate in first input and press enter key - onChange(first param Date ≤ second param Date) should be called with ([$date, $newDateAsDate], "enterKey"), calendar should hide',
 			({ date, newDate, newDateAsDate }) => {
 				const onChange = jest.fn()
 
 				setup({
 					value: [date, date],
 					onChange: onChange,
-					type: 'range'
+					type: DatePickerTypes.RANGE
 				})
 
 				const input = screen.getAllByRole('textbox')[0]
@@ -256,7 +259,7 @@ describe('DatePicker', () => {
 
 				user.type(input, '{Enter}')
 				expect(screen.queryByTestId('calendar')).not.toBeInTheDocument()
-				expect(onChange).toBeCalledWith([date, newDateAsDate])
+				expect(onChange).toBeCalledWith([date, newDateAsDate], 'enterKey')
 			}
 		)
 
@@ -265,14 +268,14 @@ describe('DatePicker', () => {
 			${new Date('01-15-2022')} | ${'01-01-2022'} | ${new Date('01-01-2022')}
 			${new Date('01-25-2022')} | ${'02-01-2022'} | ${new Date('01-02-2022')}
 		`(
-			'With value = [$date, $date], after type newDate = $newDate in second input and press enter key - onChange(first param Date ≤ second param Date) should be called with [$newDateAsDate, $date], calendar should hide',
+			'With value = [$date, $date], after type newDate = $newDate in second input and press enter key - onChange(first param Date ≤ second param Date) should be called with ([$newDateAsDate, $date], "enterKey"), calendar should hide',
 			({ date, newDate, newDateAsDate }) => {
 				const onChange = jest.fn()
 
 				setup({
 					value: [date, date],
 					onChange: onChange,
-					type: 'range'
+					type: DatePickerTypes.RANGE
 				})
 
 				const input = screen.getAllByRole('textbox')[1]
@@ -285,7 +288,7 @@ describe('DatePicker', () => {
 
 				user.type(input, '{Enter}')
 				expect(screen.queryByTestId('calendar')).not.toBeInTheDocument()
-				expect(onChange).toBeCalledWith([newDateAsDate, date])
+				expect(onChange).toBeCalledWith([newDateAsDate, date], 'enterKey')
 			}
 		)
 
@@ -296,7 +299,7 @@ describe('DatePicker', () => {
 			setup({
 				value: [new Date('01-01-2022'), new Date('01-01-2022')],
 				onError,
-				type: 'range'
+				type: DatePickerTypes.RANGE
 			})
 
 			const input = screen.getAllByRole('textbox')[0]
@@ -319,7 +322,7 @@ describe('DatePicker', () => {
 			setup({
 				value: [new Date('01-01-2022'), new Date('01-01-2022')],
 				onError,
-				type: 'range'
+				type: DatePickerTypes.RANGE
 			})
 
 			const input = screen.getAllByRole('textbox')[1]
@@ -371,7 +374,7 @@ describe('DatePicker', () => {
 
 		describe('Range type', () => {
 			it('Both inputs should have attribute disabled', () => {
-				setup({ disabled: true, type: 'range' })
+				setup({ disabled: true, type: DatePickerTypes.RANGE })
 
 				const inputs = screen.getAllByRole('textbox')
 
@@ -381,7 +384,11 @@ describe('DatePicker', () => {
 
 			it('If user try to type something in first input and press Enter - onChange should be not called', () => {
 				const onChange = jest.fn()
-				setup({ type: 'range', disabled: true, onChange: onChange })
+				setup({
+					type: DatePickerTypes.RANGE,
+					disabled: true,
+					onChange: onChange
+				})
 
 				const inputs = screen.getAllByRole('textbox')
 
@@ -392,7 +399,11 @@ describe('DatePicker', () => {
 
 			it('If user try to type something in second input and press Enter - onChange should be not called', () => {
 				const onChange = jest.fn()
-				setup({ type: 'range', disabled: true, onChange: onChange })
+				setup({
+					type: DatePickerTypes.RANGE,
+					disabled: true,
+					onChange: onChange
+				})
 
 				const inputs = screen.getAllByRole('textbox')
 
@@ -405,14 +416,14 @@ describe('DatePicker', () => {
 
 	describe('With date prop = null', () => {
 		it('With type = "standart" input should have value = Date.now()(After mock - "01-01-2022")', () => {
-			setup({ type: 'standart' })
+			setup({ type: DatePickerTypes.STANDART })
 
 			const input = screen.getByTestId('standart-input')
 			expect(input).toHaveValue('01-01-2022')
 		})
 
 		it('With type = "range" both inputs should have value = Date.now()(After mock - "01-01-2022")', () => {
-			setup({ type: 'range' })
+			setup({ type: DatePickerTypes.RANGE })
 
 			const inputs = screen.getAllByRole('textbox')
 			expect(inputs[0]).toHaveValue('01-01-2022')
