@@ -1,4 +1,10 @@
-import { isValidDate } from 'helpers'
+import {
+	getDateDay,
+	getDateFullYear,
+	getDatePeopleMonth,
+	isNull,
+	isValidDate
+} from 'helpers'
 
 import 'core-js/features/string/replace-all'
 
@@ -50,13 +56,20 @@ export const trasformDateIntoFormat = (
 		return null
 	}
 
+	const year = getDateFullYear(dateValue)
+	const month = getDatePeopleMonth(dateValue)
+	const day = getDateDay(dateValue)
+
+	if (isNull(day) || isNull(month) || isNull(year)) {
+		return null
+	}
+
 	const formatterOptions: getFormattedDateOptions = {
-		// TODO: Change date.get to helpers/date
-		Y: dateValue.getFullYear(),
-		M: dateValue.getMonth() + 1,
-		MM: getZeroPadded(dateValue.getMonth() + 1),
-		d: dateValue.getDate(),
-		dd: getZeroPadded(dateValue.getDate())
+		Y: year,
+		M: month,
+		MM: getZeroPadded(month),
+		d: day,
+		dd: getZeroPadded(day)
 	}
 
 	return getFormattedDate(format, formatterOptions)
