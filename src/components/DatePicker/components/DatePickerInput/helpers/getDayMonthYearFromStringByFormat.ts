@@ -1,15 +1,16 @@
-import { DayMonthYear } from './checkStringDateOnErrors'
+import 'core-js/features/string/replace-all'
 
 import {
 	isNull,
 	isNotEqual,
 	isFalse,
 	isEmptyString,
-	getUniqueArray
+	getUniqueArray,
+	checkOnMinMaxIncludes
 } from 'helpers'
+
+import { DayMonthYear } from './checkStringDateOnErrors'
 import { FORMAT_KEYS, GetMinMaxType, getMinMax } from '../constants'
-import 'core-js/features/string/replace-all'
-import { checkOnMinMaxIncludes } from 'helpers'
 
 const __DATE_DIVIDER__ = '__NOT_USE_IT_IN_DATE__'
 
@@ -22,6 +23,16 @@ const replaceAllInStringFromArray = (
 		(prevent, current) => prevent.replaceAll(current, toReplace),
 		string
 	)
+}
+
+const changeKeysToDateDivider = (string: string, replacingValues: string[]) => {
+	return replaceAllInStringFromArray(string, replacingValues, __DATE_DIVIDER__)
+}
+
+const getValuesFromDateDividersString = (string: string) => {
+	return string
+		.split(__DATE_DIVIDER__)
+		.filter(element => isNotEqual(element, ''))
 }
 
 const getValueFromString = (value: string, valueType: GetMinMaxType) => {
@@ -39,39 +50,19 @@ const getValueFromString = (value: string, valueType: GetMinMaxType) => {
 }
 
 const getFormatDividers = (format: string): string[] | null => {
-	// TODO: Move it in function
-	const dividers = replaceAllInStringFromArray(
-		format,
-		FORMAT_KEYS,
-		__DATE_DIVIDER__
-	)
+	const dividers = changeKeysToDateDivider(format, FORMAT_KEYS)
 
 	if (isEmptyString(dividers)) return null
 
-	// TODO: Move it in function
-	const splittedDividers = dividers
-		.split(__DATE_DIVIDER__)
-		.filter(element => isNotEqual(element, ''))
-
-	return getUniqueArray(splittedDividers)
+	return getUniqueArray(getValuesFromDateDividersString(dividers))
 }
 
 const getDayMonthYear = (stringDate: string, formatDividers: string[]) => {
-	// TODO: Move it in function
-	const dayMonthYear = replaceAllInStringFromArray(
-		stringDate,
-		formatDividers,
-		__DATE_DIVIDER__
-	)
+	const dayMonthYear = changeKeysToDateDivider(stringDate, formatDividers)
 
 	if (isEmptyString(dayMonthYear)) return null
 
-	// TODO: Move it in function
-	const splittedDayMonthYear = dayMonthYear
-		.split(__DATE_DIVIDER__)
-		.filter(element => isNotEqual(element, ''))
-
-	const [day, month, year] = splittedDayMonthYear
+	const [day, month, year] = getValuesFromDateDividersString(dayMonthYear)
 
 	return {
 		day,
@@ -87,7 +78,6 @@ const transformDayMonthYearToNumbers = (
 	const month = getValueFromString(data.month, GetMinMaxType.MONTH)
 	const year = getValueFromString(data.year, GetMinMaxType.YEAR)
 
-	// TODO: Change it to "someElementIs"
 	if (isNull(day) || isNull(month) || isNull(year)) {
 		return null
 	}
