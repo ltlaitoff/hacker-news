@@ -1,16 +1,12 @@
 import React, { FC } from 'react'
 import DatePicker, { DatePickerTypes } from 'components/DatePicker'
-import NumberPicker, { NumberPickerProps } from 'components/NumberPicker'
+import { NumberPicker, NumberPickerRange } from 'components/NumberPicker'
 import Select from 'components/Select'
 import { FilterBaseType } from 'typescript/filters'
 import { FILTER_DATE_FORMAT } from '../../constants'
 import { transformArrayToOptions } from '../../helpers'
-import {
-	excludeNullFromValue,
-	FilterValuePickerProps
-} from './FilterValuePicker.interfaces'
+import { FilterValuePickerProps } from './FilterValuePicker.interfaces'
 import StringPicker from 'components/StringPicker'
-import { getRangePicker } from 'HOC/getRangePicker'
 import { NUMBER_PICKER } from './FilterValuePicker.constants'
 
 const FilterValuePicker: FC<FilterValuePickerProps> = ({
@@ -19,9 +15,6 @@ const FilterValuePicker: FC<FilterValuePickerProps> = ({
 	error,
 	onChange
 }) => {
-	const NumberPickerRange =
-		getRangePicker<excludeNullFromValue<NumberPickerProps>>(NumberPicker)
-
 	switch (filter.type) {
 		case FilterBaseType.DATE:
 			return (
