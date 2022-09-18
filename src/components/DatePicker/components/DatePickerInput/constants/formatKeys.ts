@@ -1,3 +1,3 @@
-const formatKeys = ['Y', 'MM', 'M', 'dd', 'd']
+const FORMAT_KEYS = ['Y', 'MM', 'M', 'dd', 'd']
 
-export default formatKeys
+export { FORMAT_KEYS }

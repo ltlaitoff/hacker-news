@@ -1,7 +1,7 @@
 import { DayMonthYear } from './checkStringDateOnErrors'
-import FORMAT_KEYS from '../constants/formatKeys'
+
 import { isNull, isNotEqual, isFalse } from 'helpers'
-import { GetMinMaxType, getMinMax } from '../constants/dates_min_max'
+import { FORMAT_KEYS, GetMinMaxType, getMinMax } from '../constants'
 import 'core-js/features/string/replace-all'
 
 const __DATE_DIVIDER__ = '__NOT_USE_IT_IN_DATE__'
