@@ -15,12 +15,6 @@ export type FilterValuePickerFilter =
 	| getNameAndFiltration<FilterListReceived>
 	| getNameAndFiltration<FilterStringReceived>
 
-export type excludeNullFromValue<T extends { value: unknown }> = Omit<
-	T,
-	'value'
-> & {
-	value: Exclude<T['value'], null>
-}
 export interface FilterValuePickerProps {
 	filter: FilterValuePickerFilter
 	onError: (value: boolean) => void
