@@ -7,7 +7,8 @@ import {
 	isStrictTrue,
 	isStrictFalse,
 	isNull,
-	isNoStrictNull
+	isNoStrictNull,
+	isEmptyString
 } from './is'
 
 import {
@@ -19,7 +20,8 @@ import {
 	isStrictNotTrue,
 	isStrictNotFalse,
 	isNotNull,
-	isNotNoStrictNull
+	isNotNoStrictNull,
+	isNotEmptyString
 } from './isNot'
 
 describe('is helper', () => {
@@ -163,6 +165,21 @@ describe('is helper', () => {
 			({ arg, result }) => {
 				expect(isNoStrictNull(arg)).toBe(result)
 				expect(isNotNoStrictNull(arg)).not.toBe(result)
+			}
+		)
+
+		it.each`
+			arg      | result
+			${''}    | ${true}
+			${' '}   | ${false}
+			${'4'}   | ${false}
+			${'   '} | ${false}
+			${'1'}   | ${false}
+		`(
+			'isEmptyString with arg = $arg should return $result',
+			({ arg, result }) => {
+				expect(isEmptyString(arg)).toBe(result)
+				expect(isNotEmptyString(arg)).not.toBe(result)
 			}
 		)
 	})

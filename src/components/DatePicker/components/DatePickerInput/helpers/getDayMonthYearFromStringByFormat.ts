@@ -1,6 +1,6 @@
 import { DayMonthYear } from './checkStringDateOnErrors'
 
-import { isNull, isNotEqual, isFalse } from 'helpers'
+import { isNull, isNotEqual, isFalse, isEmptyString } from 'helpers'
 import { FORMAT_KEYS, GetMinMaxType, getMinMax } from '../constants'
 import 'core-js/features/string/replace-all'
 import { checkOnMinMaxIncludes } from 'helpers'
@@ -40,8 +40,7 @@ const getFormatDividers = (format: string): string[] | null => {
 		__DATE_DIVIDER__
 	)
 
-	// TODO: Create "isEmptyString" func
-	if (!dividers) return null
+	if (isEmptyString(dividers)) return null
 
 	// TODO: Move it in function
 	const splittedDividers = dividers
@@ -60,8 +59,7 @@ const getDayMonthYear = (stringDate: string, formatDividers: string[]) => {
 		__DATE_DIVIDER__
 	)
 
-	// TODO: Create "isEmptyString" func
-	if (!dayMonthYear) return null
+	if (isEmptyString(dayMonthYear)) return null
 
 	// TODO: Move it in function
 	const splittedDayMonthYear = dayMonthYear
