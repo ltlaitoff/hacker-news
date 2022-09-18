@@ -46,7 +46,7 @@ const NumberPicker: FC<NumberPickerProps> = ({
 			setCurrentValue(number)
 			onChange(number, type)
 		},
-		[checkOnMinMax, disabled, onChange]
+		[disabled, onChange, min, max]
 	)
 
 	const step = (type: stepType): boolean => {
