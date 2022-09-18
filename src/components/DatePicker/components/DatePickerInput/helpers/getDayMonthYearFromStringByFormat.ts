@@ -17,6 +17,7 @@ const replaceAllInStringFromArray = (
 	)
 }
 
+// TODO: Move in into helpers
 const valueOnMinMaxDiapason = (
 	value: number,
 	options: { min: number; max: number }
@@ -39,6 +40,7 @@ const getValueFromString = (value: string, valueType: GetMinMaxType) => {
 }
 
 const getFormatDividers = (format: string): string[] | null => {
+	// TODO: Move it in function
 	const dividers = replaceAllInStringFromArray(
 		format,
 		FORMAT_KEYS,
@@ -48,16 +50,17 @@ const getFormatDividers = (format: string): string[] | null => {
 	// TODO: Create "isEmptyString" func
 	if (!dividers) return null
 
-	const splittedDividers = dividers.split(__DATE_DIVIDER__)
-	const filrteredDividers = splittedDividers.filter(element =>
-		isNotEqual(element, '')
-	)
+	// TODO: Move it in function
+	const splittedDividers = dividers
+		.split(__DATE_DIVIDER__)
+		.filter(element => isNotEqual(element, ''))
 
 	// TODO: Create 'getSettedArray' func
-	return Array.from(new Set(filrteredDividers))
+	return Array.from(new Set(splittedDividers))
 }
 
 const getDayMonthYear = (stringDate: string, formatDividers: string[]) => {
+	// TODO: Move it in function
 	const dayMonthYear = replaceAllInStringFromArray(
 		stringDate,
 		formatDividers,
@@ -67,9 +70,10 @@ const getDayMonthYear = (stringDate: string, formatDividers: string[]) => {
 	// TODO: Create "isEmptyString" func
 	if (!dayMonthYear) return null
 
+	// TODO: Move it in function
 	const splittedDayMonthYear = dayMonthYear
 		.split(__DATE_DIVIDER__)
-		.filter(element => element !== '')
+		.filter(element => isNotEqual(element, ''))
 
 	const [day, month, year] = splittedDayMonthYear
 

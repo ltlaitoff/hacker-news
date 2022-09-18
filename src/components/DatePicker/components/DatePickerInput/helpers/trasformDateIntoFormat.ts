@@ -5,15 +5,9 @@ import 'core-js/features/string/replace-all'
 type getFormattedDateOptions = {
 	Y: number | string
 	M: number | string
-	MM: number | string
+	MM: string
 	d: number | string
-	dd: number | string
-}
-
-export const getZeroPadded = (value: number | string): string => {
-	const stringifyValue = String(value)
-
-	return stringifyValue.length === 1 ? '0' + stringifyValue : stringifyValue
+	dd: string
 }
 
 const getFormattedDateEntriesSort = (
@@ -40,6 +34,14 @@ const getFormattedDate = (
 	)
 }
 
+export const getZeroPadded = (value: number): string => {
+	const stringifyValue = String(value)
+
+	if (stringifyValue.length !== 1) return stringifyValue
+
+	return '0' + stringifyValue
+}
+
 export const trasformDateIntoFormat = (
 	dateValue: Date,
 	format: string
@@ -49,6 +51,7 @@ export const trasformDateIntoFormat = (
 	}
 
 	const formatterOptions: getFormattedDateOptions = {
+		// TODO: Change date.get to helpers/date
 		Y: dateValue.getFullYear(),
 		M: dateValue.getMonth() + 1,
 		MM: getZeroPadded(dateValue.getMonth() + 1),

@@ -41,12 +41,11 @@ export const checkStringDateOnErrors = (
 	stringDate: string,
 	format: string
 ): null | Date => {
-	const numbersData: DayMonthYear<number> | null =
-		getDayMonthYearFromStringByFormat(stringDate, format)
+	const numbersData = getDayMonthYearFromStringByFormat(stringDate, format)
 
 	if (isNull(numbersData)) return null
 
-	const date: Date | null = createDateByDayMonthYear(numbersData)
+	const date = createDateByDayMonthYear(numbersData)
 
 	if (isNull(date)) return null
 
