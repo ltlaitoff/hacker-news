@@ -83,9 +83,9 @@ const getDayMonthYear = (stringDate: string, formatDividers: string[]) => {
 const transformDayMonthYearToNumbers = (
 	data: DayMonthYear<string>
 ): DayMonthYear<number> | null => {
-	const day = getValueFromString(data.day, 'day')
-	const month = getValueFromString(data.month, 'month')
-	const year = getValueFromString(data.year, 'year')
+	const day = getValueFromString(data.day, GetMinMaxType.DAY)
+	const month = getValueFromString(data.month, GetMinMaxType.MONTH)
+	const year = getValueFromString(data.year, GetMinMaxType.YEAR)
 
 	// TODO: Change it to "someElementIs"
 	if (isNull(day) || isNull(month) || isNull(year)) {

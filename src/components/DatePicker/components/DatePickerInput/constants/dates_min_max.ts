@@ -3,6 +3,12 @@ interface DateMinMax {
 	max: number
 }
 
+export enum GetMinMaxType {
+	DAY = 'day',
+	MONTH = 'month',
+	YEAR = 'year'
+}
+
 export const dayMinMax: DateMinMax = {
 	min: 1,
 	max: 31
@@ -18,14 +24,13 @@ export const yearMinMax: DateMinMax = {
 	max: 2100
 }
 
-export type GetMinMaxType = 'day' | 'month' | 'year'
 export const getMinMax = (type: GetMinMaxType): DateMinMax | null => {
 	switch (type) {
-		case 'day':
+		case GetMinMaxType.DAY:
 			return dayMinMax
-		case 'month':
+		case GetMinMaxType.MONTH:
 			return monthMinMax
-		case 'year':
+		case GetMinMaxType.YEAR:
 			return yearMinMax
 	}
 
