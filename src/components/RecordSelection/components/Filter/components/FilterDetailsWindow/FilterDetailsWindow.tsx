@@ -42,11 +42,17 @@ const FilterDetailsWindow: FC<FilterDetailsWindowProps> = ({
 
 	useEscKeyDown(onEscPress, true)
 
+	const onDoneClick = useCallback(() => {
+		if (error) return
+
+		onSubmit(state)
+	}, [error, onSubmit, state])
+
 	useEffect(() => {
 		if (enterKeyPressed) {
 			onDoneClick()
 		}
-	}, [enterKeyPressed, state])
+	}, [enterKeyPressed, state, onDoneClick])
 
 	const onChange = useCallback(
 		// TODO: Разобраться с enterKey
@@ -64,6 +70,7 @@ const FilterDetailsWindow: FC<FilterDetailsWindowProps> = ({
 
 	const getFilterValuePickerProps = useMemo<FilterValuePickerFilter>(() => {
 		return state
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [state.type, state.value])
 
 	const selectOptions = useMemo(
@@ -82,12 +89,6 @@ const FilterDetailsWindow: FC<FilterDetailsWindowProps> = ({
 
 	if (filter === null) return null
 	if (currentFilter && filter.type !== currentFilter.type) return null
-
-	const onDoneClick = () => {
-		if (error) return
-
-		onSubmit(state)
-	}
 
 	return (
 		<div
