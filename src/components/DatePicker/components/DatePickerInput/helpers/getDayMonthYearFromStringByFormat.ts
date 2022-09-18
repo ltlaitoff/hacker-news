@@ -3,6 +3,7 @@ import { DayMonthYear } from './checkStringDateOnErrors'
 import { isNull, isNotEqual, isFalse } from 'helpers'
 import { FORMAT_KEYS, GetMinMaxType, getMinMax } from '../constants'
 import 'core-js/features/string/replace-all'
+import { checkOnMinMaxIncludes } from 'helpers'
 
 const __DATE_DIVIDER__ = '__NOT_USE_IT_IN_DATE__'
 
@@ -17,14 +18,6 @@ const replaceAllInStringFromArray = (
 	)
 }
 
-// TODO: Move in into helpers
-const valueOnMinMaxDiapason = (
-	value: number,
-	options: { min: number; max: number }
-) => {
-	return value >= options.min && value <= options.max
-}
-
 const getValueFromString = (value: string, valueType: GetMinMaxType) => {
 	const numberedValue = Number(value)
 	if (isNaN(numberedValue)) return null
@@ -32,7 +25,7 @@ const getValueFromString = (value: string, valueType: GetMinMaxType) => {
 	const minMaxValue = getMinMax(valueType)
 	if (isNull(minMaxValue)) return null
 
-	if (isFalse(valueOnMinMaxDiapason(numberedValue, minMaxValue))) {
+	if (isFalse(checkOnMinMaxIncludes(numberedValue, minMaxValue))) {
 		return null
 	}
 
