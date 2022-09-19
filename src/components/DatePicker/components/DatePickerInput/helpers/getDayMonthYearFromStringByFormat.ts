@@ -1,8 +1,17 @@
-import { DayMonthYear } from './checkStringDateOnErrors'
-import FORMAT_KEYS from '../constants/formatKeys'
-import { isNull, isNotEqual, isFalse } from 'helpers'
-import { GetMinMaxType, getMinMax } from '../constants/dates_min_max'
 import 'core-js/features/string/replace-all'
+
+import {
+	isNull,
+	isNotEqual,
+	isFalse,
+	isEmptyString,
+	getUniqueArray,
+	checkOnMinMaxIncludes
+} from 'helpers'
+
+import { DayMonthYear } from './checkStringDateOnErrors'
+import { getMinMaxLimits } from './getMinMaxLimits'
+import { FORMAT_KEYS, GetMinMaxType } from '../constants'
 
 const __DATE_DIVIDER__ = '__NOT_USE_IT_IN_DATE__'
 
@@ -17,21 +26,25 @@ const replaceAllInStringFromArray = (
 	)
 }
 
-const valueOnMinMaxDiapason = (
-	value: number,
-	options: { min: number; max: number }
-) => {
-	return value >= options.min && value <= options.max
+const changeKeysToDateDivider = (string: string, replacingValues: string[]) => {
+	return replaceAllInStringFromArray(string, replacingValues, __DATE_DIVIDER__)
+}
+
+const getValuesFromDateDividersString = (string: string) => {
+	return string
+		.split(__DATE_DIVIDER__)
+		.filter(element => isNotEqual(element, ''))
 }
 
 const getValueFromString = (value: string, valueType: GetMinMaxType) => {
 	const numberedValue = Number(value)
 	if (isNaN(numberedValue)) return null
 
-	const minMaxValue = getMinMax(valueType)
+	const minMaxValue = getMinMaxLimits(valueType)
+	/* istanbul ignore next */
 	if (isNull(minMaxValue)) return null
 
-	if (isFalse(valueOnMinMaxDiapason(numberedValue, minMaxValue))) {
+	if (isFalse(checkOnMinMaxIncludes(numberedValue, minMaxValue))) {
 		return null
 	}
 
@@ -39,39 +52,19 @@ const getValueFromString = (value: string, valueType: GetMinMaxType) => {
 }
 
 const getFormatDividers = (format: string): string[] | null => {
-	const dividers = replaceAllInStringFromArray(
-		format,
-		FORMAT_KEYS,
-		__DATE_DIVIDER__
-	)
+	const dividers = changeKeysToDateDivider(format, FORMAT_KEYS)
 
-	// TODO: Create "isEmptyString" func
-	if (!dividers) return null
+	if (isEmptyString(dividers)) return null
 
-	const splittedDividers = dividers.split(__DATE_DIVIDER__)
-	const filrteredDividers = splittedDividers.filter(element =>
-		isNotEqual(element, '')
-	)
-
-	// TODO: Create 'getSettedArray' func
-	return Array.from(new Set(filrteredDividers))
+	return getUniqueArray(getValuesFromDateDividersString(dividers))
 }
 
 const getDayMonthYear = (stringDate: string, formatDividers: string[]) => {
-	const dayMonthYear = replaceAllInStringFromArray(
-		stringDate,
-		formatDividers,
-		__DATE_DIVIDER__
-	)
+	const dayMonthYear = changeKeysToDateDivider(stringDate, formatDividers)
 
-	// TODO: Create "isEmptyString" func
-	if (!dayMonthYear) return null
+	if (isEmptyString(dayMonthYear)) return null
 
-	const splittedDayMonthYear = dayMonthYear
-		.split(__DATE_DIVIDER__)
-		.filter(element => element !== '')
-
-	const [day, month, year] = splittedDayMonthYear
+	const [day, month, year] = getValuesFromDateDividersString(dayMonthYear)
 
 	return {
 		day,
@@ -83,11 +76,10 @@ const getDayMonthYear = (stringDate: string, formatDividers: string[]) => {
 const transformDayMonthYearToNumbers = (
 	data: DayMonthYear<string>
 ): DayMonthYear<number> | null => {
-	const day = getValueFromString(data.day, 'day')
-	const month = getValueFromString(data.month, 'month')
-	const year = getValueFromString(data.year, 'year')
+	const day = getValueFromString(data.day, GetMinMaxType.DAY)
+	const month = getValueFromString(data.month, GetMinMaxType.MONTH)
+	const year = getValueFromString(data.year, GetMinMaxType.YEAR)
 
-	// TODO: Change it to "someElementIs"
 	if (isNull(day) || isNull(month) || isNull(year)) {
 		return null
 	}

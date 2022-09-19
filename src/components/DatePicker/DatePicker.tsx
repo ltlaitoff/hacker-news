@@ -1,6 +1,5 @@
 import React, { FC, useState, useCallback } from 'react'
 import Calendar from 'react-calendar'
-
 import {
 	datesNotEqual,
 	isFalse,
@@ -9,13 +8,11 @@ import {
 	isUndefined
 } from 'helpers'
 import { useOutsideClick, useEscKeyDown } from 'hooks'
-
 import {
 	DatePickerProps,
 	DatePickerTypes,
 	onChangeTypes
 } from './DatePicker.interfaces'
-
 import { StandartDateInput, RangeDateInput } from './components'
 import { checkDatesOrder, getDefaultDateValue } from './helpers'
 

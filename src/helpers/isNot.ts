@@ -1,3 +1,4 @@
+import { isEmptyString } from './is'
 import {
 	isEqual,
 	isNoStrictEqual,
@@ -56,4 +57,8 @@ export function isNotNoStrictNull<T extends unknown>(
 	element: T
 ): element is Exclude<Exclude<T, null>, undefined> {
 	return !isNoStrictNull(element)
+}
+
+export function isNotEmptyString(element: string) {
+	return !isEmptyString(element)
 }

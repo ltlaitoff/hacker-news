@@ -48,3 +48,7 @@ export function isNoStrictUndefined(
 ): element is null | undefined {
 	return isNoStrictEqual(element, undefined)
 }
+
+export function isEmptyString(element: string) {
+	return isEqual(element, '')
+}

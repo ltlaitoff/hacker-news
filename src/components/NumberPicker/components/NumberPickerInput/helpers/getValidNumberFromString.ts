@@ -26,7 +26,7 @@
 	getValidNumberFromString with string = $string and aboveZero = true should return null
 
 */
-import { checkOnMinMax } from '../../../helpers'
+import { checkOnMinMaxIncludes } from 'helpers'
 
 export const getValidNumberFromString = (
 	string: string,
@@ -38,7 +38,7 @@ export const getValidNumberFromString = (
 
 	const number = Number(string)
 
-	if (checkOnMinMax(number, { min, max })) return null
+	if (checkOnMinMaxIncludes(number, { min, max })) return null
 
 	return number
 }

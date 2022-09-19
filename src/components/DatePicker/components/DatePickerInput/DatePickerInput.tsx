@@ -8,9 +8,11 @@ import {
 	isNull
 } from 'helpers'
 
-import { DatePickerInputProps } from './DatePickerInput.interfaces'
+import {
+	DatePickerInputProps,
+	onChangeTypes
+} from './DatePickerInput.interfaces'
 import { checkStringDateOnErrors, trasformDateIntoFormat } from './helpers'
-import { onChangeTypes } from '../../DatePicker.interfaces'
 
 const DatePickerInput: FC<DatePickerInputProps> = ({
 	format,
@@ -43,6 +45,7 @@ const DatePickerInput: FC<DatePickerInputProps> = ({
 	}, [date, format, onError])
 
 	const dateSubmit = (value: string, type: onChangeTypes) => {
+		/* istanbul ignore next */
 		if (disabled) return
 
 		const date = checkStringDateOnErrors(value, format)
@@ -96,9 +99,8 @@ const DatePickerInput: FC<DatePickerInputProps> = ({
 			value={inputValue}
 			onChange={onChange}
 			onBlur={onBlur}
-			onKeyPress={onKeyPress}
+			onKeyDown={onKeyPress}
 			disabled={disabled}
-			data-error={error}
 			data-testid='input'
 			{...args}
 		/>

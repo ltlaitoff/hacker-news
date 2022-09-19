@@ -7,3 +7,5 @@ export interface DatePickerInputProps {
 	onError: (value: boolean) => void
 	disabled?: boolean
 }
+
+export { onChangeTypes }

@@ -1,1 +1,0 @@
-export { checkOnMinMax } from './checkOnMinMax'

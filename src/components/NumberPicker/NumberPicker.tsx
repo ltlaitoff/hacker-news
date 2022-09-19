@@ -7,8 +7,7 @@ import {
 } from './NumberPicker.interfaces'
 import { NumberPickerInput } from './components'
 import { DEFAULT, DELAY } from './constants'
-import { createInterval } from 'helpers'
-import { checkOnMinMax } from './helpers'
+import { createInterval, checkOnMinMaxIncludes } from 'helpers'
 
 /*
 	Что мы хотим от этого компонента и зачем он вообще нам нужен
@@ -41,7 +40,7 @@ const NumberPicker: FC<NumberPickerProps> = ({
 		(number: number, type: onChangeType) => {
 			if (disabled) return
 
-			if (checkOnMinMax(number, { min, max })) return
+			if (checkOnMinMaxIncludes(number, { min, max })) return
 
 			setCurrentValue(number)
 			onChange(number, type)
@@ -55,7 +54,7 @@ const NumberPicker: FC<NumberPickerProps> = ({
 		setCurrentValue((value: number) => {
 			const nextValue = type === stepType.UP ? value + 1 : value - 1
 
-			if (checkOnMinMax(nextValue, { min: min, max: max })) {
+			if (checkOnMinMaxIncludes(nextValue, { min: min, max: max })) {
 				error = true
 				return value
 			}
