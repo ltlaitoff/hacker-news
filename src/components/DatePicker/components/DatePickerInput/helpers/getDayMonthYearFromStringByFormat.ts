@@ -41,6 +41,7 @@ const getValueFromString = (value: string, valueType: GetMinMaxType) => {
 	if (isNaN(numberedValue)) return null
 
 	const minMaxValue = getMinMaxLimits(valueType)
+	/* istanbul ignore next */
 	if (isNull(minMaxValue)) return null
 
 	if (isFalse(checkOnMinMaxIncludes(numberedValue, minMaxValue))) {
