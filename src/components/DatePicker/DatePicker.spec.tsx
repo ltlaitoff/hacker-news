@@ -11,11 +11,12 @@ jest.useFakeTimers().setSystemTime(new Date('01-01-2022'))
 onKeyPressObserver.mount()
 
 function setup({
+	type = DatePickerTypes.STANDART,
 	value = new Date('01-01-2022'),
 	onChange = jest.fn(),
 	onError = jest.fn(),
-	type,
-	disabled,
+	error = false,
+	disabled = false,
 	format = 'dd-MM-Y',
 	...args
 }: Partial<DatePickerProps> = {}) {
@@ -26,6 +27,7 @@ function setup({
 			value={value}
 			onChange={onChange}
 			onError={onError}
+			error={error}
 			format={format}
 			disabled={disabled}
 			{...args}
