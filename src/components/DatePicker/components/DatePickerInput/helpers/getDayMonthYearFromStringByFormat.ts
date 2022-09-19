@@ -10,7 +10,8 @@ import {
 } from 'helpers'
 
 import { DayMonthYear } from './checkStringDateOnErrors'
-import { FORMAT_KEYS, GetMinMaxType, getMinMax } from '../constants'
+import { getMinMaxLimits } from './getMinMaxLimits'
+import { FORMAT_KEYS, GetMinMaxType } from '../constants'
 
 const __DATE_DIVIDER__ = '__NOT_USE_IT_IN_DATE__'
 
@@ -39,7 +40,7 @@ const getValueFromString = (value: string, valueType: GetMinMaxType) => {
 	const numberedValue = Number(value)
 	if (isNaN(numberedValue)) return null
 
-	const minMaxValue = getMinMax(valueType)
+	const minMaxValue = getMinMaxLimits(valueType)
 	if (isNull(minMaxValue)) return null
 
 	if (isFalse(checkOnMinMaxIncludes(numberedValue, minMaxValue))) {
