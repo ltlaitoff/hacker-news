@@ -3,9 +3,12 @@ import classNames from 'classnames'
 
 import { getValueFromEvent, isEnterKey } from 'helpers'
 
-import { NumberPickerInputProps } from './NumberPickerInput.interfaces'
+import {
+	NumberPickerInputProps,
+	onSubmitChangeType,
+	onSubmitChangeTypeType
+} from './NumberPickerInput.interfaces'
 
-import { onChangeType } from '../../NumberPicker.interfaces'
 import { getValidNumberFromString } from './helpers'
 
 const NumberPickerInput: FC<NumberPickerInputProps> = ({
@@ -21,7 +24,7 @@ const NumberPickerInput: FC<NumberPickerInputProps> = ({
 }) => {
 	const [inputValue, setInputValue] = useState<string>(String(value))
 
-	const numberSubmit = (type: onChangeType) => {
+	const numberSubmit = (type: onSubmitChangeTypeType) => {
 		if (disabled) return
 
 		const validNumber = getValidNumberFromString(inputValue, {
@@ -59,12 +62,12 @@ const NumberPickerInput: FC<NumberPickerInputProps> = ({
 	}
 
 	const onBlur = () => {
-		numberSubmit(onChangeType.BLUR)
+		numberSubmit(onSubmitChangeType.BLUR)
 	}
 
 	const onKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
 		if (isEnterKey(e.key)) {
-			numberSubmit(onChangeType.ENTER_KEY)
+			numberSubmit(onSubmitChangeType.ENTER_KEY)
 		}
 	}
 
