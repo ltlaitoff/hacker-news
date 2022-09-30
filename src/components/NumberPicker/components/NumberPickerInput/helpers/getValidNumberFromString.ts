@@ -1,31 +1,3 @@
-/*
-	`
-	string
-	${''}
-	${'1e3'}
-	${'1.3'}
-	${'Infinity'}
-	`
-	getValidNumberFromString with string = $string should return null
-	
-	`
-	string
-	${'-1'}
-	${'-100'}
-	${'-999'}
-	`
-	getValidNumberFromString with string = $string and aboveZero = true should return null
-
-	`
-	string | result
-	${'1'} | ${1}
-	${'0'} | ${0}
-	${'1000'} | ${1000}
-	`
-
-	getValidNumberFromString with string = $string and aboveZero = true should return null
-
-*/
 import { checkOnMinMaxIncludes } from 'helpers'
 
 export const getValidNumberFromString = (
@@ -38,7 +10,7 @@ export const getValidNumberFromString = (
 
 	const number = Number(string)
 
-	if (checkOnMinMaxIncludes(number, { min, max })) return null
+	if (!checkOnMinMaxIncludes(number, { min, max })) return null
 
 	return number
 }
